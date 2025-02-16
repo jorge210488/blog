@@ -1,0 +1,65 @@
+# ======================
+# 🔹 GENERAL
+# ======================
+.DS_Store
+.vscode/
+.idea/
+*.log
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+.env
+.env.local
+.env.production
+node_modules/
+
+# ======================
+# 🔹 PYTHON & DJANGO
+# ======================
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+migrations/
+*.egg-info/
+logs/
+pip-log.txt
+pip-delete-this-directory.txt
+config/settings_local.py
+
+# ======================
+# 🔹 FRONTEND (Vue)
+# ======================
+/dist
+/node_modules
+/public/hot
+/public/storage
+/.nuxt
+/.output
+/.idea
+/build
+/yarn.lock
+/pnpm-lock.yaml
+/package-lock.json
+/vuepress/.temp
+/.temp/
+.nuxt/
+
+# ======================
+# 🔹 GIT & DEPLOYMENT
+# ======================
+*.orig
+*.rej
+*.seed
+*.old
+!.gitignore
+!.gitattributes
