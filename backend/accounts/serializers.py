@@ -1,19 +1,22 @@
 from rest_framework import serializers
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import check_password
 from .models import User, Credential
-from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class CredentialSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
+
     class Meta:
         model = Credential
         fields = "__all__"
+        lookup_field = "id"
         extra_kwargs = {"password": {"write_only": True}, "user": {"required": False}}
 
 
 class UserSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
     credential = CredentialSerializer()  # 🔹 Anidamos el serializer
 
     class Meta:
@@ -84,6 +87,7 @@ class LoginSerializer(serializers.Serializer):
 
         # ✅ Generar el token JWT
         refresh = RefreshToken.for_user(user)
+        refresh["user_id"] = str(user.id)  # Forzar UUID como string
 
         # Retornar datos en validated_data
         return {

@@ -4,6 +4,9 @@ from rest_framework.decorators import action
 from .models import User, Credential
 from .serializers import UserSerializer, CredentialSerializer, LoginSerializer
 from rest_framework.views import APIView
+from utils.email import send_verification_email
+import os
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -11,6 +14,21 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    lookup_field = "id"
+    lookup_url_kwarg = "id"
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    def get_permissions(self):
+        # Permitir acceso público para crear usuarios
+        if self.action == "create":
+            return [AllowAny()]
+        # Proteger GET y PATCH con autenticación
+        elif self.action in ["list", "retrieve", "partial_update", "update"]:
+            return [IsAuthenticated()]
+        # Otros métodos protegidos por defecto
+        return super().get_permissions()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -25,7 +43,22 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_create(self, serializer):
-        serializer.save()
+        user = serializer.save()  # Guarda el usuario
+
+        # Construir la URL de verificación directamente desde el backend
+        verify_path = f"/api/accounts/credentials/{user.credential.id}/verify/"
+        verify_url = self.request.build_absolute_uri(verify_path)
+
+        # Obtener el nombre para el correo
+        given_name = user.first_name
+
+        # Llamar a la función que envía el correo
+        send_verification_email(
+            to_email=user.email,
+            given_name=given_name,
+            verification_url=verify_url,
+            template_id=os.getenv("SENDGRID_TEMPLATE_VERIFICATION_ID"),
+        )
 
 
 class CredentialViewSet(viewsets.ModelViewSet):
@@ -33,9 +66,20 @@ class CredentialViewSet(viewsets.ModelViewSet):
 
     queryset = Credential.objects.all()
     serializer_class = CredentialSerializer
+    lookup_field = "id"
+
+    def get_permissions(self):
+        # Permitir acceso público al endpoint de verificación
+        if self.action == "verify_account":
+            return [AllowAny()]
+        # Proteger GET y PATCH con autenticación
+        elif self.action in ["list", "retrieve", "partial_update", "update"]:
+            return [IsAuthenticated()]
+        # Otros métodos protegidos por defecto
+        return super().get_permissions()
 
     @action(detail=True, methods=["patch"], url_path="verify")
-    def verify_account(self, request, pk=None):
+    def verify_account(self, request, id=None):
         """
         ✅ Verifica la cuenta del usuario (is_verified = True)
         """
@@ -57,6 +101,8 @@ class LoginView(APIView):
     """
     🔐 Endpoint para Login de Usuarios.
     """
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)

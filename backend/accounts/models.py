@@ -1,6 +1,6 @@
 from django.db import models
 import uuid
-from django.contrib.auth.hashers import make_password, is_password_usable
+from django.contrib.auth.hashers import make_password
 
 
 AUTH_PROVIDERS = [
@@ -11,8 +11,19 @@ AUTH_PROVIDERS = [
 ]
 
 
+# ✅ Define a function to generate UUID
+def generate_uuid():
+    return uuid.uuid4().hex
+
+
 class User(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.CharField(
+        primary_key=True,
+        max_length=255,
+        editable=False,
+        unique=True,
+        default=generate_uuid,
+    )  # ✅ Fixed
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
@@ -25,29 +36,33 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
     def __str__(self):
         return self.email
 
 
 class Credential(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.CharField(
+        primary_key=True,
+        max_length=255,
+        editable=False,
+        unique=True,
+        default=generate_uuid,
+    )  # ✅ Fixed
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="credential"
     )
     auth_provider = models.CharField(
         max_length=50, choices=AUTH_PROVIDERS, default="email"
     )
-    password = models.CharField(
-        max_length=255, blank=True, null=True
-    )  # 🔐 Para autenticación local
-    auth_token = models.CharField(
-        max_length=500, blank=True, null=True
-    )  # 🔑 Para autenticación con terceros
-    is_verified = models.BooleanField(default=False)  # ✅ Confirmación de email
+    password = models.CharField(max_length=255, blank=True, null=True)
+    auth_token = models.CharField(max_length=500, blank=True, null=True)
+    is_verified = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.auth_provider == "email" and self.password:
-            # Verifica si la contraseña no está ya hasheada
             if not self.password.startswith("pbkdf2_"):
                 self.password = make_password(self.password)
         super().save(*args, **kwargs)
