@@ -4,6 +4,7 @@ from .models import User, Credential
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
 class CredentialSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
 
@@ -11,7 +12,10 @@ class CredentialSerializer(serializers.ModelSerializer):
         model = Credential
         fields = "__all__"
         extra_kwargs = {
-            "password": {"write_only": True, "required": False},  # Password no obligatorio
+            "password": {
+                "write_only": True,
+                "required": False,
+            },  # Password no obligatorio
             "user": {"required": False},
         }
 
@@ -24,7 +28,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
         extra_kwargs = {
-            "password": {"write_only": True, "required": False}  # <- Evita exigir password aquí
+            "password": {
+                "write_only": True,
+                "required": False,
+            }  # <- Evita exigir password aquí
         }
 
     def create(self, validated_data):
@@ -40,8 +47,6 @@ class UserSerializer(serializers.ModelSerializer):
 
         return user
 
-
-
     def update(self, instance, validated_data):
         credential_data = validated_data.pop("credential", None)
 
@@ -53,6 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
             Credential.objects.update_or_create(user=instance, defaults=credential_data)
 
         return instance
+
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()

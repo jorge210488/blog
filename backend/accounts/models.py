@@ -1,5 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
 from django.contrib.auth.hashers import make_password
 import uuid
 
@@ -9,6 +13,7 @@ AUTH_PROVIDERS = [
     ("github", "GitHub"),
     ("linkedin", "LinkedIn"),
 ]
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -31,12 +36,19 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+
 class User(AbstractBaseUser, PermissionsMixin):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, unique=True
+    )
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
-    role = models.CharField(max_length=20, choices=[("admin", "Admin"), ("author", "Author")], default="author")
+    role = models.CharField(
+        max_length=20,
+        choices=[("admin", "Admin"), ("author", "Author")],
+        default="author",
+    )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,10 +62,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+
 class Credential(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="credential")
-    auth_provider = models.CharField(max_length=50, choices=AUTH_PROVIDERS, default="email")
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, unique=True
+    )
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="credential"
+    )
+    auth_provider = models.CharField(
+        max_length=50, choices=AUTH_PROVIDERS, default="email"
+    )
     password = models.CharField(max_length=255, blank=True, null=True)
     auth_token = models.CharField(max_length=500, blank=True, null=True)
     is_verified = models.BooleanField(default=False)

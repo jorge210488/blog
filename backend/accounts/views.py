@@ -33,7 +33,6 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     def perform_create(self, serializer):
         user = serializer.save()  # Guarda el usuario
 
@@ -45,14 +44,16 @@ class UserViewSet(viewsets.ModelViewSet):
         given_name = user.first_name
 
         # Obtener el template_id desde el entorno o definir un valor por defecto
-        template_id = os.getenv("SENDGRID_TEMPLATE_VERIFICATION_ID", "default_template_id")
+        template_id = os.getenv(
+            "SENDGRID_TEMPLATE_VERIFICATION_ID", "default_template_id"
+        )
 
         # Llamar a la función que envía el correo
         send_verification_email(
             to_email=user.email,
             given_name=given_name,
             verification_url=verify_url,
-            template_id=template_id  # ✅ Aquí incluimos el template_id
+            template_id=template_id,  # ✅ Aquí incluimos el template_id
         )
 
 
@@ -72,11 +73,16 @@ class CredentialViewSet(viewsets.ModelViewSet):
     def verify_account(self, request, id=None):
         credential = self.get_object()
         if credential.is_verified:
-            return Response({"message": "Account is already verified."}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Account is already verified."}, status=status.HTTP_200_OK
+            )
 
         credential.is_verified = True
         credential.save()
-        return Response({"message": "Account successfully verified."}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Account successfully verified."}, status=status.HTTP_200_OK
+        )
+
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
