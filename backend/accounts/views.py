@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from utils.email import send_verification_email
 from rest_framework.permissions import AllowAny, IsAuthenticated
 import os
+from .permissions import IsAdminUserOnly
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,9 +18,17 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == "create":
             return [AllowAny()]
-        elif self.action in ["list", "retrieve", "partial_update", "update"]:
+        elif self.action == "list":
+            return [IsAuthenticated(), IsAdminUserOnly()]
+        elif self.action in ["retrieve", "partial_update", "update"]:
             return [IsAuthenticated()]
         return super().get_permissions()
+
+    def get_serializer_context(self):
+        """Pasa el request al serializer para validar permisos en `update`."""
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

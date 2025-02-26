@@ -7,6 +7,7 @@ from .serializers import (
     PostSerializer,
     PostDetailSerializer,
 )
+from accounts.permissions import IsAdminUserOnly
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -18,7 +19,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
             return [AllowAny()]
-        return [IsAuthenticated()]
+        return [IsAuthenticated(), IsAdminUserOnly()]
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -30,7 +31,7 @@ class TagViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
             return [AllowAny()]
-        return [IsAuthenticated()]
+        return [IsAuthenticated(), IsAdminUserOnly()]
 
 
 class PostViewSet(viewsets.ModelViewSet):

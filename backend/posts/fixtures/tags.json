@@ -1,0 +1,1654 @@
+[
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Python",
+      "slug": "python"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Django",
+      "slug": "django"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Flask",
+      "slug": "flask"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "FastAPI",
+      "slug": "fastapi"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "JavaScript",
+      "slug": "javascript"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "TypeScript",
+      "slug": "typescript"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "React",
+      "slug": "react"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Vue.js",
+      "slug": "vue.js"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Angular",
+      "slug": "angular"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Next.js",
+      "slug": "next.js"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Node.js",
+      "slug": "node.js"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Express.js",
+      "slug": "express.js"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "NestJS",
+      "slug": "nestjs"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "GraphQL",
+      "slug": "graphql"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "REST API",
+      "slug": "rest-api"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "SOAP",
+      "slug": "soap"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "PostgreSQL",
+      "slug": "postgresql"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "MySQL",
+      "slug": "mysql"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "MongoDB",
+      "slug": "mongodb"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "SQLite",
+      "slug": "sqlite"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Redis",
+      "slug": "redis"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Docker",
+      "slug": "docker"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Kubernetes",
+      "slug": "kubernetes"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "CI/CD",
+      "slug": "ci/cd"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "GitHub Actions",
+      "slug": "github-actions"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "GitLab CI",
+      "slug": "gitlab-ci"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Jenkins",
+      "slug": "jenkins"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AWS",
+      "slug": "aws"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Google Cloud",
+      "slug": "google-cloud"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Azure",
+      "slug": "azure"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Firebase",
+      "slug": "firebase"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "DigitalOcean",
+      "slug": "digitalocean"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Heroku",
+      "slug": "heroku"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Vercel",
+      "slug": "vercel"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Netlify",
+      "slug": "netlify"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Supabase",
+      "slug": "supabase"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Microservices",
+      "slug": "microservices"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Monolithic Architecture",
+      "slug": "monolithic-architecture"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Event-Driven Architecture",
+      "slug": "event-driven-architecture"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Serverless",
+      "slug": "serverless"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Lambda Functions",
+      "slug": "lambda-functions"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Kafka",
+      "slug": "kafka"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "RabbitMQ",
+      "slug": "rabbitmq"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "WebSockets",
+      "slug": "websockets"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "WebRTC",
+      "slug": "webrtc"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "OAuth",
+      "slug": "oauth"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "JWT",
+      "slug": "jwt"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "OpenID Connect",
+      "slug": "openid-connect"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "SAML",
+      "slug": "saml"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "OAuth2",
+      "slug": "oauth2"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Authentication",
+      "slug": "authentication"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Authorization",
+      "slug": "authorization"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Cybersecurity",
+      "slug": "cybersecurity"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Penetration Testing",
+      "slug": "penetration-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Ethical Hacking",
+      "slug": "ethical-hacking"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Hashing",
+      "slug": "hashing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Encryption",
+      "slug": "encryption"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "SSL/TLS",
+      "slug": "ssl/tls"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "SSH",
+      "slug": "ssh"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Machine Learning",
+      "slug": "machine-learning"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Deep Learning",
+      "slug": "deep-learning"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Artificial Intelligence",
+      "slug": "artificial-intelligence"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Natural Language Processing",
+      "slug": "natural-language-processing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Computer Vision",
+      "slug": "computer-vision"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "TensorFlow",
+      "slug": "tensorflow"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "PyTorch",
+      "slug": "pytorch"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Scikit-Learn",
+      "slug": "scikit-learn"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Pandas",
+      "slug": "pandas"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "NumPy",
+      "slug": "numpy"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Matplotlib",
+      "slug": "matplotlib"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Seaborn",
+      "slug": "seaborn"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Data Science",
+      "slug": "data-science"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Big Data",
+      "slug": "big-data"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Hadoop",
+      "slug": "hadoop"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Spark",
+      "slug": "spark"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "ETL",
+      "slug": "etl"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Data Warehousing",
+      "slug": "data-warehousing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Data Engineering",
+      "slug": "data-engineering"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Web Scraping",
+      "slug": "web-scraping"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "BeautifulSoup",
+      "slug": "beautifulsoup"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Selenium",
+      "slug": "selenium"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Playwright",
+      "slug": "playwright"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Performance Optimization",
+      "slug": "performance-optimization"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Load Balancing",
+      "slug": "load-balancing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Caching",
+      "slug": "caching"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "CDN",
+      "slug": "cdn"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Service Workers",
+      "slug": "service-workers"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "IndexedDB",
+      "slug": "indexeddb"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "LocalStorage",
+      "slug": "localstorage"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Frontend Performance",
+      "slug": "frontend-performance"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Backend Performance",
+      "slug": "backend-performance"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "API Performance",
+      "slug": "api-performance"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "GraphQL Optimization",
+      "slug": "graphql-optimization"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "DevOps",
+      "slug": "devops"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Infrastructure as Code",
+      "slug": "infrastructure-as-code"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Terraform",
+      "slug": "terraform"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Ansible",
+      "slug": "ansible"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Puppet",
+      "slug": "puppet"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Chef",
+      "slug": "chef"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Testing",
+      "slug": "testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Unit Testing",
+      "slug": "unit-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Integration Testing",
+      "slug": "integration-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "E2E Testing",
+      "slug": "e2e-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Jest",
+      "slug": "jest"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Mocha",
+      "slug": "mocha"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Cypress",
+      "slug": "cypress"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Pytest",
+      "slug": "pytest"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Unittest",
+      "slug": "unittest"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Selenium Testing",
+      "slug": "selenium-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Robot Framework",
+      "slug": "robot-framework"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "API Testing",
+      "slug": "api-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Load Testing",
+      "slug": "load-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Stress Testing",
+      "slug": "stress-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Security Testing",
+      "slug": "security-testing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Fuzzing",
+      "slug": "fuzzing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Static Code Analysis",
+      "slug": "static-code-analysis"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Code Review",
+      "slug": "code-review"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Design Patterns",
+      "slug": "design-patterns"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "SOLID Principles",
+      "slug": "solid-principles"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Clean Code",
+      "slug": "clean-code"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Refactoring",
+      "slug": "refactoring"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Domain-Driven Design",
+      "slug": "domain-driven-design"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "TDD",
+      "slug": "tdd"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "BDD",
+      "slug": "bdd"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Agile",
+      "slug": "agile"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Scrum",
+      "slug": "scrum"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Kanban",
+      "slug": "kanban"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Extreme Programming",
+      "slug": "extreme-programming"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Continuous Deployment",
+      "slug": "continuous-deployment"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Continuous Integration",
+      "slug": "continuous-integration"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Continuous Delivery",
+      "slug": "continuous-delivery"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "CI/CD Pipelines",
+      "slug": "ci/cd-pipelines"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Web Components",
+      "slug": "web-components"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Micro Frontends",
+      "slug": "micro-frontends"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Module Federation",
+      "slug": "module-federation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Progressive Web Apps",
+      "slug": "progressive-web-apps"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Single Page Applications",
+      "slug": "single-page-applications"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Multi Page Applications",
+      "slug": "multi-page-applications"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Hybrid Apps",
+      "slug": "hybrid-apps"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Native Apps",
+      "slug": "native-apps"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Electron.js",
+      "slug": "electron.js"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Tauri",
+      "slug": "tauri"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "React Native",
+      "slug": "react-native"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Flutter",
+      "slug": "flutter"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Swift",
+      "slug": "swift"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Kotlin",
+      "slug": "kotlin"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Android Development",
+      "slug": "android-development"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "iOS Development",
+      "slug": "ios-development"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Game Development",
+      "slug": "game-development"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Unity",
+      "slug": "unity"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Unreal Engine",
+      "slug": "unreal-engine"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Godot",
+      "slug": "godot"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Blender",
+      "slug": "blender"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Blockchain",
+      "slug": "blockchain"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Smart Contracts",
+      "slug": "smart-contracts"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Ethereum",
+      "slug": "ethereum"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Solidity",
+      "slug": "solidity"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Web3",
+      "slug": "web3"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "NFTs",
+      "slug": "nfts"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Cryptography",
+      "slug": "cryptography"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Zero Knowledge Proofs",
+      "slug": "zero-knowledge-proofs"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Quantum Computing",
+      "slug": "quantum-computing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Parallel Computing",
+      "slug": "parallel-computing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Concurrency",
+      "slug": "concurrency"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Multithreading",
+      "slug": "multithreading"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Async/Await",
+      "slug": "async/await"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Event Loop",
+      "slug": "event-loop"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Memory Management",
+      "slug": "memory-management"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Garbage Collection",
+      "slug": "garbage-collection"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Heap",
+      "slug": "heap"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Buffer Overflow",
+      "slug": "buffer-overflow"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Race Conditions",
+      "slug": "race-conditions"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Data Structures",
+      "slug": "data-structures"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Algorithms",
+      "slug": "algorithms"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Sorting Algorithms",
+      "slug": "sorting-algorithms"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Searching Algorithms",
+      "slug": "searching-algorithms"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Graph Algorithms",
+      "slug": "graph-algorithms"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Competitive Programming",
+      "slug": "competitive-programming"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "LeetCode",
+      "slug": "leetcode"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Codeforces",
+      "slug": "codeforces"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "HackerRank",
+      "slug": "hackerrank"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Google Code Jam",
+      "slug": "google-code-jam"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Meta Hacker Cup",
+      "slug": "meta-hacker-cup"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Technical Interviews",
+      "slug": "technical-interviews"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "System Design",
+      "slug": "system-design"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Low-Level Design",
+      "slug": "low-level-design"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "High-Level Design",
+      "slug": "high-level-design"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Scalability",
+      "slug": "scalability"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Database Sharding",
+      "slug": "database-sharding"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Replication",
+      "slug": "replication"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "CAP Theorem",
+      "slug": "cap-theorem"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "ACID Transactions",
+      "slug": "acid-transactions"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "BASE Transactions",
+      "slug": "base-transactions"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "CQRS",
+      "slug": "cqrs"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Event Sourcing",
+      "slug": "event-sourcing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Message Queues",
+      "slug": "message-queues"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Server-Sent Events",
+      "slug": "server-sent-events"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Cloud Computing",
+      "slug": "cloud-computing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Edge Computing",
+      "slug": "edge-computing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "IoT",
+      "slug": "iot"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Embedded Systems",
+      "slug": "embedded-systems"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Arduino",
+      "slug": "arduino"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Raspberry Pi",
+      "slug": "raspberry-pi"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "FPGA",
+      "slug": "fpga"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Neural Networks",
+      "slug": "neural-networks"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Explainable AI",
+      "slug": "explainable-ai"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Bias in AI",
+      "slug": "bias-in-ai"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Reinforcement Learning",
+      "slug": "reinforcement-learning"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "GANs",
+      "slug": "gans"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Transformers",
+      "slug": "transformers"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "LLMs",
+      "slug": "llms"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Prompt Engineering",
+      "slug": "prompt-engineering"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI Ethics",
+      "slug": "ai-ethics"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Autonomous Vehicles",
+      "slug": "autonomous-vehicles"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI in Healthcare",
+      "slug": "ai-in-healthcare"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI in Finance",
+      "slug": "ai-in-finance"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI in Cybersecurity",
+      "slug": "ai-in-cybersecurity"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI in Retail",
+      "slug": "ai-in-retail"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Augmented Reality",
+      "slug": "augmented-reality"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Virtual Reality",
+      "slug": "virtual-reality"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Metaverse",
+      "slug": "metaverse"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "3D Rendering",
+      "slug": "3d-rendering"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Game Physics",
+      "slug": "game-physics"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Pathfinding Algorithms",
+      "slug": "pathfinding-algorithms"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Procedural Generation",
+      "slug": "procedural-generation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Cloud Gaming",
+      "slug": "cloud-gaming"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Video Streaming Optimization",
+      "slug": "video-streaming-optimization"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Edge AI",
+      "slug": "edge-ai"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI Chips",
+      "slug": "ai-chips"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Bioinformatics",
+      "slug": "bioinformatics"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Quantum Cryptography",
+      "slug": "quantum-cryptography"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Post-Quantum Cryptography",
+      "slug": "post-quantum-cryptography"
+    }
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Web Development",
+      "slug": "web-development",
+      "description": "Everything related to frontend and backend development."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Frontend",
+      "slug": "frontend",
+      "description": "Technologies like HTML, CSS, JavaScript, React, Vue.js, Angular."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Backend",
+      "slug": "backend",
+      "description": "Technologies like Node.js, Django, Flask, FastAPI, Express.js, NestJS."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Full Stack",
+      "slug": "full-stack",
+      "description": "Combination of frontend and backend development."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Databases",
+      "slug": "databases",
+      "description": "SQL, NoSQL, PostgreSQL, MySQL, MongoDB, Redis."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "APIs and Web Services",
+      "slug": "api-development",
+      "description": "REST, GraphQL, WebSockets, OpenAPI."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "DevOps and Cloud",
+      "slug": "devops-cloud",
+      "description": "CI/CD, Docker, Kubernetes, AWS, Google Cloud, Azure."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Cybersecurity",
+      "slug": "cybersecurity",
+      "description": "Web security, common attacks, encryption, ethical hacking."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Artificial Intelligence",
+      "slug": "ai",
+      "description": "Machine Learning, Deep Learning, NLP, Computer Vision."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Data Science and Big Data",
+      "slug": "data-science",
+      "description": "Data analysis, Pandas, NumPy, Spark, Hadoop."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Software Architecture",
+      "slug": "software-architecture",
+      "description": "Design patterns, DDD, Microservices, Monoliths."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Testing and QA",
+      "slug": "testing-qa",
+      "description": "Unit testing, integration, Jest, Cypress, Pytest."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Operating Systems",
+      "slug": "operating-systems",
+      "description": "Linux, Windows, MacOS, Kernel, Bash, Shell Scripting."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Blockchain and Web3",
+      "slug": "blockchain-web3",
+      "description": "Smart Contracts, Ethereum, Solidity, NFT, DeFi."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Real-Time Programming",
+      "slug": "real-time-programming",
+      "description": "WebSockets, WebRTC, Edge Computing."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Functional Programming",
+      "slug": "functional-programming",
+      "description": "Functional paradigm, languages like Haskell, Elixir, Scala."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Mobile Development",
+      "slug": "mobile-development",
+      "description": "Android, iOS, Flutter, React Native, Swift, Kotlin."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Algorithms and Data Structures",
+      "slug": "algorithms-data-structures",
+      "description": "Sorting, Recursion, Dynamic Programming, Trees, Graphs."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Quantum Computing",
+      "slug": "quantum-computing",
+      "description": "Qubit, Quantum Algorithms, Quantum Simulation."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Internet of Things (IoT)",
+      "slug": "iot",
+      "description": "Raspberry Pi, Arduino, Sensors, MQTT."
+    }
+  }
+]

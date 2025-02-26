@@ -28,11 +28,21 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
         extra_kwargs = {
-            "password": {
-                "write_only": True,
-                "required": False,
-            }  # <- Evita exigir password aquí
+            "password": {"write_only": True, "required": False},
         }
+
+    def validate(self, attrs):
+        """
+        Se ejecuta antes de `update()` y `create()` para validar restricciones.
+        """
+
+        # 🚫 Bloquear intento de modificar `is_superuser`
+        if "is_superuser" in attrs:
+            raise serializers.ValidationError(
+                {"is_superuser": "You are not allowed to modify this field."}
+            )
+
+        return attrs
 
     def create(self, validated_data):
         """Crea User y Credential en una sola transacción"""
@@ -48,12 +58,38 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
+        """
+        Permite actualizar User y Credential, con restricciones en `role`, `is_staff` y `is_superuser`.
+        """
+        request = self.context["request"]
         credential_data = validated_data.pop("credential", None)
 
+        # 🚫 Bloquear cambio de `is_superuser`
+        if "is_superuser" in validated_data:
+            raise serializers.ValidationError(
+                {"is_superuser": "You are not allowed to modify this field."}
+            )
+
+        # 🚫 Solo `is_superuser` puede cambiar `is_staff`
+        if "is_staff" in validated_data:
+            if not request.user.is_superuser:
+                raise serializers.ValidationError(
+                    {"is_staff": "Only superusers can modify this field."}
+                )
+
+        # 🚫 Solo `is_superuser` o `is_staff` pueden cambiar `role`
+        if "role" in validated_data:
+            if not (request.user.is_superuser or request.user.is_staff):
+                raise serializers.ValidationError(
+                    {"role": "Only staff or superusers can modify this field."}
+                )
+
+        # Actualizar usuario
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
+        # Si hay datos de Credential, actualizarlos
         if credential_data:
             Credential.objects.update_or_create(user=instance, defaults=credential_data)
 
