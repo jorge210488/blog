@@ -2,6 +2,7 @@
 
 from django.db import models
 import uuid
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -15,6 +16,12 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    STATUS_CHOICES = [
+        ("draft", "Draft"),
+        ("published", "Published"),
+        ("archived", "Archived"),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -22,6 +29,17 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="posts"
     )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="posts"
+    )
+    tags = models.ManyToManyField(
+        "Tag",
+        related_name="posts",
+        blank=True,  # Permite que un post no tenga etiquetas
+    )
+    image = models.ImageField(upload_to="posts/images/", blank=True, null=True)
+    views = models.PositiveIntegerField(default=0)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="draft")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
