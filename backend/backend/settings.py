@@ -43,6 +43,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "accounts",
     "posts",
+    "interactions",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
