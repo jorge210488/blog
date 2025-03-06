@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .models import Comment, Like, Bookmark
 from .serializers import CommentSerializer, LikeSerializer, BookmarkSerializer
 
@@ -9,7 +9,9 @@ from .serializers import CommentSerializer, LikeSerializer, BookmarkSerializer
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [
+        IsAuthenticatedOrReadOnly
+    ]  # Permite lectura pública, pero exige autenticación para escribir
     lookup_field = "id"
 
     def perform_create(self, serializer):

@@ -14,6 +14,11 @@
 .env.local
 .env.production
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # ======================
 # 🔹 PYTHON & DJANGO
@@ -37,7 +42,7 @@ pip-delete-this-directory.txt
 config/settings_local.py
 
 # ======================
-# 🔹 FRONTEND (Vue)
+# 🔹 FRONTEND (Vue + Vite)
 # ======================
 /dist
 /node_modules
@@ -47,15 +52,30 @@ config/settings_local.py
 /.output
 /.idea
 /build
-/yarn.lock
-/pnpm-lock.yaml
-/package-lock.json
-/vuepress/.temp
-/.temp/
+/.vite
+/.vite-cache
+.yarn-integrity
+.yarn-error.log
+/.temp
 .nuxt/
 
+# Vite
+/.vite
+/.cache
+.vitepress
+.vitest/
+coverage/
+
 # ======================
-# 🔹 GIT & DEPLOYMENT
+# 🔹 Tailwind CSS
+# ======================
+tailwind.config.js
+tailwind.config.cjs
+postcss.config.js
+postcss.config.cjs
+
+# ======================
+# 🔹 Git & Deployment
 # ======================
 *.orig
 *.rej
