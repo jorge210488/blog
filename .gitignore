@@ -83,3 +83,6 @@ postcss.config.cjs
 *.old
 !.gitignore
 !.gitattributes
+
+
+frontend/.venv
