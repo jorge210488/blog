@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import Profile from "./Profile.vue";
 
 // Simulación de usuario autenticado (puedes reemplazar esto con Vuex/Pinia)
 const isAuthenticated = ref(true);
@@ -13,8 +14,11 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
 
-// Menú de navegación
-const menuItems = ["Home", "Categories", "Blog"];
+// Control de modal de perfil
+const showProfileModal = ref(false);
+const openProfileModal = () => {
+  showProfileModal.value = true;
+};
 </script>
 
 <template>
@@ -28,7 +32,7 @@ const menuItems = ["Home", "Categories", "Blog"];
       <!-- Menú Principal -->
       <div class="hidden md:flex space-x-6">
         <button
-          v-for="item in menuItems"
+          v-for="item in ['Home', 'Categories', 'Blog']"
           :key="item"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
         >
@@ -63,9 +67,12 @@ const menuItems = ["Home", "Categories", "Blog"];
           v-if="showDropdown"
           class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg py-2"
         >
-          <a href="/profile" class="block px-4 py-2 hover:bg-gray-100"
-            >👤 Profile</a
+          <button
+            @click="openProfileModal"
+            class="block px-4 py-2 hover:bg-gray-100"
           >
+            👤 Profile
+          </button>
           <a href="/settings" class="block px-4 py-2 hover:bg-gray-100"
             >⚙️ Settings</a
           >
@@ -88,4 +95,7 @@ const menuItems = ["Home", "Categories", "Blog"];
       </div>
     </div>
   </nav>
+
+  <!-- Profile Modal -->
+  <Profile v-if="showProfileModal" @close="showProfileModal = false" />
 </template>
