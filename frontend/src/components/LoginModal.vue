@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { login } from "../services/authService";
+import { useUserStore } from "../store/userStore";
 
 const emit = defineEmits(["close"]);
+const userStore = useUserStore();
 
 const loginData = ref({
   email: "",
@@ -13,19 +15,24 @@ const errorMessage = ref("");
 
 const handleLogin = async () => {
   try {
+    console.log("Intentando login con:", loginData.value);
+
     const userData = await login(
       loginData.value.email,
       loginData.value.password
     );
 
-    // Guardar tokens en localStorage
-    localStorage.setItem("access_token", userData.access);
-    localStorage.setItem("refresh_token", userData.refresh);
-    localStorage.setItem("user", JSON.stringify(userData.user));
+    console.log("Datos recibidos:", userData);
 
-    console.log("Login exitoso:", userData);
-    emit("close"); // Cierra el modal tras el login
+    userStore.setUser(
+      userData.access,
+      userData.user.first_name,
+      userData.user.last_name
+    );
+
+    emit("close");
   } catch (error) {
+    console.error("Error en login:", error);
     errorMessage.value = (error as Error).message;
   }
 };

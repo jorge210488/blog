@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import Profile from "./Profile.vue";
 import LoginModal from "./LoginModal.vue";
+import { useUserStore } from "../store/userStore";
 
-// Simulación de usuario autenticado (puedes reemplazar esto con Vuex/Pinia)
-const isAuthenticated = ref(false);
-const isAuthor = ref(true); // Solo los autores pueden escribir posts
-const username = ref("JohnDoe");
-const profilePicture = ref("/profile.jpg");
+const userStore = useUserStore();
+
+// ✅ Computed property para verificar si el usuario está autenticado
+const isAuthenticated = computed(() => !!userStore.token);
+const username = computed(() => userStore.user?.first_name || "Guest");
+const profilePicture = ref("/profile.jpg"); // Aquí podrías asignar una imagen de perfil real si tienes la URL
+const isAuthor = computed(() => userStore.user?.role === "author"); // ✅ Verifica si es autor
 
 // Control del menú desplegable
 const showDropdown = ref(false);
@@ -23,6 +26,12 @@ const openProfileModal = () => {
 };
 const openLoginModal = () => {
   showLoginModal.value = true;
+};
+
+// ✅ Función para cerrar sesión
+const logout = () => {
+  userStore.logout();
+  showDropdown.value = false;
 };
 </script>
 
@@ -81,11 +90,12 @@ const openLoginModal = () => {
           <a href="/settings" class="block px-4 py-2 hover:bg-gray-100"
             >⚙️ Settings</a
           >
-          <a
-            href="/logout"
-            class="block px-4 py-2 hover:bg-red-500 text-red-700"
-            >🚪 Logout</a
+          <button
+            @click="logout"
+            class="block px-4 py-2 hover:bg-red-500 text-red-700 w-full"
           >
+            🚪 Logout
+          </button>
         </div>
       </div>
 

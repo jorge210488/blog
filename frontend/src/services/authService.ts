@@ -4,11 +4,8 @@ interface LoginResponse {
   refresh: string;
   access: string;
   user: {
-    id: string;
-    email: string;
     first_name: string;
     last_name: string;
-    role: string;
   };
 }
 
@@ -21,12 +18,18 @@ export const login = async (
       email,
       password,
     });
-    return response.data;
+
+    console.log("Respuesta completa del backend:", response.data); // 🛠 Debug
+
+    if (!response.data || !response.data.access || !response.data.user) {
+      throw new Error(
+        "Error: La respuesta de la API no contiene los datos esperados."
+      );
+    }
+
+    return response.data; // ✅ Retornamos los datos correctamente
   } catch (error: any) {
-    console.error(
-      "Login error:",
-      error.response?.data?.message || error.message
-    );
+    console.error("Error en login:", error.response?.data || error.message);
     throw new Error(error.response?.data?.message || "Login failed");
   }
 };

@@ -1,12 +1,14 @@
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
-import { createPinia } from "pinia"; // Import Pinia
 import App from "./App.vue";
 import router from "./router";
-import "./assets/styles/tailwind.css"; // Tailwind CSS import
+import "./assets/styles/tailwind.css";
+
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App);
-
-// Use Pinia instead of Vuex
-app.use(createPinia());
+app.use(pinia);
 app.use(router);
 app.mount("#app");
