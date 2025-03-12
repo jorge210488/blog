@@ -77,6 +77,7 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -176,3 +177,14 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "apikey"  # Este valor es literal para SendGrid
 EMAIL_HOST_PASSWORD = os.getenv("SENDGRID_API_KEY")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
+
+CORS_ALLOW_ALL_ORIGINS = False  # Mantenerlo en False para seguridad
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # URL del frontend con Vite
+    "https://tu-dominio.com",
+]
+
+CORS_ALLOW_CREDENTIALS = True  # Si usas autenticación con sesiones o cookies
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["Content-Type", "Authorization"]

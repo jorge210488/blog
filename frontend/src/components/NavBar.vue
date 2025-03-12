@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Profile from "./Profile.vue";
+import LoginModal from "./LoginModal.vue";
 
 // Simulación de usuario autenticado (puedes reemplazar esto con Vuex/Pinia)
-const isAuthenticated = ref(true);
+const isAuthenticated = ref(false);
 const isAuthor = ref(true); // Solo los autores pueden escribir posts
 const username = ref("JohnDoe");
 const profilePicture = ref("/profile.jpg");
@@ -14,10 +15,14 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
 
-// Control de modal de perfil
+// Control de modales
 const showProfileModal = ref(false);
+const showLoginModal = ref(false);
 const openProfileModal = () => {
   showProfileModal.value = true;
+};
+const openLoginModal = () => {
+  showLoginModal.value = true;
 };
 </script>
 
@@ -85,17 +90,24 @@ const openProfileModal = () => {
       </div>
 
       <!-- Botón de login si el usuario no está autenticado -->
-      <div v-else>
+      <div v-else class="flex space-x-4">
         <a
-          href="/login"
-          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+          href="/signup"
+          class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition"
         >
-          Sign In
+          Sign Up
         </a>
+        <button
+          @click="openLoginModal"
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          Login
+        </button>
       </div>
     </div>
   </nav>
 
   <!-- Profile Modal -->
   <Profile v-if="showProfileModal" @close="showProfileModal = false" />
+  <LoginModal v-if="showLoginModal" @close="showLoginModal = false" />
 </template>
