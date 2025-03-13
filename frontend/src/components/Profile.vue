@@ -1,27 +1,110 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useUserStore } from "../store/userStore";
+import { updateUser } from "../services/userService";
+
+interface UserProfile {
+  email: string;
+  first_name: string;
+  last_name: string;
+  password?: string;
+  confirmPassword?: string;
+}
 
 const emit = defineEmits(["close"]);
+const userStore = useUserStore();
 
+// Obtener los datos del usuario desde el store
 const profile = ref({
-  email: "jorgemartinez@example.com",
-  firstName: "",
-  lastName: "",
-  password: "",
-  confirmPassword: "",
+  email: userStore.user?.email || "",
+  firstName: userStore.user?.first_name || "",
+  lastName: userStore.user?.last_name || "",
+  password: "********",
+  confirmPassword: "********",
 });
 
-const updateProfile = () => {
-  console.log("Profile updated", profile.value);
+const profilePicture = computed(
+  () => userStore.user?.img_url || "/profile3.avif"
+);
+
+// ✅ Verifica si el usuario ingresó una nueva contraseña
+const isNewPassword = computed(() => profile.value.password !== "********");
+
+// ✅ Validación para habilitar el botón de actualización
+const isPasswordValid = computed(() => {
+  return (
+    (!isNewPassword.value ||
+      profile.value.password === profile.value.confirmPassword) &&
+    profile.value.password.trim() !== ""
+  );
+});
+
+// ✅ Verifica si las contraseñas no coinciden (para mostrar error)
+const showPasswordError = computed(() => {
+  return (
+    isNewPassword.value &&
+    profile.value.confirmPassword !== "********" &&
+    profile.value.password !== profile.value.confirmPassword
+  );
+});
+
+// ✅ Función para actualizar el perfil
+const updateProfile = async () => {
+  if (!isPasswordValid.value) return;
+
+  try {
+    const currentUser = userStore.user!;
+    const updatedFields: Partial<UserProfile> = {};
+
+    if (
+      profile.value.firstName &&
+      profile.value.firstName !== currentUser.first_name
+    ) {
+      updatedFields.first_name = profile.value.firstName;
+    }
+    if (
+      profile.value.lastName &&
+      profile.value.lastName !== currentUser.last_name
+    ) {
+      updatedFields.last_name = profile.value.lastName;
+    }
+    if (isNewPassword.value && profile.value.password.trim()) {
+      updatedFields.password = profile.value.password;
+    }
+
+    if (Object.keys(updatedFields).length === 0) {
+      console.log("No hay cambios en el perfil.");
+      return;
+    }
+
+    const updatedUser = await updateUser(currentUser.id, updatedFields);
+
+    userStore.setUser(
+      userStore.token!,
+      updatedUser.first_name ?? currentUser.first_name,
+      updatedUser.last_name ?? currentUser.last_name,
+      currentUser.img_url ?? null
+    );
+
+    console.log("Profile updated successfully:", updatedUser);
+    emit("close");
+  } catch (error) {
+    console.error("Error updating profile:", error);
+  }
+};
+
+// ✅ Limpiar campos de contraseña al hacer clic
+const clearPassword = (field: "password" | "confirmPassword") => {
+  if (profile.value[field] === "********") profile.value[field] = "";
+};
+
+// Placeholder para la lógica de actualización de la imagen
+const updateProfilePicture = () => {
+  console.log("Profile picture update triggered");
 };
 
 const closeModal = () => {
   emit("close");
-};
-
-// Placeholder for the image update logic
-const updateProfilePicture = () => {
-  console.log("Profile picture update triggered");
 };
 </script>
 
@@ -36,7 +119,7 @@ const updateProfilePicture = () => {
       <div class="flex items-center space-x-4 mb-6">
         <div class="relative">
           <img
-            src="/profile.jpg"
+            :src="profilePicture"
             alt="Profile"
             class="w-24 h-24 rounded-full border-2 border-gray-400 cursor-pointer transition-transform transform hover:scale-150"
             @click="updateProfilePicture"
@@ -73,7 +156,9 @@ const updateProfilePicture = () => {
           <input
             type="password"
             v-model="profile.password"
-            class="w-full px-3 py-2 bg-gray-800 rounded-lg text-white outline-none focus:ring-2 focus:ring-blue-500"
+            @focus="clearPassword('password')"
+            :class="{ 'border-red-500': showPasswordError }"
+            class="w-full px-3 py-2 bg-gray-800 rounded-lg text-white outline-none focus:ring-2 focus:ring-blue-500 border"
           />
         </div>
 
@@ -82,14 +167,21 @@ const updateProfilePicture = () => {
           <input
             type="password"
             v-model="profile.confirmPassword"
-            class="w-full px-3 py-2 bg-gray-800 rounded-lg text-white outline-none focus:ring-2 focus:ring-blue-500"
+            @focus="clearPassword('confirmPassword')"
+            :class="{ 'border-red-500': showPasswordError }"
+            class="w-full px-3 py-2 bg-gray-800 rounded-lg text-white outline-none focus:ring-2 focus:ring-blue-500 border"
           />
+          <!-- Mensaje de error si las contraseñas no coinciden -->
+          <p v-if="showPasswordError" class="text-red-500 text-sm mt-1">
+            Passwords must match.
+          </p>
         </div>
 
         <div class="flex justify-between mt-4">
           <button
             @click="updateProfile"
-            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+            :disabled="!isPasswordValid"
+            class="px-4 py-2 bg-blue-500 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600"
           >
             Update
           </button>

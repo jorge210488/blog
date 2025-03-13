@@ -49,6 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         choices=[("admin", "Admin"), ("author", "Author")],
         default="author",
     )
+    img_url = models.URLField(max_length=500, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -6,11 +6,12 @@ import { useUserStore } from "../store/userStore";
 
 const userStore = useUserStore();
 
-// ✅ Computed property para verificar si el usuario está autenticado
 const isAuthenticated = computed(() => !!userStore.token);
 const username = computed(() => userStore.user?.first_name || "Guest");
-const profilePicture = ref("/profile.jpg"); // Aquí podrías asignar una imagen de perfil real si tienes la URL
-const isAuthor = computed(() => userStore.user?.role === "author"); // ✅ Verifica si es autor
+const profilePicture = computed(
+  () => userStore.user?.img_url || "/profile3.avif"
+);
+const isAuthor = computed(() => userStore.user?.role === "author");
 
 // Control del menú desplegable
 const showDropdown = ref(false);
@@ -109,7 +110,7 @@ const logout = () => {
         </a>
         <button
           @click="openLoginModal"
-          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition"
+          class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition"
         >
           Login
         </button>

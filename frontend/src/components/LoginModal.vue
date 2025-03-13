@@ -27,7 +27,8 @@ const handleLogin = async () => {
     userStore.setUser(
       userData.access,
       userData.user.first_name,
-      userData.user.last_name
+      userData.user.last_name,
+      userData.user.img_url || null
     );
 
     emit("close");

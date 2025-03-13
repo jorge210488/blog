@@ -59,37 +59,50 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """
-        Permite actualizar User y Credential, con restricciones en `role`, `is_staff` y `is_superuser`.
+        Permite actualizar User y Credential, con restricciones en `role`, `is_staff`, `is_superuser`.
+        También permite actualizar `password` si se proporciona.
         """
         request = self.context["request"]
         credential_data = validated_data.pop("credential", None)
+        password = validated_data.pop("password", None)  # ✅ Extraer el password
 
-        # 🚫 Bloquear cambio de `is_superuser`
+        # 🚫 Bloquear cambios de `is_superuser`
         if "is_superuser" in validated_data:
             raise serializers.ValidationError(
                 {"is_superuser": "You are not allowed to modify this field."}
             )
 
         # 🚫 Solo `is_superuser` puede cambiar `is_staff`
-        if "is_staff" in validated_data:
-            if not request.user.is_superuser:
-                raise serializers.ValidationError(
-                    {"is_staff": "Only superusers can modify this field."}
-                )
+        if "is_staff" in validated_data and not request.user.is_superuser:
+            raise serializers.ValidationError(
+                {"is_staff": "Only superusers can modify this field."}
+            )
 
         # 🚫 Solo `is_superuser` o `is_staff` pueden cambiar `role`
-        if "role" in validated_data:
-            if not (request.user.is_superuser or request.user.is_staff):
+        if "role" in validated_data and not (
+            request.user.is_superuser or request.user.is_staff
+        ):
+            raise serializers.ValidationError(
+                {"role": "Only staff or superusers can modify this field."}
+            )
+
+        # ✅ Actualizar `password` en `Credential` si se proporciona
+        if password:
+            try:
+                credential = instance.credential
+                credential.password = password
+                credential.save()
+            except Credential.DoesNotExist:
                 raise serializers.ValidationError(
-                    {"role": "Only staff or superusers can modify this field."}
+                    {"credential": "No credential found for this user."}
                 )
 
-        # Actualizar usuario
+        # ✅ Actualizar los otros campos del usuario
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
-        # Si hay datos de Credential, actualizarlos
+        # ✅ Si hay datos de `Credential`, actualizarlos
         if credential_data:
             Credential.objects.update_or_create(user=instance, defaults=credential_data)
 
@@ -134,5 +147,6 @@ class LoginSerializer(serializers.Serializer):
             "user": {
                 "first_name": user.first_name,
                 "last_name": user.last_name,
+                "img_url": user.img_url,
             },
         }
