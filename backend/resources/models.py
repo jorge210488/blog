@@ -1,14 +1,13 @@
 from django.db import models
 import uuid
 from django.conf import settings
-import os
 
 
 def resource_file_path(instance, filename):
     """Genera un nombre único para evitar sobrescribir archivos."""
     ext = filename.split(".")[-1]
     filename = f"{uuid.uuid4()}.{ext}"
-    return os.path.join("resources/", filename)
+    return f"resources/{filename}"
 
 
 class Resource(models.Model):
