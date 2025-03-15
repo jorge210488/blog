@@ -7,11 +7,7 @@ import pymysql
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
-
-# ✅ Importaciones de Django
 from django.core.files.storage import default_storage
-
-# ✅ Importa `MediaStorage` antes de usarla
 from backend.storage_backends import MediaStorage
 
 pymysql.install_as_MySQLdb()
