@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
@@ -24,4 +26,9 @@ urlpatterns = [
     path("api/accounts/", include("accounts.urls")),
     path("api/posts/", include("posts.urls")),
     path("api/interactions/", include("interactions.urls")),
+    path("api/", include("resources.urls")),
 ]
+
+# Hacer que Django sirva archivos JSON desde `/media/`
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

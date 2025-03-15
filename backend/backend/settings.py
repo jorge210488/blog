@@ -35,7 +35,7 @@ SECRET_KEY = "django-insecure-+7%k+n()kjkw@hc=q#(%ss1h&&ofplk6!x7rr4nc-k-*p^3)ql
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["tu-dominio.com", "www.tu-dominio.com"]
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "accounts",
     "posts",
     "interactions",
+    "resources",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
@@ -188,3 +189,9 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True  # Si usas autenticación con sesiones o cookies
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["Content-Type", "Authorization"]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
