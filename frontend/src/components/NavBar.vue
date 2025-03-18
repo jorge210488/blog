@@ -3,7 +3,9 @@ import { ref, computed } from "vue";
 import Profile from "./Profile.vue";
 import LoginModal from "./LoginModal.vue";
 import { useUserStore } from "../store/userStore";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const userStore = useUserStore();
 
 const isAuthenticated = computed(() => !!userStore.token);
@@ -13,7 +15,13 @@ const profilePicture = computed(
 );
 const isAuthor = computed(() => userStore.user?.role === "author");
 
-// Control del menú desplegable
+// Control del menú hamburguesa en móviles
+const showMobileMenu = ref(false);
+const toggleMobileMenu = () => {
+  showMobileMenu.value = !showMobileMenu.value;
+};
+
+// Control del menú desplegable de usuario
 const showDropdown = ref(false);
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
@@ -33,6 +41,8 @@ const openLoginModal = () => {
 const logout = () => {
   userStore.logout();
   showDropdown.value = false;
+  showMobileMenu.value = false; // Cierra el menú al cerrar sesión
+  router.push("/");
 };
 </script>
 
@@ -42,29 +52,56 @@ const logout = () => {
       class="container mx-auto flex justify-between items-center py-4 px-6 text-white"
     >
       <!-- Logo -->
-      <div class="text-lg font-bold">JAM BLOG</div>
+      <div class="text-lg font-bold">
+        <router-link to="/">JAM BLOG</router-link>
+      </div>
 
-      <!-- Menú Principal -->
+      <!-- Menú Hamburguesa en móviles -->
+      <button
+        @click="toggleMobileMenu"
+        class="md:hidden text-2xl focus:outline-none"
+      >
+        ☰
+      </button>
+
+      <!-- Menú Principal en pantallas grandes -->
       <div class="hidden md:flex space-x-6">
-        <button
-          v-for="item in ['Home', 'Categories', 'Blog']"
-          :key="item"
+        <router-link
+          to="/"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
         >
-          {{ item }}
-        </button>
-
-        <!-- Mostrar "Write a Post" solo si el usuario es autor -->
-        <button
+          Home
+        </router-link>
+        <router-link
+          to="/categories"
+          class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
+        >
+          Categories
+        </router-link>
+        <router-link
+          to="/blog"
+          class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
+        >
+          Blog
+        </router-link>
+        <router-link
           v-if="isAuthenticated && isAuthor"
+          to="/write"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
         >
           ✍️ Write a Post
-        </button>
+        </router-link>
+        <router-link
+          v-if="isAuthenticated"
+          to="/resources"
+          class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
+        >
+          📚 Resources
+        </router-link>
       </div>
 
-      <!-- Menú de usuario -->
-      <div v-if="isAuthenticated" class="relative">
+      <!-- Menú de usuario en pantallas grandes -->
+      <div v-if="isAuthenticated" class="relative hidden md:block">
         <button
           @click="toggleDropdown"
           class="flex items-center space-x-2 focus:outline-none"
@@ -88,8 +125,8 @@ const logout = () => {
           >
             👤 Profile
           </button>
-          <a href="/settings" class="block px-4 py-2 hover:bg-gray-100"
-            >⚙️ Settings</a
+          <router-link to="/settings" class="block px-4 py-2 hover:bg-gray-100"
+            >⚙️ Settings</router-link
           >
           <button
             @click="logout"
@@ -100,14 +137,14 @@ const logout = () => {
         </div>
       </div>
 
-      <!-- Botón de login si el usuario no está autenticado -->
-      <div v-else class="flex space-x-4">
-        <a
-          href="/signup"
+      <!-- Botón de login en pantallas grandes -->
+      <div v-else class="hidden md:flex space-x-4">
+        <router-link
+          to="/signup"
           class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition"
         >
           Sign Up
-        </a>
+        </router-link>
         <button
           @click="openLoginModal"
           class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition"
@@ -116,9 +153,100 @@ const logout = () => {
         </button>
       </div>
     </div>
+
+    <!-- Menú móvil (aparece cuando showMobileMenu es true) -->
+    <transition name="fade">
+      <div
+        v-if="showMobileMenu"
+        class="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-90 flex flex-col items-center justify-center space-y-6 text-white text-lg md:hidden"
+      >
+        <button
+          @click="toggleMobileMenu"
+          class="absolute top-5 right-5 text-3xl"
+        >
+          ✖
+        </button>
+
+        <router-link to="/" @click="toggleMobileMenu" class="w-full text-center"
+          >Home</router-link
+        >
+        <router-link
+          to="/categories"
+          @click="toggleMobileMenu"
+          class="w-full text-center"
+          >Categories</router-link
+        >
+        <router-link
+          to="/blog"
+          @click="toggleMobileMenu"
+          class="w-full text-center"
+          >Blog</router-link
+        >
+
+        <router-link
+          v-if="isAuthenticated && isAuthor"
+          to="/write"
+          @click="toggleMobileMenu"
+          class="w-full text-center"
+        >
+          ✍️ Write a Post
+        </router-link>
+        <router-link
+          v-if="isAuthenticated"
+          to="/resources"
+          @click="toggleMobileMenu"
+          class="w-full text-center"
+        >
+          📚 Resources
+        </router-link>
+
+        <!-- ✅ Menú de usuario en móviles (alineado en columna) -->
+        <div
+          v-if="isAuthenticated"
+          class="flex flex-col items-center w-full space-y-4 mt-4"
+        >
+          <button @click="openProfileModal" class="w-full text-center">
+            👤 Profile
+          </button>
+          <router-link
+            to="/settings"
+            @click="toggleMobileMenu"
+            class="w-full text-center"
+            >⚙️ Settings</router-link
+          >
+          <button @click="logout" class="w-full text-center text-red-500">
+            🚪 Logout
+          </button>
+        </div>
+
+        <!-- ✅ Menú de login/signup en móviles (alineado en columna) -->
+        <div v-else class="flex flex-col items-center w-full space-y-4 mt-4">
+          <router-link
+            to="/signup"
+            @click="toggleMobileMenu"
+            class="w-full text-center"
+            >Sign Up</router-link
+          >
+          <button @click="openLoginModal" class="w-full text-center">
+            Login
+          </button>
+        </div>
+      </div>
+    </transition>
   </nav>
 
   <!-- Profile Modal -->
   <Profile v-if="showProfileModal" @close="showProfileModal = false" />
   <LoginModal v-if="showLoginModal" @close="showLoginModal = false" />
 </template>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

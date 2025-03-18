@@ -1,14 +1,11 @@
 <template>
   <div>
-    <!-- This will render the component based on the current route -->
+    <Navbar />
+    <!-- ✅ Se usa el Navbar como componente -->
     <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent } from "vue";
+import Navbar from "./components/NavBar.vue"; // ✅ Importado correctamente
 </script>
-
-<style scoped>
-/* You can add some global styles here if necessary */
-</style>
