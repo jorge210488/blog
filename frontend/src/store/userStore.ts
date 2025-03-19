@@ -21,8 +21,15 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     user: null as User | null,
     token: localStorage.getItem("access_token") || null,
+    showLoginModal: false, // ✅ Controla la apertura del modal de login
   }),
+
+  getters: {
+    isAuthenticated: (state) => !!state.token, // ✅ Simplifica la verificación de autenticación
+  },
+
   actions: {
+    // ✅ Método para establecer el usuario cuando inicia sesión
     setUser(
       token: string,
       first_name: string,
@@ -32,7 +39,7 @@ export const useUserStore = defineStore("user", {
       this.token = token;
       localStorage.setItem("access_token", token);
 
-      // Desencriptar el token para obtener `id`, `email` y `role`
+      // Decodificar el token para obtener `id`, `email` y `role`
       const decoded = jwtDecode<TokenPayload>(token);
 
       this.user = {
@@ -43,13 +50,23 @@ export const useUserStore = defineStore("user", {
         last_name,
         img_url: img_url || null,
       };
+
+      this.showLoginModal = false; // Cerrar modal si estaba abierto
     },
+
+    // ✅ Método para cerrar sesión
     logout() {
       this.user = null;
       this.token = null;
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
     },
+
+    // ✅ Método para abrir el modal cuando se intente acceder a una página protegida
+    requireLogin() {
+      this.showLoginModal = true;
+    },
   },
-  persist: true,
+
+  persist: true, // ✅ Mantiene la sesión después de recargar la página
 });

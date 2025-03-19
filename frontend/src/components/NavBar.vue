@@ -3,9 +3,10 @@ import { ref, computed } from "vue";
 import Profile from "./Profile.vue";
 import LoginModal from "./LoginModal.vue";
 import { useUserStore } from "../store/userStore";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 
 const isAuthenticated = computed(() => !!userStore.token);
@@ -14,6 +15,9 @@ const profilePicture = computed(
   () => userStore.user?.img_url || "/profile3.avif"
 );
 const isAuthor = computed(() => userStore.user?.role === "author");
+
+// 🔥 Detectar si el usuario está en `/resources`
+const isResourcesView = computed(() => route.path === "/resources");
 
 // Control del menú hamburguesa en móviles
 const showMobileMenu = ref(false);
@@ -27,21 +31,22 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
 
-// Control de modales
+// Control del modal de perfil
 const showProfileModal = ref(false);
-const showLoginModal = ref(false);
 const openProfileModal = () => {
   showProfileModal.value = true;
 };
+
+// ✅ Usar `userStore.showLoginModal`
 const openLoginModal = () => {
-  showLoginModal.value = true;
+  userStore.showLoginModal = true;
 };
 
-// ✅ Función para cerrar sesión
+// ✅ Cerrar menú móvil al hacer logout
 const logout = () => {
   userStore.logout();
   showDropdown.value = false;
-  showMobileMenu.value = false; // Cierra el menú al cerrar sesión
+  showMobileMenu.value = false;
   router.push("/");
 };
 </script>
@@ -51,10 +56,7 @@ const logout = () => {
     <div
       class="container mx-auto flex justify-between items-center py-4 px-6 text-white"
     >
-      <!-- Logo -->
-      <div class="text-lg font-bold">
-        <router-link to="/">JAM BLOG</router-link>
-      </div>
+      <router-link to="/" class="text-lg font-bold">JAM BLOG</router-link>
 
       <!-- Menú Hamburguesa en móviles -->
       <button
@@ -69,21 +71,19 @@ const logout = () => {
         <router-link
           to="/"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
+          >Home</router-link
         >
-          Home
-        </router-link>
         <router-link
           to="/categories"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
+          >Categories</router-link
         >
-          Categories
-        </router-link>
         <router-link
           to="/blog"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
+          >Blog</router-link
         >
-          Blog
-        </router-link>
+
         <router-link
           v-if="isAuthenticated && isAuthor"
           to="/write"
@@ -91,6 +91,8 @@ const logout = () => {
         >
           ✍️ Write a Post
         </router-link>
+
+        <!-- ✅ Bloquear acceso a `/resources` si no está autenticado -->
         <router-link
           v-if="isAuthenticated"
           to="/resources"
@@ -154,7 +156,7 @@ const logout = () => {
       </div>
     </div>
 
-    <!-- Menú móvil (aparece cuando showMobileMenu es true) -->
+    <!-- Menú móvil -->
     <transition name="fade">
       <div
         v-if="showMobileMenu"
@@ -191,6 +193,8 @@ const logout = () => {
         >
           ✍️ Write a Post
         </router-link>
+
+        <!-- ✅ Bloquear acceso a `/resources` si no está autenticado -->
         <router-link
           v-if="isAuthenticated"
           to="/resources"
@@ -200,7 +204,7 @@ const logout = () => {
           📚 Resources
         </router-link>
 
-        <!-- ✅ Menú de usuario en móviles (alineado en columna) -->
+        <!-- Menú de usuario en móviles -->
         <div
           v-if="isAuthenticated"
           class="flex flex-col items-center w-full space-y-4 mt-4"
@@ -219,7 +223,7 @@ const logout = () => {
           </button>
         </div>
 
-        <!-- ✅ Menú de login/signup en móviles (alineado en columna) -->
+        <!-- Menú de login/signup en móviles -->
         <div v-else class="flex flex-col items-center w-full space-y-4 mt-4">
           <router-link
             to="/signup"
@@ -237,7 +241,10 @@ const logout = () => {
 
   <!-- Profile Modal -->
   <Profile v-if="showProfileModal" @close="showProfileModal = false" />
-  <LoginModal v-if="showLoginModal" @close="showLoginModal = false" />
+  <LoginModal
+    v-if="userStore.showLoginModal"
+    @close="userStore.showLoginModal = false"
+  />
 </template>
 
 <style>

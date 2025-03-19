@@ -10,15 +10,25 @@ interface Resource {
   updated_at: string;
 }
 
+interface ResourceFilters {
+  search?: string;
+  tool?: string;
+  sortBy?: "updated_at" | "-updated_at"; // Asegura los valores permitidos
+}
+
 export const getResources = async (filters?: {
   search?: string;
   tool?: string;
-  sortBy?: string;
+  sortBy?: "updated_at" | "-updated_at";
 }) => {
   try {
-    const response = await api.get<Resource[]>("/resources/", {
-      params: filters,
-    });
+    // Construir los parámetros solo con valores definidos
+    const params: Record<string, string> = {};
+    if (filters?.search) params["search"] = filters.search;
+    if (filters?.tool) params["tool"] = filters.tool;
+    if (filters?.sortBy) params["ordering"] = filters.sortBy;
+
+    const response = await api.get<Resource[]>("/api/resources/", { params });
     return response.data;
   } catch (error) {
     console.error("Error fetching resources:", error);
@@ -28,7 +38,7 @@ export const getResources = async (filters?: {
 
 export const getResourceById = async (id: string) => {
   try {
-    const response = await api.get<Resource>(`/resources/${id}/`);
+    const response = await api.get<Resource>(`/api/resources/${id}/`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching resource ${id}:`, error);
@@ -38,7 +48,7 @@ export const getResourceById = async (id: string) => {
 
 export const createResource = async (resourceData: FormData) => {
   try {
-    const response = await api.post<Resource>("/resources/", resourceData, {
+    const response = await api.post<Resource>("/api/resources/", resourceData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -55,7 +65,10 @@ export const updateResource = async (
   resourceData: Partial<Resource>
 ) => {
   try {
-    const response = await api.put<Resource>(`/resources/${id}/`, resourceData);
+    const response = await api.put<Resource>(
+      `/api/resources/${id}/`,
+      resourceData
+    );
     return response.data;
   } catch (error) {
     console.error(`Error updating resource ${id}:`, error);
@@ -65,7 +78,7 @@ export const updateResource = async (
 
 export const deleteResource = async (id: string) => {
   try {
-    await api.delete(`/resources/${id}/`);
+    await api.delete(`/api/resources/${id}/`);
     return true;
   } catch (error) {
     console.error(`Error deleting resource ${id}:`, error);

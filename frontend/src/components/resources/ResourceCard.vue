@@ -19,15 +19,17 @@ defineProps({
 </script>
 
 <template>
-  <div class="bg-[#1A2B40] p-4 rounded-lg shadow-md">
-    <h3 class="text-lg font-bold">{{ resource.title }}</h3>
-    <p v-if="resource.description" class="text-gray-400 text-sm">
+  <div
+    class="bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-xl shadow-lg transition transform hover:scale-110 hover:shadow-xl"
+  >
+    <h3 class="text-xl font-bold text-white">{{ resource.title }}</h3>
+    <p v-if="resource.description" class="text-gray-300 text-sm mt-2">
       {{ resource.description }}
     </p>
     <a
       :href="resource.file"
       target="_blank"
-      class="block mt-2 text-blue-400 hover:text-blue-300"
+      class="block mt-4 text-blue-400 hover:text-blue-300 font-semibold"
     >
       📥 Descargar Recurso
     </a>

@@ -3,6 +3,7 @@
 from django.db import models
 import uuid
 from django.conf import settings
+from resources.models import Resource
 
 
 class Category(models.Model):
@@ -27,21 +28,20 @@ class Post(models.Model):
     slug = models.SlugField(unique=True)
     content = models.TextField()
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name="posts"
+        "Category", on_delete=models.CASCADE, related_name="posts"
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="posts"
     )
-    tags = models.ManyToManyField(
-        "Tag",
-        related_name="posts",
-        blank=True,  # Permite que un post no tenga etiquetas
-    )
+    tags = models.ManyToManyField("Tag", related_name="posts", blank=True)
     image = models.ImageField(upload_to="posts/images/", blank=True, null=True)
     views = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="draft")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    # 🔥 Agregamos la relación ManyToMany con Resource
+    resources = models.ManyToManyField(Resource, related_name="posts", blank=True)
 
     def __str__(self):
         return self.title
