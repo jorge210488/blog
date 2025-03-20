@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "../store/userStore";
 import Home from "../views/Home.vue";
 import ResourcesView from "../views/ResourcesView.vue";
+import CategoriesView from "../views/CategoriesView.vue";
 
 const routes = [
   { path: "/", component: Home },
+  { path: "/categories", component: CategoriesView },
   {
     path: "/resources",
     component: ResourcesView,

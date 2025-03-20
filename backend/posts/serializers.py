@@ -49,10 +49,12 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
+    post_count = serializers.IntegerField(read_only=True)  # 🔥 Cantidad de posts
+    posts = PostSerializer(many=True, read_only=True)  # 🔥 Lista de posts
 
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ["id", "name", "slug", "description", "post_count", "posts"]
 
 
 class TagSerializer(serializers.ModelSerializer):
