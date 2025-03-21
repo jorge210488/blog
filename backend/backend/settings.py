@@ -8,7 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
 from django.core.files.storage import default_storage
-from backend.storage_backends import MediaStorage
+from backend.storage_backends import ImageStorage, ResourceStorage
 
 pymysql.install_as_MySQLdb()
 load_dotenv()
@@ -16,21 +16,47 @@ load_dotenv()
 # ✅ Define BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ✅ Configuración de AWS S3
+# ✅ Configuración de AWS S3 para **dos buckets diferentes**
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME", "us-east-2")
 
-# ✅ Aplica el almacenamiento en S3
-DEFAULT_FILE_STORAGE = "backend.storage_backends.MediaStorage"
+# ✅ Nombre de los buckets
+AWS_IMAGES_BUCKET_NAME = os.getenv("AWS_IMAGES_BUCKET_NAME")  # Bucket para imágenes
+AWS_RESOURCES_BUCKET_NAME = os.getenv(
+    "AWS_RESOURCES_BUCKET_NAME"
+)  # Bucket para resources
 
-# 🔥 Fuerza la reinicialización de `default_storage`
-default_storage._wrapped = MediaStorage()
+# ✅ Configuración avanzada de S3
+AWS_QUERYSTRING_AUTH = False  # Permitir acceso a archivos sin firma temporal
+AWS_S3_FILE_OVERWRITE = False  # Evita sobrescribir archivos con el mismo nombre
+AWS_DEFAULT_ACL = None  # No aplicar ACL por defecto en S3
+
+# ✅ Configurar almacenamiento por tipo de archivo
+DEFAULT_FILE_STORAGE = (
+    "backend.storage_backends.ImageStorage"  # 🔥 Para imágenes de posts
+)
+RESOURCE_FILE_STORAGE = (
+    "backend.storage_backends.ResourceStorage"  # 🔥 Para archivos en resources
+)
+
+# ✅ URLs base de los archivos en S3
+MEDIA_URL = (
+    f"https://{AWS_IMAGES_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/images/"
+)
+RESOURCES_URL = f"https://{AWS_RESOURCES_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/resources/"
+
+# 🔥 🔥 🔥 Se inicializan ambos storages para que no se rompa `ResourceStorage`
+default_storage._wrapped = ImageStorage()
+resource_storage = ResourceStorage()
 
 print(
     f"✅ DEFAULT_FILE_STORAGE en tiempo de ejecución: {default_storage.__class__.__name__}"
 )
+print(
+    f"✅ RESOURCE_FILE_STORAGE en tiempo de ejecución: {resource_storage.__class__.__name__}"
+)
+
 
 # ✅ Configuración de seguridad
 SECRET_KEY = "django-insecure-+7%k+n()kjkw@hc=q#(%ss1h&&ofplk6!x7rr4nc-k-*p^3)ql"

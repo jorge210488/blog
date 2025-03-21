@@ -1,17 +1,30 @@
 from rest_framework import serializers
-from .models import Category, Tag, Post
+from .models import Category, Tag, Post, PostImage
+
+
+class PostImageSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PostImage
+        fields = ["id", "image", "image_url"]  # 🔥 Agrega la URL pública
+
+    def get_image_url(self, obj):
+        if obj.image:
+            return obj.image.url  # 🔥 Retorna la URL de S3 directamente
+        return None
 
 
 class PostSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
-    author = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )  # Asignar el autor automáticamente
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True, required=False
     )
-    image = serializers.ImageField(required=False, allow_null=True)
+    images = PostImageSerializer(
+        many=True, read_only=True
+    )  # 🔥 Muestra imágenes existentes
 
     class Meta:
         model = Post
@@ -23,7 +36,7 @@ class PostSerializer(serializers.ModelSerializer):
             "category",
             "author",
             "tags",
-            "image",
+            "images",
             "views",
             "status",
             "created_at",
@@ -33,16 +46,56 @@ class PostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         tags_data = validated_data.pop("tags", [])
+        images_data = self.context["request"].FILES.getlist(
+            "images"
+        )  # 🔥 Obtiene imágenes de la request
         post = Post.objects.create(**validated_data)
         post.tags.set(tags_data)
+
+        if len(images_data) > 10:
+            raise serializers.ValidationError(
+                {"images": "No puedes subir más de 10 imágenes."}
+            )
+
+        for image in images_data:
+            if image.size > 1024 * 1024:  # 1MB en bytes
+                raise serializers.ValidationError(
+                    {"images": "Cada imagen debe pesar menos de 1MB."}
+                )
+            PostImage.objects.create(
+                post=post, image=image
+            )  # 🔥 Se subirá a S3 automáticamente
+
         return post
 
     def update(self, instance, validated_data):
         tags_data = validated_data.pop("tags", None)
+        images_data = self.context["request"].FILES.getlist(
+            "images"
+        )  # 🔥 Nuevas imágenes
+
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+
         if tags_data is not None:
             instance.tags.set(tags_data)
+
+        if images_data:
+            instance.images.all().delete()  # 🔥 Borra imágenes antiguas antes de agregar nuevas
+            if len(images_data) > 10:
+                raise serializers.ValidationError(
+                    {"images": "No puedes subir más de 10 imágenes."}
+                )
+
+            for image in images_data:
+                if image.size > 1024 * 1024:
+                    raise serializers.ValidationError(
+                        {"images": "Cada imagen debe pesar menos de 1MB."}
+                    )
+                PostImage.objects.create(
+                    post=instance, image=image
+                )  # 🔥 Se sube automáticamente a S3
+
         instance.save()
         return instance
 
@@ -68,7 +121,10 @@ class TagSerializer(serializers.ModelSerializer):
 class PostDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     tags = TagSerializer(many=True)
-    author = serializers.StringRelatedField()  # Muestra el nombre o email del autor
+    author = serializers.StringRelatedField()
+    images = PostImageSerializer(
+        many=True, read_only=True
+    )  # 🔥 Incluye imágenes con sus URLs en S3
 
     class Meta:
         model = Post
@@ -80,7 +136,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
             "category",
             "author",
             "tags",
-            "image",
+            "images",
             "views",
             "status",
             "created_at",

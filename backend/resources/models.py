@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from django.conf import settings
+from backend.storage_backends import ResourceStorage  # ✅ Importar ResourceStorage
 
 
 def resource_file_path(instance, filename):
@@ -26,8 +27,9 @@ class Resource(models.Model):
     description = models.TextField(blank=True, null=True)
     tool = models.CharField(max_length=50, choices=TOOL_CHOICES)
     file = models.FileField(
-        upload_to=resource_file_path
-    )  # Guardar en /media/resources/
+        upload_to=resource_file_path,
+        storage=ResourceStorage(),  # ✅ Asignar ResourceStorage aquí
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

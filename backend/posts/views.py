@@ -1,8 +1,8 @@
 from django.db.models import Count
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, serializers
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Category, Tag, Post
+from .models import Category, Tag, Post, PostImage
 from .serializers import (
     CategorySerializer,
     TagSerializer,
@@ -43,21 +43,21 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by("-created_at")
+    queryset = (
+        Post.objects.select_related("category", "author")
+        .prefetch_related("tags", "images", "resources")
+        .order_by("-created_at")
+    )
     lookup_field = "id"
-
     permission_classes = [AllowAny]
 
-    # ✅ Agregamos filtros
     filter_backends = [
         DjangoFilterBackend,
         filters.OrderingFilter,
         filters.SearchFilter,
     ]
-    filterset_fields = [
-        "category__slug"
-    ]  # Permite filtrar por categoría usando el `slug`
-    search_fields = ["title", "content"]  # Permite buscar por título y contenido
+    filterset_fields = ["category__slug", "status", "author_id", "tags__id"]
+    search_fields = ["title", "content"]
     ordering_fields = ["created_at"]
     ordering = ["-created_at"]
 
@@ -68,8 +68,27 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
-            return PostDetailSerializer  # Para vistas de lectura más detalladas
-        return PostSerializer  # Para crear/actualizar posts
+            return PostDetailSerializer  # 🔥 Serializador detallado para lectura
+        return PostSerializer  # 🔥 Serializador normal para escritura
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        """Maneja la creación del post, incluyendo imágenes y recursos en S3"""
+        post = serializer.save(author=self.request.user)
+
+        # 🔹 Obtener imágenes desde la request
+        images_data = self.request.FILES.getlist("images")
+        if len(images_data) > 10:
+            raise serializers.ValidationError(
+                {"images": "No puedes subir más de 10 imágenes."}
+            )
+
+        for image in images_data:
+            if image.size > 1024 * 1024:  # 1MB en bytes
+                raise serializers.ValidationError(
+                    {"images": "Cada imagen debe pesar menos de 1MB."}
+                )
+            PostImage.objects.create(
+                post=post, image=image
+            )  # 🔥 Sube a S3 automáticamente
+
+        return post
