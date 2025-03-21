@@ -86,7 +86,7 @@ const logout = () => {
 
         <router-link
           v-if="isAuthenticated && isAuthor"
-          to="/write"
+          to="/create-post"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
         >
           ✍️ Write a Post
@@ -187,7 +187,7 @@ const logout = () => {
 
         <router-link
           v-if="isAuthenticated && isAuthor"
-          to="/write"
+          to="/create-post"
           @click="toggleMobileMenu"
           class="w-full text-center"
         >

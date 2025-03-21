@@ -4,11 +4,28 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "./assets/styles/tailwind.css";
+import Toast, { type PluginOptions } from "vue-toastification";
+import "vue-toastification/dist/index.css"; // Importar
+
+const options: PluginOptions = {
+  position: "top-right",
+  timeout: 3000,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  draggablePercent: 0.6,
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  closeButton: "button",
+  icon: true,
+};
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App);
+app.use(Toast, options);
 app.use(pinia);
 app.use(router);
 app.mount("#app");

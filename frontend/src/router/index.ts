@@ -3,6 +3,7 @@ import { useUserStore } from "../store/userStore";
 import Home from "../views/Home.vue";
 import ResourcesView from "../views/ResourcesView.vue";
 import CategoriesView from "../views/CategoriesView.vue";
+import PostForm from "../views/PostForm.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -11,7 +12,12 @@ const routes = [
     path: "/resources",
     component: ResourcesView,
     meta: { requiresAuth: true },
-  }, // 🔒 Ruta protegida
+  },
+  {
+    path: "/create-post",
+    component: PostForm,
+    meta: { requiresAuth: true }, // 🔒 Solo usuarios autenticados pueden acceder
+  },
 ];
 
 const router = createRouter({
