@@ -7,6 +7,8 @@ import { getCategories } from "../services/categoryService.ts";
 import { useToast } from "vue-toastification";
 import ResourceUploadModal from "../components/resources/ResourceUploadModal.vue";
 import "emoji-picker-element";
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.css";
 
 // Interfaces
 interface Category {
@@ -24,10 +26,10 @@ interface PostForm {
   slug: string;
   content: string;
   category: string;
-  tags: string[];
+  tags: Tag[];
   video_url?: string;
   status: "draft" | "published";
-  jsonResource?: File | null;
+  resources: string[]; // 🔥 Lista de IDs de recursos en vez de `jsonResource`
   images?: File[];
 }
 
@@ -44,9 +46,10 @@ const postForm = ref<PostForm>({
   tags: [],
   video_url: "",
   status: "draft",
-  jsonResource: null,
+  resources: [], // 🔥 Ahora usamos un array de IDs de recursos
   images: [],
 });
+
 const showResourceModal = ref(false);
 const showEmojiPicker = ref(false);
 const emojiPickerRef = ref<HTMLElement | null>(null);
@@ -82,7 +85,6 @@ const fetchData = async () => {
   tags.value = await getTags();
 };
 
-// ✅ Submit form
 const submitPost = async () => {
   try {
     const formData = new FormData();
@@ -91,24 +93,33 @@ const submitPost = async () => {
     formData.append("content", postForm.value.content);
     formData.append("category", postForm.value.category);
     formData.append("status", postForm.value.status);
-    if (postForm.value.video_url)
-      formData.append("video_url", postForm.value.video_url);
-    postForm.value.tags.forEach((tag) => formData.append("tags", tag));
 
-    if (postForm.value.jsonResource) {
-      formData.append("resource", postForm.value.jsonResource);
+    if (postForm.value.video_url) {
+      formData.append("video_url", postForm.value.video_url);
     }
 
+    // ✅ Agregar los tags correctamente
+    postForm.value.tags.forEach((tag) => formData.append("tags", tag.id));
+
+    // ✅ Enviar los IDs de los recursos guardados (NO subirlos aquí)
+    if (postForm.value.resources) {
+      postForm.value.resources.forEach((resourceId) =>
+        formData.append("resources", resourceId)
+      );
+    }
+
+    // ✅ Agregar imágenes al FormData
     if (postForm.value.images) {
       postForm.value.images.forEach((image) =>
         formData.append("images", image)
       );
     }
 
+    // ✅ Enviar el post al backend
     await createPost(formData);
     toast.success("Post created successfully! 🎉");
 
-    // Reset form
+    // ✅ Resetear el formulario después de enviar
     postForm.value = {
       title: "",
       slug: "",
@@ -117,10 +128,9 @@ const submitPost = async () => {
       tags: [],
       video_url: "",
       status: "draft",
-      jsonResource: null,
+      resources: [], // 🔥 Limpiar los recursos guardados
       images: [],
     };
-    imagePreviews.value = [];
   } catch (error) {
     toast.error("Error creating post. ❌");
   }
@@ -150,18 +160,6 @@ const handleImageUpload = (event: Event) => {
   }
 };
 
-// ✅ Capture files from modal
-const handleUpload = ({
-  json,
-  images,
-}: {
-  json: File | null;
-  images: File[];
-}) => {
-  postForm.value.jsonResource = json;
-  postForm.value.images = images;
-};
-
 onMounted(fetchData);
 </script>
 
@@ -181,29 +179,28 @@ onMounted(fetchData);
     </div>
 
     <!-- Form container -->
-    <div class="relative z-20 w-full px-6">
+    <div class="relative z-20 w-full px-6 pt-12 md:pt-20">
       <div
         class="container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col gap-6"
       >
-        <h2 class="text-white text-2xl font-semibold">Create New Post</h2>
-
         <form @submit.prevent="submitPost" class="flex flex-col gap-4">
-          <!-- Title -->
-          <div>
-            <label class="text-white">Title</label>
-            <input
-              type="text"
-              v-model="postForm.title"
-              @input="generateSlug"
-              @focus="openEmojiPicker('title', $event)"
-              class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
-              required
-            />
-          </div>
+          <!-- Estructura para diferentes tamaños de pantalla -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <!-- Title -->
+            <div class="md:col-span-4">
+              <label class="text-white">Title</label>
+              <input
+                type="text"
+                v-model="postForm.title"
+                @input="generateSlug"
+                @focus="openEmojiPicker('title', $event)"
+                class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
+                required
+              />
+            </div>
 
-          <!-- Slug, Category, Status (Same Row) -->
-          <div class="grid grid-cols-3 gap-4">
-            <div>
+            <!-- Slug -->
+            <div class="md:col-span-4">
               <label class="text-white">Slug</label>
               <input
                 type="text"
@@ -213,7 +210,8 @@ onMounted(fetchData);
               />
             </div>
 
-            <div>
+            <!-- Category -->
+            <div class="md:col-span-3">
               <label class="text-white">Category</label>
               <select
                 v-model="postForm.category"
@@ -230,7 +228,8 @@ onMounted(fetchData);
               </select>
             </div>
 
-            <div>
+            <!-- Status -->
+            <div class="md:col-span-1">
               <label class="text-white">Status</label>
               <select
                 v-model="postForm.status"
@@ -254,31 +253,53 @@ onMounted(fetchData);
           </div>
 
           <!-- Tags -->
-          <div>
-            <label class="text-white">Tags</label>
-            <v-select
+          <div class="flex items-center space-x-2">
+            <multiselect
               v-model="postForm.tags"
               :options="tags"
               label="name"
+              track-by="id"
               multiple
-              class="bg-gray-800 text-white"
+              placeholder="Select your Tags"
+              :select-label="'Add'"
+              :deselect-label="'Remove'"
+              class="tag-selector w-auto min-w-[450px] max-w-full"
             />
           </div>
 
-          <!-- Add Resources & Add Images -->
-          <button
-            type="button"
-            @click="showResourceModal = true"
-            class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700"
-          >
-            📎 Add Resources
-          </button>
-          <input
-            type="file"
-            multiple
-            @change="handleImageUpload"
-            class="bg-gray-800 text-white border border-gray-600 p-2 rounded"
-          />
+          <!-- Video URL, Add Resources y Add Images en la misma fila -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <!-- Video URL -->
+            <div class="md:col-span-6">
+              <label class="text-white">Video URL</label>
+              <input
+                type="text"
+                v-model="postForm.video_url"
+                class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
+              />
+            </div>
+
+            <!-- Add Resources -->
+            <div class="md:col-span-3 flex items-end">
+              <button
+                type="button"
+                @click="showResourceModal = true"
+                class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700"
+              >
+                📎 Add Resources
+              </button>
+            </div>
+
+            <!-- Add Images -->
+            <div class="md:col-span-3 flex items-end">
+              <input
+                type="file"
+                multiple
+                @change="handleImageUpload"
+                class="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded"
+              />
+            </div>
+          </div>
 
           <!-- Submit -->
           <button
@@ -292,3 +313,50 @@ onMounted(fetchData);
     </div>
   </section>
 </template>
+
+<style>
+.tag-selector {
+  display: inline-block;
+  background: transparent !important;
+  border: 1px solid white;
+  color: white !important;
+}
+
+/* ✅ Fondo transparente para el input */
+.tag-selector .multiselect__tags {
+  background: transparent !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* 📌 Ajusta el tamaño del dropdown en diferentes pantallas */
+.multiselect__content-wrapper {
+  max-height: 24rem !important;
+  width: 100% !important;
+  min-width: 350px !important; /* Tamaño mínimo */
+  max-width: 600px !important; /* Tamaño máximo */
+  overflow: auto !important;
+  background-color: black !important;
+  color: white !important;
+  border: 1px solid white !important;
+}
+
+/* ✅ Color de texto blanco en las opciones */
+.tag-selector .multiselect__option {
+  background-color: black !important;
+  color: white !important;
+}
+
+/* ✅ Cuando se resalta una opción */
+.tag-selector .multiselect__option--highlight {
+  background-color: #333 !important;
+  color: white !important;
+}
+
+/* ✅ Corrige fondo blanco en la selección */
+.tag-selector .multiselect__single,
+.tag-selector .multiselect__input {
+  background: transparent !important;
+  color: white !important;
+}
+</style>

@@ -1,17 +1,46 @@
 import api from "./api";
+import { useUserStore } from "../store/userStore"; // 🔥 Importa el store para obtener el token
 
-interface Post {
+// 🔥 Interfaces detalladas basadas en tu backend
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface Resource {
+  id: string;
+  title: string;
+  file: string; // 🔥 URL del archivo en S3
+}
+
+interface Image {
+  id: string;
+  image_url: string; // 🔥 URL de la imagen en S3
+}
+
+export interface Post {
   id: string;
   title: string;
   slug: string;
   content: string;
   created_at: string;
   updated_at: string;
-  category: { id: string; name: string; slug: string };
-  resources: Array<{ id: string; title: string; file: string }>;
+  category: Category;
+  resources: Resource[]; // ✅ Array de recursos con ID y URL
+  images: Image[]; // ✅ Imágenes como array
+  video_url?: string; // ✅ Puede estar vacío
+  status: "draft" | "published";
 }
 
-// ✅ Obtener todos los posts (opcionalmente con filtros)
+// 🔥 Función para obtener los headers con autenticación
+const getAuthHeaders = () => {
+  const userStore = useUserStore(); // 🔥 Accede al store
+  const token = userStore.token; // 🔥 Obtiene el token
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+// ✅ Obtener todos los posts con filtros opcionales
 export const getPosts = async (filters?: {
   search?: string;
   category?: string;
@@ -19,9 +48,12 @@ export const getPosts = async (filters?: {
   try {
     const params: Record<string, string> = {};
     if (filters?.search) params["search"] = filters.search;
-    if (filters?.category) params["category__slug"] = filters.category; // ✅ Filtra por slug
+    if (filters?.category) params["category__slug"] = filters.category;
 
-    const response = await api.get<Post[]>("/api/posts/", { params });
+    const response = await api.get<Post[]>("/api/posts/", {
+      params,
+      headers: getAuthHeaders(), // 🔥 Agregar autenticación
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -32,7 +64,9 @@ export const getPosts = async (filters?: {
 // ✅ Obtener un post por su ID o slug
 export const getPostById = async (id: string) => {
   try {
-    const response = await api.get<Post>(`/api/posts/${id}/`);
+    const response = await api.get<Post>(`/api/posts/${id}/`, {
+      headers: getAuthHeaders(), // 🔥 Agregar autenticación
+    });
     return response.data;
   } catch (error) {
     console.error(`Error fetching post ${id}:`, error);
@@ -45,6 +79,7 @@ export const getPostsByCategory = async (categorySlug: string) => {
   try {
     const response = await api.get<Post[]>("/api/posts/", {
       params: { category__slug: categorySlug },
+      headers: getAuthHeaders(), // 🔥 Agregar autenticación
     });
     return response.data;
   } catch (error) {
@@ -53,14 +88,21 @@ export const getPostsByCategory = async (categorySlug: string) => {
   }
 };
 
-// ✅ Crear un nuevo post
+// ✅ Crear un nuevo post (usa `FormData` para imágenes y archivos)
 export const createPost = async (postData: FormData) => {
   try {
-    const response = await api.post<Post>("/api/posts/", postData, {
+    // 🔥 Ver qué se está enviando exactamente
+    for (let [key, value] of postData.entries()) {
+      console.log(`📤 Sending: ${key} ->`, value);
+    }
+
+    const response = await api.post<Post>("/api/posts/posts/", postData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        ...getAuthHeaders(), // 🔥 Agregar autenticación
       },
     });
+
     return response.data;
   } catch (error) {
     console.error("Error creating post:", error);
@@ -68,10 +110,28 @@ export const createPost = async (postData: FormData) => {
   }
 };
 
-// ✅ Actualizar un post
-export const updatePost = async (id: string, postData: Partial<Post>) => {
+// ✅ Actualizar un post (maneja imágenes opcionales)
+export const updatePost = async (
+  id: string,
+  postData: Partial<Post | FormData>
+) => {
   try {
-    const response = await api.put<Post>(`/api/posts/${id}/`, postData);
+    let authHeaders = getAuthHeaders(); // 🔥 Obtener headers de autenticación
+
+    let headers: Record<string, string> = {};
+    if (authHeaders.Authorization) {
+      headers["Authorization"] = authHeaders.Authorization; // ✅ Solo agregar si existe
+    }
+
+    if (postData instanceof FormData) {
+      headers["Content-Type"] = "multipart/form-data"; // ✅ Para archivos
+    } else {
+      headers["Content-Type"] = "application/json"; // ✅ Para JSON
+    }
+
+    const response = await api.put<Post>(`/api/posts/${id}/`, postData, {
+      headers,
+    });
     return response.data;
   } catch (error) {
     console.error(`Error updating post ${id}:`, error);
@@ -82,7 +142,9 @@ export const updatePost = async (id: string, postData: Partial<Post>) => {
 // ✅ Eliminar un post
 export const deletePost = async (id: string) => {
   try {
-    await api.delete(`/api/posts/${id}/`);
+    await api.delete(`/api/posts/${id}/`, {
+      headers: getAuthHeaders(), // 🔥 Agregar autenticación
+    });
     return true;
   } catch (error) {
     console.error(`Error deleting post ${id}:`, error);
