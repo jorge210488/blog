@@ -10,6 +10,12 @@ import "emoji-picker-element";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.css";
 
+interface Resource {
+  id: string;
+  title: string;
+  description: string;
+  tool: string;
+}
 // Interfaces
 interface Category {
   id: string;
@@ -29,13 +35,12 @@ interface PostForm {
   tags: Tag[];
   video_url?: string;
   status: "draft" | "published";
-  resources: string[]; // 🔥 Lista de IDs de recursos en vez de `jsonResource`
+  resources: Resource[]; // 🔥 Lista de IDs de recursos en vez de `jsonResource`
   images?: File[];
 }
 
 // State
 const toast = useToast();
-const userStore = useUserStore();
 const categories = ref<Category[]>([]);
 const tags = ref<Tag[]>([]);
 const postForm = ref<PostForm>({
@@ -51,6 +56,24 @@ const postForm = ref<PostForm>({
 });
 
 const showResourceModal = ref(false);
+
+const handleResourceUpload = (resource: {
+  id: string;
+  title: string;
+  description: string;
+  tool: string;
+}) => {
+  postForm.value.resources.push(resource);
+  toast.success(`Recurso "${resource.title}" agregado correctamente. ✅`);
+};
+
+const removeResource = (resourceId: string) => {
+  postForm.value.resources = postForm.value.resources.filter(
+    (resource) => resource.id !== resourceId
+  );
+  toast.info("Recurso eliminado.");
+};
+
 const showEmojiPicker = ref(false);
 const emojiPickerRef = ref<HTMLElement | null>(null);
 const emojiTarget = ref<"title" | "content" | null>(null);
@@ -101,12 +124,10 @@ const submitPost = async () => {
     // ✅ Agregar los tags correctamente
     postForm.value.tags.forEach((tag) => formData.append("tags", tag.id));
 
-    // ✅ Enviar los IDs de los recursos guardados (NO subirlos aquí)
-    if (postForm.value.resources) {
-      postForm.value.resources.forEach((resourceId) =>
-        formData.append("resources", resourceId)
-      );
-    }
+    // ✅ Enviar los recursos como objetos completos
+    postForm.value.resources.forEach((resource) => {
+      formData.append("resources", JSON.stringify(resource)); // 🔥 Convertir el objeto a JSON
+    });
 
     // ✅ Agregar imágenes al FormData
     if (postForm.value.images) {
@@ -179,7 +200,7 @@ onMounted(fetchData);
     </div>
 
     <!-- Form container -->
-    <div class="relative z-20 w-full px-6 pt-12 md:pt-20">
+    <div class="relative z-20 w-full px-6 pb-20 pt-12 md:pt-20">
       <div
         class="container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col gap-6"
       >
@@ -267,7 +288,7 @@ onMounted(fetchData);
             />
           </div>
 
-          <!-- Video URL, Add Resources y Add Images en la misma fila -->
+          <!-- Fila con Video URL, Add JSON y Add Images -->
           <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
             <!-- Video URL -->
             <div class="md:col-span-6">
@@ -279,27 +300,70 @@ onMounted(fetchData);
               />
             </div>
 
-            <!-- Add Resources -->
-            <div class="md:col-span-3 flex items-end">
+            <!-- Botón Add JSON ocupa md:col-span-2 -->
+            <div class="md:col-span-2 flex items-end">
               <button
                 type="button"
                 @click="showResourceModal = true"
                 class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700"
               >
-                📎 Add Resources
+                Add JSON
               </button>
             </div>
 
-            <!-- Add Images -->
-            <div class="md:col-span-3 flex items-end">
+            <!-- Add Images ocupa md:col-span-2 -->
+            <div class="md:col-span-4 flex items-end">
               <input
                 type="file"
                 multiple
                 @change="handleImageUpload"
                 class="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded"
+                data-button-text="Upload Images"
+                data-placeholder="Select files"
               />
             </div>
           </div>
+
+          <!-- 🔥 Nueva fila: Uploaded Resources debajo de la anterior -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-4">
+            <div class="md:col-span-12 flex justify-center">
+              <div class="grid grid-cols-1 md:grid-cols-6 gap-4 justify-center">
+                <div
+                  v-for="resource in postForm.resources"
+                  :key="resource.id"
+                  class="md:col-span-2 bg-white/10 backdrop-blur-2xl border border-white/20 p-3 rounded-xl shadow-lg transition transform hover:scale-105 hover:shadow-xl flex flex-col justify-between h-26"
+                >
+                  <div>
+                    <h3 class="text-base font-bold text-white truncate">
+                      {{ resource.title }}
+                    </h3>
+                    <p
+                      class="text-gray-300 text-xs mt-1 truncate"
+                      :title="resource.description"
+                    >
+                      {{ resource.description }}
+                    </p>
+                    <p class="text-xs text-blue-300">{{ resource.tool }}</p>
+                  </div>
+                  <div class="flex justify-end mt-0">
+                    <button
+                      @click="removeResource(resource.id)"
+                      class="bg-red-500 text-white px-2 py-1 rounded-lg text-xs hover:bg-red-700 transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 📌 Modal para subir recursos -->
+          <ResourceUploadModal
+            v-if="showResourceModal"
+            @upload="handleResourceUpload"
+            @close="showResourceModal = false"
+          />
 
           <!-- Submit -->
           <button
