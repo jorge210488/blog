@@ -1,4 +1,5 @@
 import api from "./api";
+import { useUserStore } from "../store/userStore"; // ✅ Import user store
 
 interface Resource {
   id: string;
@@ -13,16 +14,12 @@ interface Resource {
 interface ResourceFilters {
   search?: string;
   tool?: string;
-  sortBy?: "updated_at" | "-updated_at"; // Asegura los valores permitidos
+  sortBy?: "updated_at" | "-updated_at"; // Ensure allowed values
 }
 
-export const getResources = async (filters?: {
-  search?: string;
-  tool?: string;
-  sortBy?: "updated_at" | "-updated_at";
-}) => {
+export const getResources = async (filters?: ResourceFilters) => {
   try {
-    // Construir los parámetros solo con valores definidos
+    // Build query params only with defined values
     const params: Record<string, string> = {};
     if (filters?.search) params["search"] = filters.search;
     if (filters?.tool) params["tool"] = filters.tool;
@@ -32,6 +29,32 @@ export const getResources = async (filters?: {
     return response.data;
   } catch (error) {
     console.error("Error fetching resources:", error);
+    return [];
+  }
+};
+
+export const getUserResources = async () => {
+  try {
+    const userStore = useUserStore(); // ✅ Get token from store
+
+    if (!userStore.token) {
+      console.error("User is not authenticated.");
+      return [];
+    }
+
+    const response = await api.get<Resource[]>("/api/resources/user/", {
+      headers: {
+        Authorization: `Bearer ${userStore.token}`, // ✅ Add token for authentication
+      },
+    });
+
+    // ✅ Asegurar que description nunca sea undefined
+    return response.data.map((resource) => ({
+      ...resource,
+      description: resource.description ?? "", // 🔥 Asigna "" si es undefined
+    }));
+  } catch (error) {
+    console.error("Error fetching user resources:", error);
     return [];
   }
 };
@@ -48,9 +71,11 @@ export const getResourceById = async (id: string) => {
 
 export const createResource = async (resourceData: FormData) => {
   try {
+    const userStore = useUserStore(); // ✅ Get token from store
     const response = await api.post<Resource>("/api/resources/", resourceData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${userStore.token}`, // ✅ Add token
       },
     });
     return response.data;
@@ -65,9 +90,15 @@ export const updateResource = async (
   resourceData: Partial<Resource>
 ) => {
   try {
+    const userStore = useUserStore(); // ✅ Get token from store
     const response = await api.put<Resource>(
       `/api/resources/${id}/`,
-      resourceData
+      resourceData,
+      {
+        headers: {
+          Authorization: `Bearer ${userStore.token}`, // ✅ Add token
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -78,7 +109,12 @@ export const updateResource = async (
 
 export const deleteResource = async (id: string) => {
   try {
-    await api.delete(`/api/resources/${id}/`);
+    const userStore = useUserStore(); // ✅ Get token from store
+    await api.delete(`/api/resources/${id}/`, {
+      headers: {
+        Authorization: `Bearer ${userStore.token}`, // ✅ Add token
+      },
+    });
     return true;
   } catch (error) {
     console.error(`Error deleting resource ${id}:`, error);

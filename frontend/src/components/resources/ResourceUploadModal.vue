@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useToast } from "vue-toastification";
+import { createResource } from "../../services/resourceService"; // ✅ Import the service
 
 const toast = useToast();
 const emit = defineEmits(["close", "upload"]);
@@ -10,59 +11,78 @@ const title = ref<string>("");
 const description = ref<string>("");
 const tool = ref<string>("Relevance AI");
 
-// Opciones de herramientas según el modelo
+// Tool options
 const toolOptions = ["Relevance AI", "Make", "n8n", "Other"];
 
-// ✅ Manejar archivo JSON seleccionado
+// ✅ Handle selected JSON file
 const handleFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
   if (!input.files || input.files.length === 0) return;
 
   const file = input.files[0];
   if (!file.name.endsWith(".json")) {
-    toast.error("Solo se permiten archivos JSON. ❌");
+    toast.error("Only JSON files are allowed. ❌");
     return;
   }
 
-  jsonFile.value = file; // Solo se permite un archivo JSON
+  jsonFile.value = file; // Only one JSON file is allowed
 };
 
-// ✅ Subir JSON al backend
-const uploadFile = () => {
+// ✅ Upload resource to the backend using the service
+const uploadResource = async () => {
   if (!jsonFile.value) {
-    toast.error("Debes seleccionar un archivo JSON. ❌");
+    toast.error("You must select a JSON file. ❌");
     return;
   }
   if (!title.value.trim()) {
-    toast.error("El título es obligatorio. ❌");
+    toast.error("Title is required. ❌");
     return;
   }
   if (!description.value.trim()) {
-    toast.error("La descripción es obligatoria. ❌");
+    toast.error("Description is required. ❌");
     return;
   }
   if (!tool.value.trim()) {
-    toast.error("Debes seleccionar una herramienta. ❌");
+    toast.error("You must select a tool. ❌");
     return;
   }
 
-  // ✅ Crear objeto de recurso
-  const resource = {
-    id: crypto.randomUUID(), // Simula el ID generado por el backend
-    title: title.value,
-    description: description.value,
-    tool: tool.value,
-    file: jsonFile.value,
-  };
+  try {
+    // ✅ Create FormData
+    const formData = new FormData();
+    formData.append("title", title.value);
+    formData.append("description", description.value);
+    formData.append("tool", tool.value);
+    formData.append("file", jsonFile.value);
 
-  emit("upload", resource);
-  toast.success("Recurso subido exitosamente! ✅");
+    // ✅ Call the createResource service
+    const uploadedResource = await createResource(formData);
 
-  // ✅ Limpiar formulario para permitir más subidas
-  jsonFile.value = null;
-  title.value = "";
-  description.value = "";
-  tool.value = "Relevance AI";
+    if (!uploadedResource) {
+      throw new Error("Resource upload failed.");
+    }
+
+    // ✅ Emit only the resource ID to `postForm`
+    emit("upload", {
+      id: uploadedResource.id,
+      title: title.value,
+      description: description.value,
+      tool: tool.value,
+    });
+
+    toast.success("Resource uploaded successfully! ✅");
+
+    // ✅ Clear form for further uploads
+    jsonFile.value = null;
+    title.value = "";
+    description.value = "";
+    tool.value = "Relevance AI";
+
+    // ✅ Close the modal after upload
+    emit("close");
+  } catch (error) {
+    toast.error("Error uploading resource. ❌");
+  }
 };
 </script>
 
@@ -71,32 +91,32 @@ const uploadFile = () => {
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
   >
     <div class="bg-gray-900 p-6 rounded-lg shadow-lg w-96">
-      <h2 class="text-white text-xl mb-4">Subir Recurso JSON</h2>
+      <h2 class="text-white text-xl mb-4">Upload JSON Resource</h2>
 
-      <!-- Título -->
+      <!-- Title -->
       <div class="mb-4">
-        <label class="text-white">Título:</label>
+        <label class="text-white">Title:</label>
         <input
           type="text"
           v-model="title"
           class="w-full text-black p-2 rounded"
-          placeholder="Escribe un título"
+          placeholder="Enter a title"
         />
       </div>
 
-      <!-- Descripción -->
+      <!-- Description -->
       <div class="mb-4">
-        <label class="text-white">Descripción:</label>
+        <label class="text-white">Description:</label>
         <textarea
           v-model="description"
           class="w-full text-black p-2 rounded"
-          placeholder="Agrega una descripción"
+          placeholder="Enter a description"
         ></textarea>
       </div>
 
-      <!-- Seleccionar Herramienta -->
+      <!-- Select Tool -->
       <div class="mb-4">
-        <label class="text-white">Herramienta:</label>
+        <label class="text-white">Tool:</label>
         <select v-model="tool" class="w-full text-black p-2 rounded">
           <option v-for="option in toolOptions" :key="option" :value="option">
             {{ option }}
@@ -104,9 +124,9 @@ const uploadFile = () => {
         </select>
       </div>
 
-      <!-- Subir JSON -->
+      <!-- Upload JSON -->
       <div class="mb-4">
-        <label class="text-white">Archivo JSON:</label>
+        <label class="text-white">JSON File:</label>
         <input
           type="file"
           accept=".json"
@@ -115,19 +135,19 @@ const uploadFile = () => {
         />
       </div>
 
-      <!-- Botones -->
+      <!-- Buttons -->
       <div class="flex justify-between mt-4">
         <button
-          @click="uploadFile"
+          @click="uploadResource"
           class="bg-green-500 text-white px-4 py-2 rounded"
         >
-          Subir
+          Upload
         </button>
         <button
           @click="$emit('close')"
           class="bg-red-500 text-white px-4 py-2 rounded"
         >
-          Cerrar
+          Close
         </button>
       </div>
     </div>

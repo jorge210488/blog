@@ -9,6 +9,7 @@ import ResourceUploadModal from "../components/resources/ResourceUploadModal.vue
 import "emoji-picker-element";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.css";
+import ResourceSelectionModal from "../components/resources/ResourceSelectionModal.vue";
 
 interface Resource {
   id: string;
@@ -35,7 +36,8 @@ interface PostForm {
   tags: Tag[];
   video_url?: string;
   status: "draft" | "published";
-  resources: Resource[]; // 🔥 Lista de IDs de recursos en vez de `jsonResource`
+  resources: string[]; // ✅ Solo IDs para enviar al backend
+  resourcesDetails: Resource[]; // ✅ Datos completos para mostrar en la UI
   images?: File[];
 }
 
@@ -51,7 +53,8 @@ const postForm = ref<PostForm>({
   tags: [],
   video_url: "",
   status: "draft",
-  resources: [], // 🔥 Ahora usamos un array de IDs de recursos
+  resources: [], // ✅ Solo IDs
+  resourcesDetails: [], // ✅ Datos completos para la UI
   images: [],
 });
 
@@ -63,15 +66,30 @@ const handleResourceUpload = (resource: {
   description: string;
   tool: string;
 }) => {
-  postForm.value.resources.push(resource);
-  toast.success(`Recurso "${resource.title}" agregado correctamente. ✅`);
+  postForm.value.resources.push(resource.id); // ✅ Solo almacenar el ID
+  postForm.value.resourcesDetails.push(resource); // ✅ Mantener datos completos para la UI
+  toast.success(`Resource "${resource.title}" added successfully. ✅`);
 };
 
 const removeResource = (resourceId: string) => {
   postForm.value.resources = postForm.value.resources.filter(
+    (id) => id !== resourceId
+  );
+  postForm.value.resourcesDetails = postForm.value.resourcesDetails.filter(
     (resource) => resource.id !== resourceId
   );
-  toast.info("Recurso eliminado.");
+  toast.info("Resource removed.");
+};
+
+const showResourceSelectionModal = ref(false);
+
+const handleSelectedResources = (selectedResources: Resource[]) => {
+  selectedResources.forEach((resource) => {
+    if (!postForm.value.resources.includes(resource.id)) {
+      postForm.value.resources.push(resource.id); // ✅ Solo IDs para backend
+      postForm.value.resourcesDetails.push(resource); // ✅ Datos completos para UI
+    }
+  });
 };
 
 const showEmojiPicker = ref(false);
@@ -125,8 +143,8 @@ const submitPost = async () => {
     postForm.value.tags.forEach((tag) => formData.append("tags", tag.id));
 
     // ✅ Enviar los recursos como objetos completos
-    postForm.value.resources.forEach((resource) => {
-      formData.append("resources", JSON.stringify(resource)); // 🔥 Convertir el objeto a JSON
+    postForm.value.resources.forEach((resourceId) => {
+      formData.append("resources", resourceId); // ✅ Solo IDs
     });
 
     // ✅ Agregar imágenes al FormData
@@ -149,7 +167,8 @@ const submitPost = async () => {
       tags: [],
       video_url: "",
       status: "draft",
-      resources: [], // 🔥 Limpiar los recursos guardados
+      resources: [],
+      resourcesDetails: [], // 🔥 Limpiar los recursos guardados
       images: [],
     };
   } catch (error) {
@@ -291,7 +310,7 @@ onMounted(fetchData);
           <!-- Fila con Video URL, Add JSON y Add Images -->
           <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
             <!-- Video URL -->
-            <div class="md:col-span-6">
+            <div class="md:col-span-4">
               <label class="text-white">Video URL</label>
               <input
                 type="text"
@@ -307,7 +326,17 @@ onMounted(fetchData);
                 @click="showResourceModal = true"
                 class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700"
               >
-                Add JSON
+                Add Resource
+              </button>
+            </div>
+
+            <div class="md:col-span-2 flex items-end">
+              <button
+                type="button"
+                @click="showResourceSelectionModal = true"
+                class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700"
+              >
+                Choose Resources
               </button>
             </div>
 
@@ -329,7 +358,7 @@ onMounted(fetchData);
             <div class="md:col-span-12 flex justify-center">
               <div class="grid grid-cols-1 md:grid-cols-6 gap-4 justify-center">
                 <div
-                  v-for="resource in postForm.resources"
+                  v-for="resource in postForm.resourcesDetails"
                   :key="resource.id"
                   class="md:col-span-2 bg-white/10 backdrop-blur-2xl border border-white/20 p-3 rounded-xl shadow-lg transition transform hover:scale-105 hover:shadow-xl flex flex-col justify-between h-26"
                 >
@@ -363,6 +392,11 @@ onMounted(fetchData);
             v-if="showResourceModal"
             @upload="handleResourceUpload"
             @close="showResourceModal = false"
+          />
+          <ResourceSelectionModal
+            v-if="showResourceSelectionModal"
+            @close="showResourceSelectionModal = false"
+            @addResources="handleSelectedResources"
           />
 
           <!-- Submit -->

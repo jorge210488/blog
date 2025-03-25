@@ -7,4 +7,9 @@ router.register(r"resources", ResourceViewSet, basename="resource")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path(
+        "resources/user/",
+        ResourceViewSet.as_view({"get": "user"}),
+        name="user-resources",
+    ),  # ✅ Nueva ruta
 ]
