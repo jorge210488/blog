@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import ResourcesView from "../views/ResourcesView.vue";
 import CategoriesView from "../views/CategoriesView.vue";
 import PostForm from "../views/PostForm.vue";
+import PostView from "../views/PostView.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -17,6 +18,10 @@ const routes = [
     path: "/create-post",
     component: PostForm,
     meta: { requiresAuth: true }, // 🔒 Solo usuarios autenticados pueden acceder
+  },
+  {
+    path: "/posts",
+    component: PostView,
   },
 ];
 

@@ -8,6 +8,12 @@ interface Category {
   slug: string;
 }
 
+export interface Tag {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface Resource {
   id: string;
   title: string;
@@ -24,13 +30,16 @@ export interface Post {
   title: string;
   slug: string;
   content: string;
+  author: string;
+  category: Category;
+  tags: Tag[];
+  images: Image[];
+  resources: Resource[]; // ✅ AÑADIDO
+  video_url?: string;
+  views: number;
+  status: "draft" | "published";
   created_at: string;
   updated_at: string;
-  category: Category;
-  resources: Resource[]; // ✅ Array de recursos con ID y URL
-  images: Image[]; // ✅ Imágenes como array
-  video_url?: string; // ✅ Puede estar vacío
-  status: "draft" | "published";
 }
 
 // 🔥 Función para obtener los headers con autenticación
@@ -50,7 +59,7 @@ export const getPosts = async (filters?: {
     if (filters?.search) params["search"] = filters.search;
     if (filters?.category) params["category__slug"] = filters.category;
 
-    const response = await api.get<Post[]>("/api/posts/", {
+    const response = await api.get<Post[]>("/api/posts/posts/", {
       params,
       headers: getAuthHeaders(), // 🔥 Agregar autenticación
     });

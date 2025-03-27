@@ -79,9 +79,9 @@ const logout = () => {
           >Categories</router-link
         >
         <router-link
-          to="/blog"
+          to="/posts"
           class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
-          >Blog</router-link
+          >Posts</router-link
         >
 
         <router-link
@@ -179,10 +179,10 @@ const logout = () => {
           >Categories</router-link
         >
         <router-link
-          to="/blog"
+          to="/posts"
           @click="toggleMobileMenu"
           class="w-full text-center"
-          >Blog</router-link
+          >Posts</router-link
         >
 
         <router-link

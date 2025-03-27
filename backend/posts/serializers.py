@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Category, Tag, Post, PostImage
+from resources.serializers import ResourceSerializer
 
 
 class PostImageSerializer(serializers.ModelSerializer):
@@ -25,6 +26,7 @@ class PostSerializer(serializers.ModelSerializer):
     images = PostImageSerializer(
         many=True, read_only=True
     )  # 🔥 Muestra imágenes existentes
+    resources = ResourceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -37,6 +39,7 @@ class PostSerializer(serializers.ModelSerializer):
             "author",
             "tags",
             "images",
+            "resources",
             "views",
             "status",
             "created_at",
@@ -46,25 +49,29 @@ class PostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         tags_data = validated_data.pop("tags", [])
-        images_data = self.context["request"].FILES.getlist(
-            "images"
-        )  # 🔥 Obtiene imágenes de la request
+        images_data = self.context["request"].FILES.getlist("images")
+
+        # 🔥 Crear post
         post = Post.objects.create(**validated_data)
         post.tags.set(tags_data)
 
+        # 🔥 Asignar recursos (ManyToManyField)
+        resources_ids = self.context["request"].data.getlist("resources")
+        if resources_ids:
+            post.resources.set(resources_ids)
+
+        # 🔥 Validar y subir imágenes
         if len(images_data) > 10:
             raise serializers.ValidationError(
                 {"images": "No puedes subir más de 10 imágenes."}
             )
 
         for image in images_data:
-            if image.size > 1024 * 1024:  # 1MB en bytes
+            if image.size > 1024 * 1024:
                 raise serializers.ValidationError(
                     {"images": "Cada imagen debe pesar menos de 1MB."}
                 )
-            PostImage.objects.create(
-                post=post, image=image
-            )  # 🔥 Se subirá a S3 automáticamente
+            PostImage.objects.create(post=post, image=image)
 
         return post
 

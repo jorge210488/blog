@@ -154,6 +154,8 @@ const submitPost = async () => {
       );
     }
 
+    console.log("📝 Resources enviados:", postForm.value.resources);
+
     // ✅ Enviar el post al backend
     await createPost(formData);
     toast.success("Post created successfully! 🎉");
