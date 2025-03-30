@@ -55,7 +55,7 @@ const filteredPosts = computed(() =>
         </div>
 
         <!-- Lista de posts -->
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col items-center gap-4 w-full">
           <PostCard v-for="post in filteredPosts" :key="post.id" :post="post" />
         </div>
       </div>

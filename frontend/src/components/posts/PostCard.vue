@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 defineProps<{
   post: {
     id: string;
@@ -6,10 +8,10 @@ defineProps<{
     slug: string;
     content: string;
     author: string;
-    category: {
+    category?: {
       id: string;
       name: string;
-    };
+    } | null;
     tags: {
       id: string;
       name: string;
@@ -30,62 +32,150 @@ defineProps<{
     updated_at: string;
   };
 }>();
+
+const showImageModal = ref(false);
+const selectedImage = ref("");
+
+const openImage = (url: string) => {
+  selectedImage.value = url;
+  showImageModal.value = true;
+};
+
+const closeImage = () => {
+  showImageModal.value = false;
+};
 </script>
 
 <template>
   <div
-    class="w-full bg-[#172a3a] border border-white/10 rounded-xl shadow-md p-4 flex gap-4 items-start"
+    class="w-full max-w-[800px] h-[520px] mx-auto bg-[#172a3a] border border-white/10 rounded-xl shadow-md px-6 py-4 flex flex-col justify-between text-white"
   >
-    <!-- Imagen -->
-    <div
-      v-if="post.images.length > 0"
-      class="w-28 h-28 rounded overflow-hidden flex-shrink-0"
-    >
-      <img
-        :src="post.images[0].image_url"
-        alt="Post Image"
-        class="object-cover w-full h-full"
-      />
+    <!-- Contenido -->
+    <div class="flex flex-col justify-between h-full">
+      <div class="flex flex-col gap-3">
+        <!-- Cabecera -->
+        <div class="flex justify-between items-center">
+          <h2 class="text-2xl font-bold">{{ post.title }}</h2>
+          <div class="text-xs text-white/60">
+            {{ new Date(post.created_at).toLocaleDateString() }}
+          </div>
+        </div>
+
+        <!-- Autor, categoría, vistas -->
+        <div class="text-sm text-white/70 flex flex-wrap gap-3">
+          <span>👤 {{ post.author }}</span>
+          <span v-if="post.category">🏷️ {{ post.category.name }}</span>
+          <span>👁️ {{ post.views }} vistas</span>
+        </div>
+
+        <!-- Contenido -->
+        <p class="text-base leading-relaxed line-clamp-3">
+          {{ post.content }}
+        </p>
+
+        <!-- Tags -->
+        <div v-if="post.tags?.length" class="flex gap-2 flex-wrap">
+          <span
+            v-for="tag in post.tags"
+            :key="tag.id"
+            class="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/20"
+          >
+            #{{ tag.name }}
+          </span>
+        </div>
+
+        <!-- Recursos -->
+        <div v-if="post.resources?.length">
+          <p class="text-sm mb-1">📎 Recursos adjuntos:</p>
+          <ul class="list-disc list-inside text-white/90 text-sm">
+            <li v-for="resource in post.resources" :key="resource.id">
+              <a
+                :href="resource.file"
+                target="_blank"
+                class="underline hover:text-white"
+              >
+                {{ resource.title }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Imágenes -->
+        <div class="mt-2 min-h-[64px]">
+          <!-- MOBILE (pantallas menores a md) -->
+          <div
+            v-if="post.images?.length"
+            class="block md:hidden overflow-x-auto whitespace-nowrap"
+          >
+            <div
+              v-for="image in post.images"
+              :key="image.id"
+              class="inline-block align-top w-12 h-12 bg-white/10 border border-white/10 rounded mr-2 cursor-pointer"
+              @click="openImage(image.image_url)"
+            >
+              <img
+                :src="image.image_url"
+                alt="Imagen"
+                class="w-full h-full object-contain block"
+              />
+            </div>
+          </div>
+
+          <!-- DESKTOP -->
+          <div
+            v-if="post.images?.length"
+            class="hidden md:grid grid-cols-6 gap-2"
+          >
+            <div
+              v-for="image in post.images"
+              :key="image.id"
+              class="w-full h-[64px] bg-white/10 border border-white/10 rounded overflow-hidden cursor-pointer"
+              @click="openImage(image.image_url)"
+            >
+              <img
+                :src="image.image_url"
+                alt="Imagen"
+                class="w-full h-full object-contain block"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="mt-4 flex gap-4">
+        <button
+          class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
+        >
+          💬 Comment
+        </button>
+        <button
+          class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
+        >
+          👍 Like
+        </button>
+        <button
+          class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
+        >
+          🔗 Share
+        </button>
+      </div>
     </div>
 
-    <!-- Contenido -->
-    <div class="flex-1">
-      <h2 class="text-white text-lg font-semibold">{{ post.title }}</h2>
-      <p class="text-white/70 text-sm line-clamp-3">{{ post.content }}</p>
-
-      <div class="text-xs text-white/50 mt-2 flex gap-2 flex-wrap">
-        <span>{{ post.author }}</span>
-        <span>• {{ new Date(post.created_at).toLocaleDateString() }}</span>
-        <span>• {{ post.views }} vistas</span>
-        <span>• {{ post.category.name }}</span>
-      </div>
-
-      <!-- Tags -->
-      <div class="mt-2 flex gap-1 flex-wrap">
-        <span
-          v-for="tag in post.tags"
-          :key="tag.id"
-          class="px-2 py-0.5 text-xs rounded-full bg-white/10 text-white border border-white/20"
-        >
-          #{{ tag.name }}
-        </span>
-      </div>
-
-      <!-- Recursos -->
-      <div v-if="post.resources.length" class="mt-3">
-        <p class="text-white/70 text-sm mb-1">Recursos:</p>
-        <ul class="list-disc list-inside text-white/90 text-sm">
-          <li v-for="resource in post.resources" :key="resource.id">
-            <a
-              :href="resource.file"
-              target="_blank"
-              class="underline hover:text-white"
-            >
-              {{ resource.title }}
-            </a>
-          </li>
-        </ul>
-      </div>
+    <!-- Modal -->
+    <!-- Modal -->
+    <div
+      v-if="showImageModal"
+      class="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+      @click.self="closeImage"
+      @keyup.esc="closeImage"
+      tabindex="0"
+    >
+      <img
+        :src="selectedImage"
+        class="max-w-full max-h-full rounded-xl"
+        alt="Imagen ampliada"
+      />
     </div>
   </div>
 </template>
