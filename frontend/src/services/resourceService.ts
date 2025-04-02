@@ -4,11 +4,11 @@ import { useUserStore } from "../store/userStore"; // ✅ Import user store
 interface Resource {
   id: string;
   title: string;
-  description?: string;
-  tool: string;
+  description?: string; // ✅ agregalo
   file: string;
-  created_at: string;
-  updated_at: string;
+  tool?: string; // opcional, si querés usarlo después
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface ResourceFilters {

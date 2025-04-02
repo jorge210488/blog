@@ -6,6 +6,7 @@ interface Category {
   id: string;
   name: string;
   slug: string;
+  description?: string; // ✅ ahora lo incluye el backend
 }
 
 export interface Tag {
@@ -17,7 +18,11 @@ export interface Tag {
 interface Resource {
   id: string;
   title: string;
-  file: string; // 🔥 URL del archivo en S3
+  description?: string; // ✅ agregalo
+  file: string;
+  tool?: string; // opcional, si querés usarlo después
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface Image {

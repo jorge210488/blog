@@ -125,8 +125,15 @@ class TagSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# serializers.py
+class CategorySimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["id", "name", "slug", "description"]
+
+
 class PostDetailSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
+    category = CategorySimpleSerializer()
     tags = TagSerializer(many=True)
     author = serializers.StringRelatedField()
     images = PostImageSerializer(
@@ -144,6 +151,35 @@ class PostDetailSerializer(serializers.ModelSerializer):
             "author",
             "tags",
             "images",
+            "views",
+            "status",
+            "created_at",
+            "updated_at",
+        ]
+
+
+# posts/serializers.py
+
+
+class PostListSerializer(serializers.ModelSerializer):
+    category = CategorySimpleSerializer()
+    tags = TagSerializer(many=True)
+    author = serializers.StringRelatedField()
+    images = PostImageSerializer(many=True, read_only=True)
+    resources = ResourceSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Post
+        fields = [
+            "id",
+            "title",
+            "slug",
+            "content",
+            "category",
+            "author",
+            "tags",
+            "images",
+            "resources",
             "views",
             "status",
             "created_at",

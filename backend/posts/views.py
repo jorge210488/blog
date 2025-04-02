@@ -8,6 +8,7 @@ from .serializers import (
     TagSerializer,
     PostSerializer,
     PostDetailSerializer,
+    PostListSerializer,
 )
 from accounts.permissions import IsAdminUserOnly
 
@@ -67,9 +68,11 @@ class PostViewSet(viewsets.ModelViewSet):
         return [IsAuthenticated()]
 
     def get_serializer_class(self):
-        if self.action in ["list", "retrieve"]:
-            return PostDetailSerializer  # 🔥 Serializador detallado para lectura
-        return PostSerializer  # 🔥 Serializador normal para escritura
+        if self.action == "retrieve":
+            return PostDetailSerializer  # 🔍 Solo para el detalle individual
+        elif self.action == "list":
+            return PostListSerializer  # ✅ Nueva clase para lista
+        return PostSerializer  # Para create/update
 
     def perform_create(self, serializer):
         """Maneja la creación del post, incluyendo imágenes y recursos en S3"""

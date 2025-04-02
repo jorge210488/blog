@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import ResourcesModal from "./ResourcesModal.vue";
 
 defineProps<{
   post: {
@@ -8,10 +9,12 @@ defineProps<{
     slug: string;
     content: string;
     author: string;
-    category?: {
+    category: {
       id: string;
       name: string;
-    } | null;
+      slug: string;
+      description?: string;
+    };
     tags: {
       id: string;
       name: string;
@@ -23,7 +26,11 @@ defineProps<{
     resources: {
       id: string;
       title: string;
+      description?: string;
       file: string;
+      tool?: string;
+      created_at?: string;
+      updated_at?: string;
     }[];
     video_url?: string;
     views: number;
@@ -43,6 +50,14 @@ const openImage = (url: string) => {
 
 const closeImage = () => {
   showImageModal.value = false;
+};
+
+const showResourcesModal = ref(false);
+const openResources = () => {
+  showResourcesModal.value = true;
+};
+const closeResources = () => {
+  showResourcesModal.value = false;
 };
 </script>
 
@@ -83,23 +98,6 @@ const closeImage = () => {
             #{{ tag.name }}
           </span>
         </div>
-
-        <!-- Recursos -->
-        <div v-if="post.resources?.length">
-          <p class="text-sm mb-1">📎 Recursos adjuntos:</p>
-          <ul class="list-disc list-inside text-white/90 text-sm">
-            <li v-for="resource in post.resources" :key="resource.id">
-              <a
-                :href="resource.file"
-                target="_blank"
-                class="underline hover:text-white"
-              >
-                {{ resource.title }}
-              </a>
-            </li>
-          </ul>
-        </div>
-
         <!-- Imágenes -->
         <div class="mt-2 min-h-[64px]">
           <!-- MOBILE (pantallas menores a md) -->
@@ -143,9 +141,9 @@ const closeImage = () => {
       </div>
 
       <!-- Botones -->
-      <div class="mt-4 flex gap-4">
+      <div class="mt-4 flex gap-0 md:gap-6">
         <button
-          class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
+          class="bg-white/10 px-2 md:px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
           💬 Comment
         </button>
@@ -159,10 +157,17 @@ const closeImage = () => {
         >
           🔗 Share
         </button>
+        <!-- Botón para abrir modal de recursos -->
+        <button
+          v-if="Array.isArray(post.resources) && post.resources.length"
+          @click="openResources"
+          class="mt-2 px-4 py-2 bg-white/10 text-sm rounded hover:bg-white/20 transition"
+        >
+          📎 Resources
+        </button>
       </div>
     </div>
 
-    <!-- Modal -->
     <!-- Modal -->
     <div
       v-if="showImageModal"
@@ -178,4 +183,10 @@ const closeImage = () => {
       />
     </div>
   </div>
+
+  <ResourcesModal
+    :show="showResourcesModal"
+    :resources="post.resources || []"
+    @close="closeResources"
+  />
 </template>
