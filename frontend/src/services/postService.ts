@@ -156,7 +156,7 @@ export const updatePost = async (
 // ✅ Eliminar un post
 export const deletePost = async (id: string) => {
   try {
-    await api.delete(`/api/posts/${id}/`, {
+    await api.delete(`/api/posts/posts/${id}/`, {
       headers: getAuthHeaders(), // 🔥 Agregar autenticación
     });
     return true;

@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import ResourcesModal from "./ResourcesModal.vue";
+import { useUserStore } from "../../store/userStore";
+import { computed } from "vue";
+import { deletePost } from "../../services/postService"; // ajusta la ruta si es necesario
+import { useRouter } from "vue-router";
 
-defineProps<{
+const router = useRouter();
+
+const props = defineProps<{
   post: {
     id: string;
     title: string;
@@ -40,6 +46,9 @@ defineProps<{
   };
 }>();
 
+const userStore = useUserStore();
+const isAuthor = computed(() => userStore.user?.email === props.post.author);
+
 const showImageModal = ref(false);
 const selectedImage = ref("");
 
@@ -58,6 +67,21 @@ const openResources = () => {
 };
 const closeResources = () => {
   showResourcesModal.value = false;
+};
+
+const handleDelete = async () => {
+  const confirmed = window.confirm(
+    "¿Estás seguro de que deseas eliminar este post?"
+  );
+  if (!confirmed) return;
+
+  const success = await deletePost(props.post.id);
+  if (success) {
+    alert("✅ Post deleted successfully");
+    router.push("/my-posts");
+  } else {
+    alert("❌ An error occurred while deleting the post");
+  }
 };
 </script>
 
@@ -164,6 +188,19 @@ const closeResources = () => {
           class="mt-2 px-4 py-2 bg-white/10 text-sm rounded hover:bg-white/20 transition"
         >
           📎 Resources
+        </button>
+      </div>
+      <div v-if="isAuthor" class="flex gap-4 justify-center md:justify-end">
+        <button
+          class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
+        >
+          ✏️ Edit
+        </button>
+        <button
+          @click="handleDelete"
+          class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
+        >
+          🗑️ Delete
         </button>
       </div>
     </div>
