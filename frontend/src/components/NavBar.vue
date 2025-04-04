@@ -100,6 +100,14 @@ const logout = () => {
         >
           📚 Resources
         </router-link>
+
+        <router-link
+          v-if="isAuthenticated && isAuthor"
+          to="/my-posts"
+          class="px-4 py-2 rounded-lg hover:bg-white hover:text-black transition"
+        >
+          My Posts
+        </router-link>
       </div>
 
       <!-- Menú de usuario en pantallas grandes -->
@@ -202,6 +210,15 @@ const logout = () => {
           class="w-full text-center"
         >
           📚 Resources
+        </router-link>
+
+        <router-link
+          v-if="isAuthenticated && isAuthor"
+          to="/my-posts"
+          @click="toggleMobileMenu"
+          class="w-full text-center"
+        >
+          My Posts
         </router-link>
 
         <!-- Menú de usuario en móviles -->

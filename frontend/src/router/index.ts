@@ -5,6 +5,8 @@ import ResourcesView from "../views/ResourcesView.vue";
 import CategoriesView from "../views/CategoriesView.vue";
 import PostForm from "../views/PostForm.vue";
 import PostView from "../views/PostView.vue";
+import CategoryPostsView from "../views/CategoryPostsView.vue";
+import MyPostView from "../views/MyPostView.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -22,6 +24,15 @@ const routes = [
   {
     path: "/posts",
     component: PostView,
+  },
+  {
+    path: "/category/:slug", // ✅ Nueva ruta dinámica por slug
+    component: CategoryPostsView,
+  },
+  {
+    path: "/my-posts",
+    component: MyPostView,
+    meta: { requiresAuth: true }, // 🔒 Solo para usuarios logueados
   },
 ];
 

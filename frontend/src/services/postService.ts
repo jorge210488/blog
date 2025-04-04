@@ -165,3 +165,22 @@ export const deletePost = async (id: string) => {
     return false;
   }
 };
+
+export const getUserPosts = async () => {
+  try {
+    const userStore = useUserStore();
+    const userId = userStore.user?.id;
+
+    if (!userId) return [];
+
+    const response = await api.get<Post[]>("/api/posts/posts/", {
+      params: { author_id: userId },
+      headers: getAuthHeaders(),
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user posts:", error);
+    return [];
+  }
+};
