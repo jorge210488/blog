@@ -143,7 +143,7 @@ export const updatePost = async (
       headers["Content-Type"] = "application/json"; // ✅ Para JSON
     }
 
-    const response = await api.put<Post>(`/api/posts/${id}/`, postData, {
+    const response = await api.put<Post>(`/api/posts/posts/${id}/`, postData, {
       headers,
     });
     return response.data;

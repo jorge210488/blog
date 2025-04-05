@@ -5,6 +5,7 @@ import { useUserStore } from "../../store/userStore";
 import { computed } from "vue";
 import { deletePost } from "../../services/postService"; // ajusta la ruta si es necesario
 import { useRouter } from "vue-router";
+import UpdatePostModal from "./UpdatePostModal.vue";
 
 const router = useRouter();
 
@@ -59,6 +60,11 @@ const openImage = (url: string) => {
 
 const closeImage = () => {
   showImageModal.value = false;
+};
+
+const showEditModal = ref(false);
+const openEditModal = () => {
+  showEditModal.value = true;
 };
 
 const showResourcesModal = ref(false);
@@ -192,6 +198,7 @@ const handleDelete = async () => {
       </div>
       <div v-if="isAuthor" class="flex gap-4 justify-center md:justify-end">
         <button
+          @click="openEditModal"
           class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
         >
           ✏️ Edit
@@ -225,5 +232,11 @@ const handleDelete = async () => {
     :show="showResourcesModal"
     :resources="post.resources || []"
     @close="closeResources"
+  />
+  <UpdatePostModal
+    v-if="showEditModal"
+    :show="showEditModal"
+    :post="post"
+    @close="showEditModal = false"
   />
 </template>
