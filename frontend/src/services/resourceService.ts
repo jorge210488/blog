@@ -1,17 +1,18 @@
 import api from "./api";
-import { useUserStore } from "../store/userStore"; // ✅ Import user store
+import { useUserStore } from "../store/userStore";
 
-interface Resource {
+export interface Resource {
   id: string;
   title: string;
-  description?: string; // ✅ agregalo
+  description?: string;
   file: string;
-  tool?: string; // opcional, si querés usarlo después
+  tool?: string;
+  user_id: string; // 👈 nuevo campo del dueño del recurso
   created_at?: string;
   updated_at?: string;
 }
 
-interface ResourceFilters {
+export interface ResourceFilters {
   search?: string;
   tool?: string;
   sortBy?: "updated_at" | "-updated_at"; // Ensure allowed values
@@ -119,5 +120,36 @@ export const deleteResource = async (id: string) => {
   } catch (error) {
     console.error(`Error deleting resource ${id}:`, error);
     return false;
+  }
+};
+
+export const downloadResourceFile = async (id: string) => {
+  try {
+    const userStore = useUserStore();
+
+    if (!userStore.token) {
+      console.error("User is not authenticated.");
+      return;
+    }
+
+    const response = await api.get(`/api/resources/${id}/download/`, {
+      responseType: "blob", // 👈 para descargar archivos
+      headers: {
+        Authorization: `Bearer ${userStore.token}`,
+      },
+    });
+
+    // 🔽 Descargar el archivo automáticamente en el navegador
+    const blob = new Blob([response.data], { type: "application/json" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `resource_${id}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading resource file:", error);
   }
 };

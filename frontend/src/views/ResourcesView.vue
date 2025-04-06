@@ -3,24 +3,7 @@ import { ref, onMounted } from "vue";
 import ResourceFilter from "../components/resources/ResourceFilter.vue";
 import ResourceList from "../components/resources/ResourceList.vue";
 import { getResources } from "../services/resourceService.ts";
-
-// Interfaz del recurso
-interface Resource {
-  id: string;
-  title: string;
-  description?: string;
-  tool: string;
-  file: string;
-  created_at: string;
-  updated_at: string;
-}
-
-// Interfaz de los filtros
-interface ResourceFilters {
-  search?: string;
-  tool?: string;
-  sortBy?: "-updated_at" | "updated_at";
-}
+import type { Resource, ResourceFilters } from "../services/resourceService";
 
 // Estado de los recursos
 const resources = ref<Resource[]>([]);

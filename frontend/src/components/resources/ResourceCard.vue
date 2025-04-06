@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-
-// Definimos la estructura esperada del recurso
-interface Resource {
-  id: string;
-  title: string;
-  description?: string;
-  file: string;
-}
+import type { Resource } from "../../services/resourceService";
+import { downloadResourceFile } from "../../services/resourceService";
 
 // Definimos las props con tipado estricto
 defineProps({
@@ -26,12 +20,11 @@ defineProps({
     <p v-if="resource.description" class="text-gray-300 text-sm mt-2">
       {{ resource.description }}
     </p>
-    <a
-      :href="resource.file"
-      target="_blank"
+    <button
+      @click="downloadResourceFile(resource.id)"
       class="block mt-4 text-blue-400 hover:text-blue-300 font-semibold"
     >
-      📥 Descargar Recurso
-    </a>
+      📥 Download
+    </button>
   </div>
 </template>
