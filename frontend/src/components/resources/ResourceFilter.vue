@@ -55,8 +55,17 @@ watch(showUploadModal, (value) => {
       >
         <option value="">All Tools</option>
         <option value="Relevance AI">Relevance AI</option>
+        <option value="Retell AI">Retell AI</option>
         <option value="Make">Make</option>
         <option value="n8n">n8n</option>
+        <option value="Flowise">Flowise</option>
+        <option value="LangChain">LangChain</option>
+        <option value="Voiceflow">Voiceflow</option>
+        <option value="Dialogflow">Dialogflow</option>
+        <option value="Wit.ai">Wit.ai</option>
+        <option value="AgentOps">AgentOps</option>
+        <option value="AutoGPT">AutoGPT</option>
+        <option value="Custom">Custom</option>
         <option value="Other">Other</option>
       </select>
 

@@ -14,8 +14,17 @@ def resource_file_path(instance, filename):
 class Resource(models.Model):
     TOOL_CHOICES = [
         ("Relevance AI", "Relevance AI"),
+        ("Retell AI", "Retell AI"),
         ("Make", "Make"),
         ("n8n", "n8n"),
+        ("Flowise", "Flowise"),
+        ("LangChain", "LangChain"),
+        ("Voiceflow", "Voiceflow"),
+        ("Dialogflow", "Dialogflow"),
+        ("Wit.ai", "Wit.ai"),
+        ("AgentOps", "AgentOps"),
+        ("AutoGPT", "AutoGPT"),
+        ("Custom", "Custom"),
         ("Other", "Other"),
     ]
 

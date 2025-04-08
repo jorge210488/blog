@@ -47,6 +47,23 @@ const props = defineProps<{
   };
 }>();
 
+const getEmbedUrl = (video_url?: string) => {
+  if (!video_url) return "";
+
+  try {
+    // Si es una URL completa con v= param
+    const url = new URL(video_url);
+    const videoId = url.searchParams.get("v");
+    if (videoId) return `https://www.youtube.com/embed/${videoId}`;
+  } catch {
+    // Si es un link acortado tipo youtu.be/nmz7cyvj7Zc
+    const match = video_url.match(/youtu\.be\/([^\?&]+)/);
+    if (match) return `https://www.youtube.com/embed/${match[1]}`;
+  }
+
+  return "";
+};
+
 const userStore = useUserStore();
 const isAuthor = computed(() => userStore.user?.email === props.post.author);
 
@@ -93,7 +110,7 @@ const handleDelete = async () => {
 
 <template>
   <div
-    class="w-full max-w-[800px] h-[520px] mx-auto bg-[#172a3a] border border-white/10 rounded-xl shadow-md px-6 py-4 flex flex-col justify-between text-white"
+    class="w-full max-w-[800px] min-h-[520px] mx-auto bg-[#172a3a] border border-white/10 rounded-xl shadow-md px-6 py-4 flex flex-col justify-between text-white"
   >
     <!-- Contenido -->
     <div class="flex flex-col justify-between h-full">
@@ -106,28 +123,77 @@ const handleDelete = async () => {
           </div>
         </div>
 
-        <!-- Autor, categoría, vistas -->
-        <div class="text-sm text-white/70 flex flex-wrap gap-3">
-          <span>👤 {{ post.author }}</span>
-          <span v-if="post.category">🏷️ {{ post.category.name }}</span>
-          <span>👁️ {{ post.views }} vistas</span>
-        </div>
+        <!-- Info principal en columnas -->
+        <div class="flex flex-col md:flex-row gap-6">
+          <!-- Columna izquierda -->
+          <div class="flex-1 flex flex-col gap-4">
+            <!-- Fila 1: autor, categoría, vistas -->
+            <div class="text-sm text-white/70 flex flex-wrap gap-3">
+              <span>👤 {{ post.author }}</span>
+              <span v-if="post.category">🏷️ {{ post.category.name }}</span>
+              <span>👁️ {{ post.views }} vistas</span>
+            </div>
 
-        <!-- Contenido -->
-        <p class="text-base leading-relaxed line-clamp-3">
-          {{ post.content }}
-        </p>
+            <!-- Fila 2: contenido -->
+            <p class="text-base leading-relaxed">
+              {{ post.content }}
+            </p>
 
-        <!-- Tags -->
-        <div v-if="post.tags?.length" class="flex gap-2 flex-wrap">
-          <span
-            v-for="tag in post.tags"
-            :key="tag.id"
-            class="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/20"
+            <!-- Fila 3: tags -->
+            <div v-if="post.tags?.length" class="flex gap-2 flex-wrap">
+              <span
+                v-for="tag in post.tags"
+                :key="tag.id"
+                class="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/20"
+              >
+                #{{ tag.name }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Columna derecha: video -->
+
+          <!-- Versión para pantallas pequeñas -->
+          <div
+            v-if="post.video_url"
+            class="block md:hidden mt-4 flex justify-center items-start"
           >
-            #{{ tag.name }}
-          </span>
+            <div
+              class="w-full max-w-[600px] aspect-[16/9] rounded-lg overflow-hidden border border-white/20"
+            >
+              <iframe
+                class="w-full h-full"
+                :src="getEmbedUrl(post.video_url)"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+
+          <!-- Versión para pantallas md y mayores -->
+          <div
+            v-if="post.video_url"
+            class="hidden md:flex mt-0 md:pr-20 justify-center items-start"
+          >
+            <div
+              style="width: 600px; height: 345px"
+              class="rounded-lg overflow-hidden border border-white/20"
+            >
+              <iframe
+                width="600"
+                height="345"
+                :src="getEmbedUrl(post.video_url)"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
         </div>
+
         <!-- Imágenes -->
         <div class="mt-2 min-h-[64px]">
           <!-- MOBILE (pantallas menores a md) -->
