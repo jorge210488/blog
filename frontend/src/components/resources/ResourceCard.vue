@@ -1,15 +1,35 @@
 <script setup lang="ts">
-import type { PropType } from "vue";
 import type { Resource } from "../../services/resourceService";
-import { downloadResourceFile } from "../../services/resourceService";
+import {
+  downloadResourceFile,
+  deleteResource,
+} from "../../services/resourceService";
+import { useUserStore } from "../../store/userStore";
+import { computed } from "vue";
 
-// Definimos las props con tipado estricto
-defineProps({
-  resource: {
-    type: Object as PropType<Resource>,
-    required: true,
-  },
-});
+// Props
+const props = defineProps<{ resource: Resource }>();
+const resource = props.resource;
+
+// User store
+const userStore = useUserStore();
+const isOwner = computed(() => userStore.user?.id === resource.user_id);
+
+// Eliminar recurso
+const handleDelete = async () => {
+  const confirmed = window.confirm(
+    "¿Estás seguro de que deseas eliminar este recurso?"
+  );
+  if (!confirmed) return;
+
+  const success = await deleteResource(resource.id);
+  if (success) {
+    alert("✅ Recurso eliminado exitosamente");
+    window.location.reload(); // o emite un evento si prefieres
+  } else {
+    alert("❌ Ocurrió un error al eliminar el recurso");
+  }
+};
 </script>
 
 <template>
@@ -20,11 +40,23 @@ defineProps({
     <p v-if="resource.description" class="text-gray-300 text-sm mt-2">
       {{ resource.description }}
     </p>
-    <button
-      @click="downloadResourceFile(resource.id)"
-      class="block mt-4 text-blue-400 hover:text-blue-300 font-semibold"
-    >
-      📥 Download
-    </button>
+
+    <!-- Botones de acción -->
+    <div class="mt-4 flex justify-between items-center">
+      <button
+        @click="downloadResourceFile(resource.id)"
+        class="px-4 py-2 text-sm rounded-lg bg-white/10 hover:bg-white/20 text-blue-400 hover:text-blue-300 transition"
+      >
+        📥 Descargar
+      </button>
+
+      <button
+        v-if="isOwner"
+        @click="handleDelete"
+        class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black text-white transition text-sm"
+      >
+        🗑️ Eliminar
+      </button>
+    </div>
   </div>
 </template>

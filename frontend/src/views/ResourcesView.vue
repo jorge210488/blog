@@ -35,7 +35,7 @@ onMounted(fetchResources);
     <!-- Contenedor del video -->
     <div class="absolute inset-0 w-full min-h-screen h-auto">
       <video
-        class="absolute top-0 left-0 w-full h-full min-h-screen object-cover"
+        class="pointer-events-none absolute top-0 left-0 w-full h-full min-h-screen object-cover"
         autoplay
         muted
         loop
@@ -58,7 +58,7 @@ onMounted(fetchResources);
     </div>
 
     <!-- Contenedor de los componentes sobre el video -->
-    <div class="relative z-20 w-full px-6">
+    <div class="relative w-full px-6">
       <div
         class="container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col gap-6"
       >
