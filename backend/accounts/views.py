@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.shortcuts import redirect
 from .models import User, Credential
 from .serializers import UserSerializer, CredentialSerializer, LoginSerializer
 from rest_framework.views import APIView
@@ -78,19 +79,23 @@ class CredentialViewSet(viewsets.ModelViewSet):
             return [IsAuthenticated()]
         return super().get_permissions()
 
-    @action(detail=True, methods=["patch"], url_path="verify")
+    @action(
+        detail=True,
+        methods=["get", "patch"],
+        url_path="verify",
+        permission_classes=[AllowAny],
+    )
     def verify_account(self, request, id=None):
         credential = self.get_object()
+
         if credential.is_verified:
-            return Response(
-                {"message": "Account is already verified."}, status=status.HTTP_200_OK
-            )
+            return Response({"message": "Account is already verified."}, status=200)
 
         credential.is_verified = True
         credential.save()
-        return Response(
-            {"message": "Account successfully verified."}, status=status.HTTP_200_OK
-        )
+
+        # 🔁 Opcional: redirigir a tu frontend
+        return redirect("https://youtube.com")
 
 
 class LoginView(APIView):

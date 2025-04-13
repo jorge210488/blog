@@ -4,6 +4,7 @@ import Profile from "./Profile.vue";
 import LoginModal from "./LoginModal.vue";
 import { useUserStore } from "../store/userStore";
 import { useRouter, useRoute } from "vue-router";
+import SignupModal from "./SignupModal.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -40,6 +41,11 @@ const openProfileModal = () => {
 // ✅ Usar `userStore.showLoginModal`
 const openLoginModal = () => {
   userStore.showLoginModal = true;
+};
+
+const showSignupModal = ref(false);
+const openSignupModal = () => {
+  showSignupModal.value = true;
 };
 
 // ✅ Cerrar menú móvil al hacer logout
@@ -149,12 +155,13 @@ const logout = () => {
 
       <!-- Botón de login en pantallas grandes -->
       <div v-else class="hidden md:flex space-x-4">
-        <router-link
-          to="/signup"
+        <button
+          @click="openSignupModal"
           class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition"
         >
           Sign Up
-        </router-link>
+        </button>
+
         <button
           @click="openLoginModal"
           class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition"
@@ -242,12 +249,16 @@ const logout = () => {
 
         <!-- Menú de login/signup en móviles -->
         <div v-else class="flex flex-col items-center w-full space-y-4 mt-4">
-          <router-link
-            to="/signup"
-            @click="toggleMobileMenu"
+          <button
+            @click="
+              toggleMobileMenu();
+              openSignupModal();
+            "
             class="w-full text-center"
-            >Sign Up</router-link
           >
+            Sign Up
+          </button>
+
           <button @click="openLoginModal" class="w-full text-center">
             Login
           </button>
@@ -262,6 +273,7 @@ const logout = () => {
     v-if="userStore.showLoginModal"
     @close="userStore.showLoginModal = false"
   />
+  <SignupModal v-if="showSignupModal" @close="showSignupModal = false" />
 </template>
 
 <style>
