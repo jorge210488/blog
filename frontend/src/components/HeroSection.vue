@@ -32,7 +32,7 @@ const currentDate = ref(formatDate(new Date()));
     <!-- Video de fondo -->
     <video class="w-full h-full object-cover" autoplay muted loop playsinline>
       <source src="/IA.mp4" type="video/mp4" />
-      Tu navegador no soporta la reproducción de videos.
+      Your browser does not support video playback.
     </video>
 
     <!-- Capa de superposición -->
@@ -40,7 +40,7 @@ const currentDate = ref(formatDate(new Date()));
       class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white text-center"
     >
       <h1 class="text-xl sm:text-5xl font-bold sm:pt-0 pt-10 sm:px-4 sm:py-2">
-        SOBRE LA INTELIGENCIA ARTIFICIAL
+        ABOUT ARTIFICIAL INTELLIGENCE
       </h1>
       <h2 class="text-2xl sm:text-3xl font-bold px-4 py-2 mt-2">IA AGENTS</h2>
       <span class="text-lg italic bg-pink-300 px-4 py-1 rounded-lg mt-4">
