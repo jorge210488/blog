@@ -1,4 +1,11 @@
 import api from "./api";
+import { useUserStore } from "../store/userStore";
+
+const getAuthHeaders = () => {
+  const userStore = useUserStore();
+  const token = userStore.token;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
 
 export interface Like {
   id: string;
@@ -10,7 +17,9 @@ export interface Like {
 // ✅ Obtener todos los likes (por el usuario autenticado)
 export const getLikes = async (): Promise<Like[]> => {
   try {
-    const response = await api.get<Like[]>("/api/interactions/likes/");
+    const response = await api.get<Like[]>("/api/interactions/likes/", {
+      headers: getAuthHeaders(),
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching likes:", error);
@@ -18,12 +27,13 @@ export const getLikes = async (): Promise<Like[]> => {
   }
 };
 
-// ✅ Dar like a un post
 export const likePost = async (postId: string): Promise<Like | null> => {
   try {
-    const response = await api.post<Like>("/api/interactions/likes/", {
-      post: postId,
-    });
+    const response = await api.post<Like>(
+      "/api/interactions/likes/",
+      { post: postId },
+      { headers: getAuthHeaders() }
+    );
     return response.data;
   } catch (error) {
     console.error(`Error liking post ${postId}:`, error);
@@ -31,10 +41,11 @@ export const likePost = async (postId: string): Promise<Like | null> => {
   }
 };
 
-// ✅ Eliminar un like (deshacer el like)
 export const unlikePost = async (likeId: string): Promise<boolean> => {
   try {
-    await api.delete(`/api/interactions/likes/${likeId}/`);
+    await api.delete(`/api/interactions/likes/${likeId}/`, {
+      headers: getAuthHeaders(),
+    });
     return true;
   } catch (error) {
     console.error(`Error unliking like ${likeId}:`, error);
@@ -45,7 +56,10 @@ export const unlikePost = async (likeId: string): Promise<boolean> => {
 export const getLikesByPost = async (postId: string): Promise<Like[]> => {
   try {
     const response = await api.get<Like[]>(
-      `/api/interactions/likes/by-post/${postId}/`
+      `/api/interactions/likes/by-post/${postId}/`,
+      {
+        headers: getAuthHeaders(),
+      }
     );
     return response.data;
   } catch (error) {

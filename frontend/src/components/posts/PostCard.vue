@@ -1,11 +1,34 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { onMounted } from "vue";
 import ResourcesModal from "./ResourcesModal.vue";
 import { useUserStore } from "../../store/userStore";
 import { computed } from "vue";
 import { deletePost } from "../../services/postService"; // ajusta la ruta si es necesario
 import { useRouter } from "vue-router";
 import UpdatePostModal from "./UpdatePostModal.vue";
+import {
+  getLikesByPost,
+  likePost,
+  unlikePost,
+  type Like,
+} from "../../services/likeService";
+
+const likes = ref<Like[]>([]);
+const liked = ref(false);
+const likeId = ref<string | null>(null);
+const likeCount = computed(() => likes.value.length);
+
+const fetchLikes = async () => {
+  const result = await getLikesByPost(props.post.id);
+  likes.value = result;
+
+  const match = result.find((like) => like.user === userStore.user?.id);
+  if (match) {
+    liked.value = true;
+    likeId.value = match.id;
+  }
+};
 
 const router = useRouter();
 
@@ -104,6 +127,33 @@ const handleDelete = async () => {
     router.push("/my-posts");
   } else {
     alert("❌ An error occurred while deleting the post");
+  }
+};
+
+onMounted(fetchLikes);
+
+const handleLikeClick = async () => {
+  if (!userStore.user) {
+    alert("Debes iniciar sesión para dar like");
+    return;
+  }
+
+  if (liked.value && likeId.value) {
+    const oldLikeId = likeId.value; // ✅ Guarda antes de limpiar
+
+    const success = await unlikePost(oldLikeId);
+    if (success) {
+      liked.value = false;
+      likeId.value = null;
+      likes.value = likes.value.filter((like) => like.id !== oldLikeId); // ✅ Filtra correctamente
+    }
+  } else {
+    const newLike = await likePost(props.post.id);
+    if (newLike) {
+      liked.value = true;
+      likeId.value = newLike.id;
+      likes.value.push(newLike);
+    }
   }
 };
 </script>
@@ -244,10 +294,12 @@ const handleDelete = async () => {
           💬 Comment
         </button>
         <button
+          @click="handleLikeClick"
           class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
-          👍 Like
+          {{ liked ? "❤️ Liked" : "🤍 Like" }} ({{ likeCount }})
         </button>
+
         <button
           class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
