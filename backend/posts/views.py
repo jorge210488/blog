@@ -1,6 +1,8 @@
 from django.db.models import Count
 from rest_framework import viewsets, filters, serializers
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Category, Tag, Post, PostImage
 from .serializers import (
@@ -11,6 +13,7 @@ from .serializers import (
     PostListSerializer,
 )
 from accounts.permissions import IsAdminUserOnly
+from django.shortcuts import get_object_or_404
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -95,3 +98,14 @@ class PostViewSet(viewsets.ModelViewSet):
             )  # 🔥 Sube a S3 automáticamente
 
         return post
+
+    @action(detail=False, methods=["get"], url_path="by-slug/(?P<slug>[^/.]+)")
+    def get_by_slug(self, request, slug=None):
+        post = get_object_or_404(
+            Post.objects.select_related("category", "author").prefetch_related(
+                "tags", "images", "resources"
+            ),
+            slug=slug,
+        )
+        serializer = PostDetailSerializer(post, context={"request": request})
+        return Response(serializer.data)

@@ -184,3 +184,15 @@ export const getUserPosts = async () => {
     return [];
   }
 };
+
+export const getPostBySlug = async (slug: string): Promise<Post | null> => {
+  try {
+    const response = await api.get<Post>(`/api/posts/posts/by-slug/${slug}/`, {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching post with slug '${slug}':`, error);
+    return null;
+  }
+};

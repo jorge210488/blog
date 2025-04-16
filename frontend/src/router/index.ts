@@ -7,6 +7,7 @@ import PostForm from "../views/PostForm.vue";
 import PostView from "../views/PostView.vue";
 import CategoryPostsView from "../views/CategoryPostsView.vue";
 import MyPostView from "../views/MyPostView.vue";
+import PostDetailView from "../views/PostDetailView.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -19,7 +20,11 @@ const routes = [
   {
     path: "/create-post",
     component: PostForm,
-    meta: { requiresAuth: true }, // 🔒 Solo usuarios autenticados pueden acceder
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/posts/:slug",
+    component: PostDetailView,
   },
   {
     path: "/posts",

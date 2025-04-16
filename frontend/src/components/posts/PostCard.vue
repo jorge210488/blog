@@ -156,6 +156,19 @@ const handleLikeClick = async () => {
     }
   }
 };
+
+const handleShare = async () => {
+  const baseUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
+  const fullUrl = `${baseUrl.replace(/\/$/, "")}/posts/${props.post.slug}`;
+
+  try {
+    await navigator.clipboard.writeText(fullUrl);
+    alert("🔗 Link copied to clipboard!");
+  } catch (err) {
+    console.error("❌ Failed to copy:", err);
+    alert("❌ Could not copy the link");
+  }
+};
 </script>
 
 <template>
@@ -228,12 +241,12 @@ const handleLikeClick = async () => {
             class="hidden md:flex mt-0 md:pr-20 justify-center items-start"
           >
             <div
-              style="width: 600px; height: 345px"
+              style="width: 500px; height: 285px"
               class="rounded-lg overflow-hidden border border-white/20"
             >
               <iframe
-                width="600"
-                height="345"
+                width="500"
+                height="285"
                 :src="getEmbedUrl(post.video_url)"
                 title="YouTube video"
                 frameborder="0"
@@ -268,12 +281,12 @@ const handleLikeClick = async () => {
           <!-- DESKTOP -->
           <div
             v-if="post.images?.length"
-            class="hidden md:grid grid-cols-6 gap-2"
+            class="hidden md:grid grid-cols-8 gap-2"
           >
             <div
               v-for="image in post.images"
               :key="image.id"
-              class="w-full h-[64px] bg-white/10 border border-white/10 rounded overflow-hidden cursor-pointer"
+              class="w-full h-[32px] bg-white/10 border border-white/10 rounded overflow-hidden cursor-pointer"
               @click="openImage(image.image_url)"
             >
               <img
@@ -287,7 +300,8 @@ const handleLikeClick = async () => {
       </div>
 
       <!-- Botones -->
-      <div class="mt-4 flex gap-0 md:gap-6">
+      <div class="mt-4 flex flex-wrap items-center gap-2 md:gap-4">
+        <!-- Left-side buttons -->
         <button
           class="bg-white/10 px-2 md:px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
@@ -299,34 +313,37 @@ const handleLikeClick = async () => {
         >
           {{ liked ? "❤️ Liked" : "🤍 Like" }} ({{ likeCount }})
         </button>
-
         <button
+          @click="handleShare"
           class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
           🔗 Share
         </button>
-        <!-- Botón para abrir modal de recursos -->
         <button
           v-if="Array.isArray(post.resources) && post.resources.length"
           @click="openResources"
-          class="mt-2 px-4 py-2 bg-white/10 text-sm rounded hover:bg-white/20 transition"
+          class="px-4 py-2 bg-white/10 text-sm rounded hover:bg-white/20 transition"
         >
           📎 Resources
         </button>
-      </div>
-      <div v-if="isAuthor" class="flex gap-4 justify-center md:justify-end">
-        <button
-          @click="openEditModal"
-          class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
-        >
-          ✏️ Edit
-        </button>
-        <button
-          @click="handleDelete"
-          class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
-        >
-          🗑️ Delete
-        </button>
+
+        <!-- Right-side (author only) -->
+        <template v-if="isAuthor">
+          <div class="ml-auto flex gap-2">
+            <button
+              @click="openEditModal"
+              class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
+            >
+              ✏️ Edit
+            </button>
+            <button
+              @click="handleDelete"
+              class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
+            >
+              🗑️ Delete
+            </button>
+          </div>
+        </template>
       </div>
     </div>
 

@@ -47,7 +47,7 @@ const handleDelete = async () => {
         @click="downloadResourceFile(resource.id)"
         class="px-4 py-2 text-sm rounded-lg bg-white/10 hover:bg-white/20 text-blue-400 hover:text-blue-300 transition"
       >
-        📥 Descargar
+        📥 Download
       </button>
 
       <button
