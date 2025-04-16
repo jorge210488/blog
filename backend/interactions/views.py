@@ -21,6 +21,15 @@ class CommentViewSet(viewsets.ModelViewSet):
             user=self.request.user
         )  # Asigna automáticamente el usuario autenticado
 
+    @action(detail=False, methods=["get"], url_path="by-post/(?P<post_id>[^/.]+)")
+    def by_post(self, request, post_id=None):
+        # 🔥 Solo comentarios raíz (sin parent_comment)
+        comments = Comment.objects.filter(
+            post_id=post_id, parent_comment__isnull=True
+        ).order_by("created_at")
+        serializer = self.get_serializer(comments, many=True)
+        return Response(serializer.data)
+
 
 class LikeViewSet(viewsets.ModelViewSet):
     queryset = Like.objects.all()

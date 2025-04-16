@@ -288,10 +288,14 @@ onMounted(fetchData);
             <label class="text-white">Content</label>
             <textarea
               v-model="postForm.content"
+              maxlength="800"
               @focus="openEmojiPicker('content', $event)"
               class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
               rows="5"
             ></textarea>
+            <p class="text-sm text-white text-right">
+              {{ postForm.content.length }}/800 characters
+            </p>
           </div>
 
           <!-- Tags -->
