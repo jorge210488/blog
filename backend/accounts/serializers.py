@@ -3,6 +3,8 @@ from django.contrib.auth.hashers import check_password
 from .models import User, Credential
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
+from backend.storage_backends import AvatarStorage
+import uuid
 
 
 class CredentialSerializer(serializers.ModelSerializer):
@@ -150,3 +152,24 @@ class LoginSerializer(serializers.Serializer):
                 "img_url": user.img_url,
             },
         }
+
+
+class AvatarUploadSerializer(serializers.Serializer):
+    avatar = serializers.ImageField()
+
+    def update(self, instance, validated_data):
+        avatar_file = validated_data["avatar"]
+
+        # Guardar la imagen con un nombre único
+        filename = f"{uuid.uuid4()}.{avatar_file.name.split('.')[-1]}"
+        storage = AvatarStorage()
+        saved_path = storage.save(filename, avatar_file)
+
+        # Obtener URL pública
+        avatar_url = storage.url(saved_path)
+
+        # Guardar la URL en el usuario
+        instance.img_url = avatar_url
+        instance.save()
+
+        return instance

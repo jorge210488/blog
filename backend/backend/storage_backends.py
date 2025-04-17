@@ -18,3 +18,11 @@ class ImageStorage(S3Boto3Storage):
     bucket_name = "jam-blog-images"
     location = "images"
     file_overwrite = False
+
+
+class AvatarStorage(S3Boto3Storage):
+    """Almacenamiento para fotos de perfil"""
+
+    bucket_name = "jam-user-avatars"
+    location = "avatars"
+    file_overwrite = False

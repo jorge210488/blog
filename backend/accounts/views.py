@@ -3,7 +3,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import redirect
 from .models import User, Credential
-from .serializers import UserSerializer, CredentialSerializer, LoginSerializer
+from .serializers import (
+    UserSerializer,
+    CredentialSerializer,
+    LoginSerializer,
+    AvatarUploadSerializer,
+)
 from rest_framework.views import APIView
 from utils.email import send_verification_email
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -65,6 +70,16 @@ class UserViewSet(viewsets.ModelViewSet):
             verification_url=verify_url,
             template_id=template_id,  # ✅ Aquí incluimos el template_id
         )
+
+    @action(detail=True, methods=["post"], url_path="upload-avatar")
+    def upload_avatar(self, request, id=None):
+        user = self.get_object()
+        serializer = AvatarUploadSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.update(user, serializer.validated_data)
+            return Response({"img_url": user.img_url}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CredentialViewSet(viewsets.ModelViewSet):

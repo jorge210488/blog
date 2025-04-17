@@ -8,7 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
 from django.core.files.storage import default_storage
-from backend.storage_backends import ImageStorage, ResourceStorage
+from backend.storage_backends import ImageStorage, ResourceStorage, AvatarStorage
 
 pymysql.install_as_MySQLdb()
 load_dotenv()
@@ -26,6 +26,8 @@ AWS_IMAGES_BUCKET_NAME = os.getenv("AWS_IMAGES_BUCKET_NAME")  # Bucket para imá
 AWS_RESOURCES_BUCKET_NAME = os.getenv(
     "AWS_RESOURCES_BUCKET_NAME"
 )  # Bucket para resources
+AWS_AVATARS_BUCKET_NAME = os.getenv("AWS_AVATARS_BUCKET_NAME")  # Bucket para avatares
+
 
 # ✅ Configuración avanzada de S3
 AWS_QUERYSTRING_AUTH = False  # Permitir acceso a archivos sin firma temporal
@@ -45,10 +47,15 @@ MEDIA_URL = (
     f"https://{AWS_IMAGES_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/images/"
 )
 RESOURCES_URL = f"https://{AWS_RESOURCES_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/resources/"
+AVATARS_URL = (
+    f"https://{AWS_AVATARS_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/avatars/"
+)
 
-# 🔥 🔥 🔥 Se inicializan ambos storages para que no se rompa `ResourceStorage`
+
+# 🔥 🔥 🔥 Se inicializan storages para que no se rompa `ResourceStorage`
 default_storage._wrapped = ImageStorage()
 resource_storage = ResourceStorage()
+avatar_storage = AvatarStorage()
 
 print(
     f"✅ DEFAULT_FILE_STORAGE en tiempo de ejecución: {default_storage.__class__.__name__}"
