@@ -24,7 +24,7 @@ const getAuthHeaders = () => {
 export const getCommentsByPost = async (postId: string): Promise<Comment[]> => {
   try {
     const response = await api.get<Comment[]>(
-      `/api/comments/by-post/${postId}/`,
+      `/api/interactions/comments/by-post/${postId}/`,
       { headers: getAuthHeaders() }
     );
     return response.data;
@@ -41,9 +41,13 @@ export const createComment = async (commentData: {
   parent_comment?: string;
 }): Promise<Comment | null> => {
   try {
-    const response = await api.post<Comment>("/api/comments/", commentData, {
-      headers: getAuthHeaders(),
-    });
+    const response = await api.post<Comment>(
+      "/api/interactions/comments/",
+      commentData,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error creating comment:", error);
@@ -58,7 +62,7 @@ export const updateComment = async (
 ): Promise<Comment | null> => {
   try {
     const response = await api.put<Comment>(
-      `/api/comments/${commentId}/`,
+      `/api/interactions/comments/${commentId}/`,
       { content },
       { headers: getAuthHeaders() }
     );
@@ -72,7 +76,7 @@ export const updateComment = async (
 // 🔹 Delete a comment
 export const deleteComment = async (commentId: string): Promise<boolean> => {
   try {
-    await api.delete(`/api/comments/${commentId}/`, {
+    await api.delete(`/api/interactions/comments/${commentId}/`, {
       headers: getAuthHeaders(),
     });
     return true;

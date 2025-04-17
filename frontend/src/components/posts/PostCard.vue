@@ -7,6 +7,7 @@ import { computed } from "vue";
 import { deletePost } from "../../services/postService"; // ajusta la ruta si es necesario
 import { useRouter } from "vue-router";
 import UpdatePostModal from "./UpdatePostModal.vue";
+import CommentsModal from "../comments/CommentsModal.vue";
 import {
   getLikesByPost,
   likePost,
@@ -18,6 +19,7 @@ const likes = ref<Like[]>([]);
 const liked = ref(false);
 const likeId = ref<string | null>(null);
 const likeCount = computed(() => likes.value.length);
+const showCommentsModal = ref(false);
 
 const fetchLikes = async () => {
   const result = await getLikesByPost(props.post.id);
@@ -303,10 +305,12 @@ const handleShare = async () => {
       <div class="mt-4 flex flex-wrap items-center gap-2 md:gap-4">
         <!-- Left-side buttons -->
         <button
+          @click="showCommentsModal = true"
           class="bg-white/10 px-2 md:px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
           💬 Comment
         </button>
+
         <button
           @click="handleLikeClick"
           class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
@@ -373,5 +377,10 @@ const handleShare = async () => {
     :show="showEditModal"
     :post="post"
     @close="showEditModal = false"
+  />
+  <CommentsModal
+    :post-id="post.id"
+    :show="showCommentsModal"
+    @close="showCommentsModal = false"
   />
 </template>
