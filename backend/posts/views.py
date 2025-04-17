@@ -1,10 +1,10 @@
 from django.db.models import Count
-from rest_framework import viewsets, filters, serializers
+from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Category, Tag, Post, PostImage
+from .models import Category, Tag, Post
 from .serializers import (
     CategorySerializer,
     TagSerializer,
@@ -78,26 +78,7 @@ class PostViewSet(viewsets.ModelViewSet):
         return PostSerializer  # Para create/update
 
     def perform_create(self, serializer):
-        """Maneja la creación del post, incluyendo imágenes y recursos en S3"""
-        post = serializer.save(author=self.request.user)
-
-        # 🔹 Obtener imágenes desde la request
-        images_data = self.request.FILES.getlist("images")
-        if len(images_data) > 10:
-            raise serializers.ValidationError(
-                {"images": "No puedes subir más de 10 imágenes."}
-            )
-
-        for image in images_data:
-            if image.size > 1024 * 1024:  # 1MB en bytes
-                raise serializers.ValidationError(
-                    {"images": "Cada imagen debe pesar menos de 1MB."}
-                )
-            PostImage.objects.create(
-                post=post, image=image
-            )  # 🔥 Sube a S3 automáticamente
-
-        return post
+        serializer.save(author=self.request.user)
 
     @action(detail=False, methods=["get"], url_path="by-slug/(?P<slug>[^/.]+)")
     def get_by_slug(self, request, slug=None):
