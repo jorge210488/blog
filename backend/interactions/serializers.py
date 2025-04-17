@@ -4,25 +4,24 @@ from .models import Comment, Like, Bookmark
 
 class CommentSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    replies = serializers.SerializerMethodField(read_only=True)  # 🔥
+    user = serializers.StringRelatedField(read_only=True)  # 👈 este muestra el email
+    replies = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Comment
         fields = [
             "id",
             "post",
-            "user",
+            "user",  # ahora sí será visible y mostrará el email
             "content",
             "parent_comment",
-            "replies",  # 👈 incluimos las replies solo nivel 1
+            "replies",
             "created_at",
             "updated_at",
         ]
         read_only_fields = ["created_at", "updated_at"]
 
     def get_replies(self, obj):
-        # 🔥 Solo retorna los hijos directos (no replies de replies)
         replies = obj.replies.all()
         return CommentSerializer(replies, many=True, context=self.context).data
 
