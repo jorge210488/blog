@@ -25,6 +25,19 @@ const fetchComments = async () => {
   comments.value = await getCommentsByPost(props.postId);
 };
 
+// 🕒 Muestra tiempo relativo
+const timeAgo = (dateString: string): string => {
+  const date = new Date(dateString);
+  const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+
+  if (seconds < 60) return "now";
+  if (seconds < 3600)
+    return `${Math.floor(seconds / 60)} minute${seconds < 120 ? "" : "s"} ago`;
+  if (seconds < 86400)
+    return `${Math.floor(seconds / 3600)} hour${seconds < 7200 ? "" : "s"} ago`;
+  return `${Math.floor(seconds / 86400)} day${seconds < 172800 ? "" : "s"} ago`;
+};
+
 onMounted(fetchComments);
 
 const handleSubmit = async () => {
@@ -79,15 +92,19 @@ const handleDelete = async (id: string) => {
 <template>
   <div
     v-if="show"
-    class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+    class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center"
     @click.self="emit('close')"
-    @keyup.esc="emit('close')"
     tabindex="0"
+    @keyup.esc="emit('close')"
   >
+    <!-- Modal exterior -->
     <div
-      class="bg-gray-900 px-6 py-4 rounded-lg shadow-lg w-[90%] max-w-[600px] max-h-[90vh] overflow-y-auto text-white"
+      class="bg-gray-900 w-[90%] max-w-[600px] rounded-lg shadow-lg text-white flex flex-col overflow-hidden"
     >
-      <div class="flex justify-between items-center mb-4">
+      <!-- Header -->
+      <div
+        class="px-6 py-4 flex justify-between items-center border-b border-white/10"
+      >
         <h2 class="text-lg font-semibold">💬 Comments</h2>
         <button
           @click="emit('close')"
@@ -97,7 +114,8 @@ const handleDelete = async (id: string) => {
         </button>
       </div>
 
-      <div class="mb-4">
+      <!-- New comment input -->
+      <div class="px-6 py-4 border-b border-white/10">
         <textarea
           v-model="newComment"
           rows="3"
@@ -112,80 +130,85 @@ const handleDelete = async (id: string) => {
         </button>
       </div>
 
-      <div v-if="comments.length" class="space-y-4">
-        <div
-          v-for="comment in comments"
-          :key="comment.id"
-          class="bg-white/10 p-3 rounded"
-        >
-          <div class="text-sm mb-1">
-            <strong>{{ comment.user }}</strong> ·
-            <span class="text-white/60">{{
-              new Date(comment.created_at).toLocaleString()
-            }}</span>
-          </div>
-          <p class="text-sm">{{ comment.content }}</p>
-          <div class="flex gap-2 mt-1 text-xs">
-            <button @click="replyTo = comment.id" class="hover:underline">
-              Reply
-            </button>
-            <button
-              v-if="userStore.user?.id === comment.user"
-              @click="handleDelete(comment.id)"
-              class="hover:underline text-red-400"
-            >
-              Delete
-            </button>
-          </div>
-
-          <!-- Replies -->
+      <!-- 💡 CONTENIDO SCROLLEABLE SOLO AQUÍ -->
+      <div class="px-6 py-4 space-y-4 overflow-y-auto" style="max-height: 40vh">
+        <template v-if="comments.length">
           <div
-            v-if="comment.replies?.length"
-            class="mt-2 pl-4 border-l border-white/20"
+            v-for="comment in comments"
+            :key="comment.id"
+            class="bg-white/10 p-3 rounded"
           >
+            <div class="text-sm mb-1">
+              <strong>{{ comment.user }}</strong> ·
+              <span class="text-white/60">{{
+                timeAgo(comment.created_at)
+              }}</span>
+            </div>
+            <p class="text-sm">{{ comment.content }}</p>
+            <div class="flex gap-2 mt-1 text-xs">
+              <button @click="replyTo = comment.id" class="hover:underline">
+                Reply
+              </button>
+              <button
+                v-if="userStore.user?.email === comment.user"
+                @click="handleDelete(comment.id)"
+                class="hover:underline text-red-400"
+              >
+                Delete
+              </button>
+            </div>
+
+            <!-- Replies -->
             <div
-              v-for="reply in comment.replies"
-              :key="reply.id"
-              class="bg-white/5 p-2 rounded mt-2"
+              v-if="comment.replies?.length"
+              class="mt-2 pl-4 border-l border-white/20"
             >
-              <div class="text-xs mb-1">
-                <strong>{{ reply.user }}</strong> ·
-                <span class="text-white/60">{{
-                  new Date(reply.created_at).toLocaleString()
-                }}</span>
-              </div>
-              <p class="text-sm">{{ reply.content }}</p>
-              <div class="flex gap-2 mt-1 text-xs">
-                <button
-                  v-if="userStore.user?.id === reply.user"
-                  @click="handleDelete(reply.id)"
-                  class="hover:underline text-red-400"
-                >
-                  Delete
-                </button>
+              <div
+                v-for="reply in comment.replies"
+                :key="reply.id"
+                class="bg-white/5 p-2 rounded mt-2"
+              >
+                <div class="text-xs mb-1">
+                  <strong>{{ reply.user }}</strong> ·
+                  <span class="text-white/60">{{
+                    timeAgo(reply.created_at)
+                  }}</span>
+                </div>
+                <p class="text-sm">{{ reply.content }}</p>
+                <div class="flex gap-2 mt-1 text-xs">
+                  <button
+                    v-if="userStore.user?.email === reply.user"
+                    @click="handleDelete(reply.id)"
+                    class="hover:underline text-red-400"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Reply input -->
-          <div v-if="replyTo === comment.id" class="mt-2">
-            <textarea
-              v-model="replies[comment.id]"
-              rows="2"
-              class="w-full p-2 rounded text-black"
-              placeholder="Write a reply..."
-            ></textarea>
-            <button
-              @click="handleReply(comment.id)"
-              class="mt-1 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm"
-            >
-              Reply
-            </button>
+            <!-- Reply input -->
+            <div v-if="replyTo === comment.id" class="mt-2">
+              <textarea
+                v-model="replies[comment.id]"
+                rows="2"
+                class="w-full p-2 rounded text-black"
+                placeholder="Write a reply..."
+              ></textarea>
+              <button
+                @click="handleReply(comment.id)"
+                class="mt-1 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm"
+              >
+                Reply
+              </button>
+            </div>
           </div>
+        </template>
+
+        <div v-else class="text-center text-white/60 mt-4">
+          No comments yet.
         </div>
       </div>
-
-      <div v-else class="text-center text-white/60 mt-4">No comments yet.</div>
     </div>
   </div>
 </template>
