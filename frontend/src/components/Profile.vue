@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import { useUserStore } from "../store/userStore";
 import { updateUser } from "../services/userService";
+import { uploadUserAvatar } from "../services/userService";
 
 interface UserProfile {
   email: string;
@@ -99,8 +100,38 @@ const clearPassword = (field: "password" | "confirmPassword") => {
 };
 
 // Placeholder para la lógica de actualización de la imagen
-const updateProfilePicture = () => {
-  console.log("Profile picture update triggered");
+const updateProfilePicture = async () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.onchange = async (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    if (!target.files || target.files.length === 0) return;
+
+    const file = target.files[0];
+    const user = userStore.user;
+    if (!user) return;
+
+    try {
+      const imgUrl = await uploadUserAvatar(user.id, file);
+
+      // ✅ Update store with new avatar
+      userStore.setUser(
+        userStore.token!,
+        user.first_name,
+        user.last_name,
+        imgUrl
+      );
+
+      alert("Profile picture uploaded successfully.");
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      alert("Failed to upload profile picture. Please try again.");
+    }
+  };
+
+  input.click(); // 👈 Trigger file input
 };
 
 const closeModal = () => {

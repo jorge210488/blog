@@ -89,3 +89,33 @@ export const deleteUser = async (id: string): Promise<void> => {
     throw new Error(error.response?.data?.message || "Failed to delete user");
   }
 };
+
+export const uploadUserAvatar = async (
+  userId: string,
+  avatarFile: File
+): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", avatarFile); // 👈 clave correcta para el endpoint
+
+    const userStore = useUserStore();
+    const response = await api.post<{ img_url: string }>(
+      `/api/accounts/users/${userId}/upload-avatar/`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${userStore.token}`,
+          "Content-Type": "multipart/form-data", // 👈 necesario para subir archivos
+        },
+      }
+    );
+
+    return response.data.img_url; // ✅ Devolvemos la URL que vino del backend
+  } catch (error: any) {
+    console.error(
+      "Error uploading avatar:",
+      error.response?.data || error.message
+    );
+    throw new Error(error.response?.data?.message || "Failed to upload avatar");
+  }
+};
