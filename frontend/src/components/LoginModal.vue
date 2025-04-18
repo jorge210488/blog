@@ -52,7 +52,10 @@ const loginWithGoogle = () => {
     class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
     @click.self="closeModal"
   >
-    <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-lg w-[400px]">
+    <div
+      class="bg-gray-900 text-white p-6 rounded-2xl shadow-lg"
+      style="width: 380px !important; max-width: none !important"
+    >
       <h2 class="text-xl font-semibold text-center mb-4">Login</h2>
 
       <!-- Mensaje de error -->

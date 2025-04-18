@@ -136,7 +136,7 @@ onMounted(fetchLikes);
 
 const handleLikeClick = async () => {
   if (!userStore.user) {
-    alert("Debes iniciar sesión para dar like");
+    alert("You must be logged in to like posts.");
     return;
   }
 
@@ -157,6 +157,22 @@ const handleLikeClick = async () => {
       likes.value.push(newLike);
     }
   }
+};
+
+const handleClickResources = () => {
+  if (!userStore.user) {
+    window.alert("You must be logged in to access resources.");
+    return;
+  }
+  openResources();
+};
+
+const handleClickComments = () => {
+  if (!userStore.user) {
+    window.alert("You must be logged in to comment.");
+    return;
+  }
+  showCommentsModal.value = true;
 };
 
 const handleShare = async () => {
@@ -305,7 +321,7 @@ const handleShare = async () => {
       <div class="mt-4 flex flex-wrap items-center gap-2 md:gap-4">
         <!-- Left-side buttons -->
         <button
-          @click="showCommentsModal = true"
+          @click="handleClickComments"
           class="bg-white/10 px-2 md:px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
           💬 Comment
@@ -325,7 +341,7 @@ const handleShare = async () => {
         </button>
         <button
           v-if="Array.isArray(post.resources) && post.resources.length"
-          @click="openResources"
+          @click="handleClickResources"
           class="px-4 py-2 bg-white/10 text-sm rounded hover:bg-white/20 transition"
         >
           📎 Resources
