@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useUserStore } from "../store/userStore";
 import { register } from "../services/authService";
+import { loginWithGoogle } from "../services/googleAuthService";
+import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
 
 const emit = defineEmits(["close"]);
 const userStore = useUserStore();
+const toast = useToast();
+const router = useRouter();
 
 const signupData = ref({
   first_name: "",
@@ -38,9 +43,49 @@ const closeModal = () => {
   emit("close");
 };
 
-const signupWithGoogle = () => {
-  console.log("Sign up with Google");
+const signupWithGoogle = async (token: string) => {
+  try {
+    const userData = await loginWithGoogle(token);
+
+    userStore.setUser(
+      userData.access,
+      userData.user.first_name,
+      userData.user.last_name,
+      userData.user.img_url || null
+    );
+
+    emit("close");
+    router.push("/posts");
+  } catch (error) {
+    toast.error("Google signup failed.");
+  }
 };
+
+onMounted(() => {
+  // @ts-ignore
+  if (window.google) {
+    // @ts-ignore
+    window.google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback: async (response: any) => {
+        const token = response.credential;
+        await signupWithGoogle(token);
+      },
+      locale: "en",
+    });
+
+    // @ts-ignore
+    window.google.accounts.id.renderButton(
+      document.getElementById("google-signup-button"),
+      {
+        theme: "outline",
+        size: "large",
+        width: "100%",
+        text: "signup_with",
+      }
+    );
+  }
+});
 </script>
 
 <template>
@@ -48,7 +93,10 @@ const signupWithGoogle = () => {
     class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
     @click.self="closeModal"
   >
-    <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-lg w-[400px]">
+    <div
+      class="bg-gray-900 text-white p-6 rounded-2xl shadow-lg"
+      style="width: 300px"
+    >
       <h2 class="text-xl font-semibold text-center mb-4">Sign Up</h2>
 
       <div v-if="errorMessage" class="text-red-500 text-sm text-center mb-2">
@@ -112,13 +160,7 @@ const signupWithGoogle = () => {
           <div class="w-full border-t border-gray-500"></div>
         </div>
 
-        <button
-          @click="signupWithGoogle"
-          class="w-full flex items-center justify-center px-4 py-2 bg-white text-gray-900 rounded-lg hover:bg-gray-300 transition"
-        >
-          <img src="/google-icon.svg" alt="Google" class="w-5 h-5 mr-2" />
-          Sign up with Google
-        </button>
+        <div id="google-signup-button" class="w-full flex justify-center"></div>
       </div>
 
       <button

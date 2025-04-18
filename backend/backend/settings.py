@@ -28,6 +28,9 @@ AWS_RESOURCES_BUCKET_NAME = os.getenv(
 )  # Bucket para resources
 AWS_AVATARS_BUCKET_NAME = os.getenv("AWS_AVATARS_BUCKET_NAME")  # Bucket para avatares
 
+# GOOGLE AUTHENTICATION ID
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+
 
 # ✅ Configuración avanzada de S3
 AWS_QUERYSTRING_AUTH = False  # Permitir acceso a archivos sin firma temporal

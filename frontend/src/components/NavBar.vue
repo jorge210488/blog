@@ -137,16 +137,16 @@ const logout = () => {
         >
           <button
             @click="openProfileModal"
-            class="block px-4 py-2 hover:bg-gray-100"
+            class="block px-4 py-2 hover:bg-gray-200"
           >
             👤 Profile
           </button>
-          <router-link to="/settings" class="block px-4 py-2 hover:bg-gray-100"
+          <router-link to="/settings" class="block px-4 py-2 hover:bg-gray-200"
             >⚙️ Settings</router-link
           >
           <button
             @click="logout"
-            class="block px-4 py-2 hover:bg-red-500 text-red-700 w-full"
+            class="block px-4 py-2 text-red-700 hover:bg-red-200 w-full text-left"
           >
             🚪 Logout
           </button>

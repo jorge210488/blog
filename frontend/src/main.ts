@@ -4,11 +4,11 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "./assets/styles/tailwind.css";
-import Toast, { type PluginOptions } from "vue-toastification";
+import Toast, { type PluginOptions, POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css"; // Importar
 
 const options: PluginOptions = {
-  position: "top-right",
+  position: POSITION.TOP_RIGHT,
   timeout: 3000,
   closeOnClick: true,
   pauseOnFocusLoss: true,

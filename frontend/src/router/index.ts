@@ -39,6 +39,11 @@ const routes = [
     component: MyPostView,
     meta: { requiresAuth: true }, // 🔒 Solo para usuarios logueados
   },
+  {
+    path: "/auth-callback",
+    name: "AuthCallback",
+    component: () => import("../views/AuthCallbackView.vue"),
+  },
 ];
 
 const router = createRouter({
