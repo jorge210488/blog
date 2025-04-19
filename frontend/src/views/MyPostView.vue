@@ -24,18 +24,13 @@ const filteredPosts = computed(() =>
 <template>
   <section class="relative w-full min-h-screen">
     <div class="absolute inset-0 w-full min-h-screen h-auto">
-      <video
-        class="absolute top-0 left-0 w-full h-full object-cover"
-        autoplay
-        muted
-        loop
-        playsinline
-      >
-        <source src="/background8.mp4" type="video/mp4" />
-      </video>
+      <div
+        class="absolute inset-0 w-full h-full bg-repeat-y bg-top bg-contain"
+        style="background-image: url('/fondo5.jpg')"
+      ></div>
     </div>
 
-    <div class="relative z-20 w-full px-6 pt-10 pb-10">
+    <div class="relative z-20 w-full px-6 md:px-16 pt-10 pb-10">
       <div
         class="container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col gap-6"
       >

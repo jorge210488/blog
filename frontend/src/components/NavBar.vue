@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import Profile from "./Profile.vue";
+import Profile from "./account/Profile.vue";
+import ContactModal from "./account/ContactModal.vue";
 import LoginModal from "./LoginModal.vue";
 import { useUserStore } from "../store/userStore";
 import { useRouter, useRoute } from "vue-router";
@@ -32,10 +33,13 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
 
-// Control del modal de perfil
 const showProfileModal = ref(false);
 const openProfileModal = () => {
   showProfileModal.value = true;
+};
+const showContactModal = ref(false);
+const openContactModal = () => {
+  showContactModal.value = true;
 };
 
 // ✅ Usar `userStore.showLoginModal`
@@ -141,9 +145,12 @@ const logout = () => {
           >
             👤 Profile
           </button>
-          <router-link to="/settings" class="block px-4 py-2 hover:bg-gray-200"
-            >⚙️ Settings</router-link
+          <button
+            @click="openContactModal"
+            class="block px-4 py-2 hover:bg-gray-200"
           >
+            🛟 Support
+          </button>
           <button
             @click="logout"
             class="block px-4 py-2 text-red-700 hover:bg-red-200 w-full text-left"
@@ -236,12 +243,15 @@ const logout = () => {
           <button @click="openProfileModal" class="w-full text-center">
             👤 Profile
           </button>
-          <router-link
-            to="/settings"
-            @click="toggleMobileMenu"
+          <button
+            @click="
+              toggleMobileMenu();
+              openContactModal();
+            "
             class="w-full text-center"
-            >⚙️ Settings</router-link
           >
+            🛟 Support
+          </button>
           <button @click="logout" class="w-full text-center text-red-500">
             🚪 Logout
           </button>
@@ -269,6 +279,7 @@ const logout = () => {
 
   <!-- Profile Modal -->
   <Profile v-if="showProfileModal" @close="showProfileModal = false" />
+  <ContactModal v-if="showContactModal" @close="showContactModal = false" />
   <LoginModal
     v-if="userStore.showLoginModal"
     @close="userStore.showLoginModal = false"

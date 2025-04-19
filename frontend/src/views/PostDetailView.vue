@@ -34,7 +34,7 @@ onMounted(async () => {
     </div>
 
     <!-- Contenido sobre el fondo -->
-    <div class="relative z-20 w-full px-6 pt-10">
+    <div class="relative z-20 w-full px-6 md:px-16 pt-10">
       <div
         class="container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col gap-6"
       >

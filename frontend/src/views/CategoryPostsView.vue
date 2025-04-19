@@ -33,7 +33,7 @@ onMounted(fetchPostsByCategory);
 
     <!-- Contenido -->
     <div
-      class="relative z-20 w-full px-6 py-10 container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg"
+      class="relative z-20 w-full px-6 md:px-16 py-10 container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg"
     >
       <h1 class="text-2xl font-bold text-white mb-6 mt-6">
         Posts in Category "{{ categorySlug }}"

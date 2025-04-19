@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useUserStore } from "../store/userStore";
-import { updateUser } from "../services/userService";
-import { uploadUserAvatar } from "../services/userService";
+import { useUserStore } from "../../store/userStore";
+import { updateUser } from "../../services/userService";
+import { uploadUserAvatar } from "../../services/userService";
 
 interface UserProfile {
   email: string;

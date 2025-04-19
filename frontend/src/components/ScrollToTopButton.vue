@@ -7,7 +7,7 @@ const scrollToTop = () => {
 <template>
   <button
     @click="scrollToTop"
-    class="fixed bottom-20 md:bottom-2 right-6 px-4 py-1 border border-white text-white text-xl rounded-lg hover:bg-white hover:text-black transition z-50"
+    class="fixed bottom-20 md:bottom-2 right-5 px-4 py-1 border border-white text-white text-xl rounded-lg hover:bg-white hover:text-black transition z-50"
   >
     ↑
   </button>
