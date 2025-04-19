@@ -4,9 +4,12 @@ import ResourceFilter from "../components/resources/ResourceFilter.vue";
 import ResourceList from "../components/resources/ResourceList.vue";
 import { getResources } from "../services/resourceService.ts";
 import type { Resource, ResourceFilters } from "../services/resourceService";
+import { useUserStore } from "../store/userStore";
+import { computed } from "vue";
 
 // Estado de los recursos
 const resources = ref<Resource[]>([]);
+const userStore = useUserStore();
 
 // Estado de los filtros, asegurando que `sortBy` sea del tipo correcto
 const filterOptions = ref<ResourceFilters>({
@@ -25,6 +28,18 @@ const fetchResources = async (
   };
   resources.value = await getResources(filterOptions.value);
 };
+
+const filteredResources = computed(() => {
+  // Si está filtrando por el usuario actual
+  if (filterOptions.value.owner === "me" && userStore.user) {
+    return resources.value.filter(
+      (resource) => resource.user_id === userStore.user?.id
+    );
+  }
+
+  // Mostrar todos los recursos
+  return resources.value;
+});
 
 // Llamada inicial al montar el componente
 onMounted(fetchResources);
@@ -68,7 +83,7 @@ onMounted(fetchResources);
         </div>
 
         <!-- Lista de Recursos -->
-        <ResourceList :resources="resources" />
+        <ResourceList :resources="filteredResources" />
       </div>
     </div>
   </section>

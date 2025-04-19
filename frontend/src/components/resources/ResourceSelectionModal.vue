@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { getUserResources } from "../../services/resourceService"; // ✅ Importar servicio
-
-interface Resource {
-  id: string;
-  title: string;
-  description: string;
-  tool: string;
-}
+import type { Resource } from "../../services/resourceService";
 
 // ✅ Estado para almacenar los resources del usuario
 const userResources = ref<Resource[]>([]);

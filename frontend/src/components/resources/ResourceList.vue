@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import ResourceCard from "./ResourceCard.vue";
 import type { PropType } from "vue";
-
-// Definimos la estructura del recurso
-interface Resource {
-  id: string;
-  title: string;
-  description?: string;
-  file: string;
-}
+import type { Resource } from "../../services/resourceService";
 
 defineProps({
   resources: {

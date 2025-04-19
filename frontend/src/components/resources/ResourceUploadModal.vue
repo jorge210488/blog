@@ -12,7 +12,21 @@ const description = ref<string>("");
 const tool = ref<string>("Relevance AI");
 
 // Tool options
-const toolOptions = ["Relevance AI", "Make", "n8n", "Other"];
+const toolOptions = [
+  "Relevance AI",
+  "Retell AI",
+  "Make",
+  "n8n",
+  "Flowise",
+  "LangChain",
+  "Voiceflow",
+  "Dialogflow",
+  "Wit.ai",
+  "AgentOps",
+  "AutoGPT",
+  "Custom",
+  "Other",
+];
 
 // ✅ Handle selected JSON file
 const handleFileChange = (event: Event) => {

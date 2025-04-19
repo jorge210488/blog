@@ -16,6 +16,7 @@ export interface ResourceFilters {
   search?: string;
   tool?: string;
   sortBy?: "updated_at" | "-updated_at"; // Ensure allowed values
+  owner?: "me";
 }
 
 export const getResources = async (filters?: ResourceFilters) => {

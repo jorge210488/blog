@@ -54,6 +54,21 @@ const filteredPosts = computed(() =>
         <!-- Lista -->
         <div class="flex flex-col items-center gap-4 w-full">
           <PostCard v-for="post in filteredPosts" :key="post.id" :post="post" />
+
+          <div
+            v-if="filteredPosts.length === 0"
+            class="text-white text-center mt-10 space-y-4"
+          >
+            <p class="text-lg">You haven't published any posts yet.</p>
+            <p class="text-lg">Feel free to create your first one!</p>
+
+            <router-link
+              to="/create-post"
+              class="inline-block mt-4 px-5 py-2 border border-white text-white text-lg rounded-lg hover:bg-white hover:text-black transition"
+            >
+              ✍️ Write Post
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
