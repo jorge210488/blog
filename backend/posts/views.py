@@ -1,5 +1,5 @@
 from django.db.models import Count
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -90,3 +90,10 @@ class PostViewSet(viewsets.ModelViewSet):
         )
         serializer = PostDetailSerializer(post, context={"request": request})
         return Response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def view(self, request, id=None):
+        post = self.get_object()
+        post.views += 1
+        post.save()
+        return Response({"views": post.views}, status=status.HTTP_200_OK)

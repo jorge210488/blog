@@ -196,3 +196,20 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
     return null;
   }
 };
+
+export const countPostView = async (id: string): Promise<number | null> => {
+  try {
+    const response = await api.post<{ views: number }>(
+      `/api/posts/posts/${id}/view/`,
+      {},
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+
+    return response.data.views;
+  } catch (error) {
+    console.error(`Error counting view for post ${id}:`, error);
+    return null;
+  }
+};

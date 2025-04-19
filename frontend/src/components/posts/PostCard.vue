@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
 import ResourcesModal from "./ResourcesModal.vue";
 import { useUserStore } from "../../store/userStore";
 import { computed } from "vue";
-import { deletePost } from "../../services/postService"; // ajusta la ruta si es necesario
+import { deletePost, countPostView } from "../../services/postService";
 import { useRouter } from "vue-router";
 import UpdatePostModal from "./UpdatePostModal.vue";
 import CommentsModal from "../comments/CommentsModal.vue";
@@ -132,7 +131,30 @@ const handleDelete = async () => {
   }
 };
 
-onMounted(fetchLikes);
+const postElement = ref<HTMLElement | null>(null);
+const hasCountedView = ref(false);
+
+onMounted(() => {
+  fetchLikes();
+
+  const observer = new IntersectionObserver(
+    async ([entry]) => {
+      if (entry.isIntersecting && !hasCountedView.value) {
+        hasCountedView.value = true; // solo una vez
+        const newViewCount = await countPostView(props.post.id);
+        if (newViewCount !== null) {
+          props.post.views = newViewCount;
+        }
+        observer.disconnect(); // deja de observar
+      }
+    },
+    { threshold: 0.5 } // 50% visible
+  );
+
+  if (postElement.value) {
+    observer.observe(postElement.value);
+  }
+});
 
 const handleLikeClick = async () => {
   if (!userStore.user) {
@@ -191,6 +213,7 @@ const handleShare = async () => {
 
 <template>
   <div
+    ref="postElement"
     class="w-full max-w-[800px] min-h-[520px] mx-auto bg-[#172a3a] border border-white/10 rounded-xl shadow-md px-6 py-4 flex flex-col justify-between text-white"
   >
     <!-- Contenido -->
