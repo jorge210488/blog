@@ -72,7 +72,7 @@ print(
 SECRET_KEY = "django-insecure-+7%k+n()kjkw@hc=q#(%ss1h&&ofplk6!x7rr4nc-k-*p^3)ql"
 DEBUG = True
 
-ALLOWED_HOSTS = ["tu-dominio.com", "www.tu-dominio.com", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
 
 # ✅ Aplicaciones instaladas
 INSTALLED_APPS = [

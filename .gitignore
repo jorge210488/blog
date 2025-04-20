@@ -92,3 +92,7 @@ frontend/.venv
 # 🔹 ESLint Cache
 # ======================
 .eslintcache
+
+
+
+backend/.venv310/
