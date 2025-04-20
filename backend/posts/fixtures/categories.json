@@ -158,5 +158,69 @@
       "slug": "iot",
       "description": "Raspberry Pi, Arduino, Sensors, MQTT."
     }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "AI Agents y LLMs",
+      "slug": "ai-agents-llms",
+      "description": "Agentes autónomos, LLMs como GPT, LangChain, ReAct, AutoGPT, BabyAGI."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Automatización con IA",
+      "slug": "ai-automation",
+      "description": "RPA, bots inteligentes, workflows autónomos, IA aplicada a negocios."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Integraciones Low-Code/No-Code",
+      "slug": "nocode-integrations",
+      "description": "Plataformas como Make, n8n, Zapier, y automatización sin código."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Voice AI y Audio Agents",
+      "slug": "voice-ai",
+      "description": "Conversión de texto a voz, Whisper, Retell, ElevenLabs, control por voz."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Machine Learning Operations (MLOps)",
+      "slug": "mlops",
+      "description": "Producción de modelos ML, seguimiento, pipelines, versiones y monitoreo."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Multimodal AI",
+      "slug": "multimodal-ai",
+      "description": "Combinación de texto, imágenes, audio y video en modelos de IA."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Plataformas de IA",
+      "slug": "ai-platforms",
+      "description": "Relevance AI, Retell, OpenAI, Hugging Face, Claude, Gemini, Perplexity."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Chatbots y Asistentes Virtuales",
+      "slug": "chatbots",
+      "description": "Diseño e implementación de asistentes conversacionales inteligentes."
+    }
   }
 ]

@@ -84,13 +84,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "storages",
     "accounts",
-    "posts",
     "interactions",
     "resources",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
     "django_filters",
+    "posts.apps.PostsConfig",
 ]
 
 # ✅ Middleware
