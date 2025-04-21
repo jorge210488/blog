@@ -4,11 +4,11 @@ import Profile from "./account/Profile.vue";
 import ContactModal from "./account/ContactModal.vue";
 import LoginModal from "./LoginModal.vue";
 import { useUserStore } from "../store/userStore";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import SignupModal from "./SignupModal.vue";
 
 const router = useRouter();
-const route = useRoute();
+
 const userStore = useUserStore();
 
 const isAuthenticated = computed(() => !!userStore.token);
@@ -19,7 +19,7 @@ const profilePicture = computed(
 const isAuthor = computed(() => userStore.user?.role === "author");
 
 // 🔥 Detectar si el usuario está en `/resources`
-const isResourcesView = computed(() => route.path === "/resources");
+// const isResourcesView = computed(() => route.path === "/resources");
 
 // Control del menú hamburguesa en móviles
 const showMobileMenu = ref(false);

@@ -162,65 +162,65 @@
   {
     "model": "posts.category",
     "fields": {
-      "name": "AI Agents y LLMs",
-      "slug": "ai-agents-llms",
-      "description": "Agentes autónomos, LLMs como GPT, LangChain, ReAct, AutoGPT, BabyAGI."
+      "name": "AI Agents and Assistants",
+      "slug": "ai-agents",
+      "description": "Autonomous agents, ReAct, AutoGPT, BabyAGI, and intelligent assistants."
     }
   },
   {
     "model": "posts.category",
     "fields": {
-      "name": "Automatización con IA",
-      "slug": "ai-automation",
-      "description": "RPA, bots inteligentes, workflows autónomos, IA aplicada a negocios."
+      "name": "Automation and Workflows",
+      "slug": "automation-workflows",
+      "description": "Automation platforms like Make, Zapier, n8n, and custom logic workflows."
     }
   },
   {
     "model": "posts.category",
     "fields": {
-      "name": "Integraciones Low-Code/No-Code",
-      "slug": "nocode-integrations",
-      "description": "Plataformas como Make, n8n, Zapier, y automatización sin código."
+      "name": "Prompt Engineering",
+      "slug": "prompt-engineering",
+      "description": "Optimizing LLM interactions through prompt design, chaining, and memory."
     }
   },
   {
     "model": "posts.category",
     "fields": {
-      "name": "Voice AI y Audio Agents",
+      "name": "Vector Databases and Embeddings",
+      "slug": "vector-databases",
+      "description": "Pinecone, Weaviate, FAISS, Chroma, embeddings, semantic search, RAG."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "LLM Infrastructure",
+      "slug": "llm-infrastructure",
+      "description": "LangChain, LlamaIndex, LangGraph, serverless orchestration, agent architecture."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Voice AI and Assistants",
       "slug": "voice-ai",
-      "description": "Conversión de texto a voz, Whisper, Retell, ElevenLabs, control por voz."
+      "description": "Speech-to-text, text-to-speech, real-time voice agents, Retell, Whisper, ElevenLabs."
     }
   },
   {
     "model": "posts.category",
     "fields": {
-      "name": "Machine Learning Operations (MLOps)",
-      "slug": "mlops",
-      "description": "Producción de modelos ML, seguimiento, pipelines, versiones y monitoreo."
+      "name": "Data Labeling and Fine-Tuning",
+      "slug": "data-labeling-finetuning",
+      "description": "Custom model training, dataset preparation, labeling tools, and fine-tuning."
     }
   },
   {
     "model": "posts.category",
     "fields": {
-      "name": "Multimodal AI",
-      "slug": "multimodal-ai",
-      "description": "Combinación de texto, imágenes, audio y video en modelos de IA."
-    }
-  },
-  {
-    "model": "posts.category",
-    "fields": {
-      "name": "Plataformas de IA",
-      "slug": "ai-platforms",
-      "description": "Relevance AI, Retell, OpenAI, Hugging Face, Claude, Gemini, Perplexity."
-    }
-  },
-  {
-    "model": "posts.category",
-    "fields": {
-      "name": "Chatbots y Asistentes Virtuales",
-      "slug": "chatbots",
-      "description": "Diseño e implementación de asistentes conversacionales inteligentes."
+      "name": "LLM APIs and Providers",
+      "slug": "llm-providers",
+      "description": "OpenAI, Claude, Mistral, Gemini, Together AI, Hugging Face, and more."
     }
   }
 ]

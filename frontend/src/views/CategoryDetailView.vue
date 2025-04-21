@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getPostsByCategory } from "../services/postService.ts";
 import ResourceList from "../components/resources/ResourceList.vue";
+import type { Resource } from "../services/resourceService";
 
 // Definir la estructura de un post
 interface Post {
@@ -12,7 +13,7 @@ interface Post {
   content: string;
   created_at: string;
   updated_at: string;
-  resources: Array<{ id: string; title: string; file: string }>;
+  resources: Resource[];
 }
 
 const route = useRoute();

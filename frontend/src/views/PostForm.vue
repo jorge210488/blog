@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
-import { useUserStore } from "../store/userStore"; // Authenticated user
+// import { useUserStore } from "../store/userStore";
 import { createPost } from "../services/postService.ts";
 import { getTags } from "../services/taskService.ts";
 import { getCategories } from "../services/categoryService.ts";
@@ -113,12 +113,12 @@ const openEmojiPicker = (field: "title" | "content", event: Event) => {
 };
 
 // ✅ Select emoji
-const onEmojiClick = (e: { detail: { unicode: string } }) => {
-  if (emojiTarget.value) {
-    postForm.value[emojiTarget.value] += e.detail.unicode;
-  }
-  showEmojiPicker.value = false;
-};
+// const onEmojiClick = (e: { detail: { unicode: string } }) => {
+//   if (emojiTarget.value) {
+//     postForm.value[emojiTarget.value] += e.detail.unicode;
+//   }
+//   showEmojiPicker.value = false;
+// };
 
 // ✅ Fetch categories & tags
 const fetchData = async () => {

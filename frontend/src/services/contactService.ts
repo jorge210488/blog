@@ -25,7 +25,7 @@ export const sendContactMessage = async (
     // console.log("🟡 Contact Payload:", data);
     // console.log("🟡 Contact Headers:", headers);
 
-    const response = await api.post("/api/accounts/contact/", data, headers);
+    await api.post("/api/accounts/contact/", data, headers);
 
     // console.log("🟢 Backend response:", response.status, response.data);
   } catch (error: any) {

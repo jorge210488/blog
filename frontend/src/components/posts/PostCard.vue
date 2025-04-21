@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import ResourcesModal from "./ResourcesModal.vue";
 import { useUserStore } from "../../store/userStore";
 import { computed } from "vue";

@@ -18,9 +18,10 @@ export interface Tag {
 interface Resource {
   id: string;
   title: string;
-  description?: string; // ✅ agregalo
+  description?: string;
   file: string;
-  tool?: string; // opcional, si querés usarlo después
+  tool?: string;
+  user_id: string; // 👈 nuevo campo del dueño del recurso
   created_at?: string;
   updated_at?: string;
 }

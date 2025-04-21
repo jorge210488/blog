@@ -84,12 +84,12 @@ const openEmojiPicker = (field: "title" | "content", event: Event) => {
   });
 };
 
-const onEmojiClick = (e: { detail: { unicode: string } }) => {
-  if (emojiTarget.value) {
-    postForm.value[emojiTarget.value] += e.detail.unicode;
-  }
-  showEmojiPicker.value = false;
-};
+// const onEmojiClick = (e: { detail: { unicode: string } }) => {
+//   if (emojiTarget.value) {
+//     postForm.value[emojiTarget.value] += e.detail.unicode;
+//   }
+//   showEmojiPicker.value = false;
+// };
 
 const handleImageUpload = (event: Event) => {
   const files = (event.target as HTMLInputElement).files;

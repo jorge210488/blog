@@ -52,7 +52,7 @@ const router = createRouter({
 });
 
 // ✅ Middleware para proteger rutas
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const userStore = useUserStore();
   const isAuthenticated = !!userStore.token; // Comprueba si hay sesión activa
 
