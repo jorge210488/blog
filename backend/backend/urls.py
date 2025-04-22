@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.http import JsonResponse
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -27,6 +28,7 @@ urlpatterns = [
     path("api/posts/", include("posts.urls")),
     path("api/interactions/", include("interactions.urls")),
     path("api/", include("resources.urls")),
+    path("", lambda request: JsonResponse({"status": "ok"})),
 ]
 
 # Hacer que Django sirva archivos JSON desde `/media/`

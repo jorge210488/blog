@@ -36,6 +36,13 @@ if (import.meta.env.MODE === "production") {
       id: import.meta.env.VITE_GA_MEASUREMENT_ID || "",
     },
   });
+
+  // 👉 Seguimiento de rutas dinámicas
+  router.afterEach((to) => {
+    window.gtag?.("event", "page_view", {
+      page_path: to.fullPath,
+    });
+  });
 }
 
 app.mount("#app");

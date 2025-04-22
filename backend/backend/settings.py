@@ -167,6 +167,9 @@ SIMPLE_JWT = {
 # ✅ Configuración de CORS
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
+    "https://d1zdy7m13ps0e9.cloudfront.net",
+    "http://jam-blog-vue.s3-website-us-east-1.amazonaws.com",
+    "https://ddez45awmlwcc.cloudfront.net",
     "http://localhost:5173",
     "https://tu-dominio.com",
 ]
