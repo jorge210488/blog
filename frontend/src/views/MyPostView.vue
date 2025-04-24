@@ -22,11 +22,11 @@ const filteredPosts = computed(() =>
 </script>
 
 <template>
-  <section class="relative w-full min-h-screen">
+  <section class="relative w-full min-h-screen pb-16 md:pb-6">
     <div class="absolute inset-0 w-full min-h-screen h-auto">
       <div
-        class="absolute inset-0 w-full h-full bg-repeat-y bg-top bg-contain"
-        style="background-image: url('/fondo5.jpg')"
+        class="absolute inset-0 w-full h-full bg-no-repeat bg-top bg-cover"
+        style="background-image: url('/fondo1.png')"
       ></div>
     </div>
 

@@ -10,25 +10,20 @@ const posts = ref<Post[]>([]);
 const categorySlug = ref(route.params.slug as string);
 
 const fetchPostsByCategory = async () => {
-  posts.value = await getPosts({ category: categorySlug.value });
+  const allPosts = await getPosts({ category: categorySlug.value });
+  posts.value = allPosts.filter((post) => post.status === "published");
 };
 
 onMounted(fetchPostsByCategory);
 </script>
 
 <template>
-  <section class="relative w-full min-h-screen">
-    <!-- Fondo -->
-    <div class="absolute inset-0 w-full h-full">
-      <video
-        class="absolute top-0 left-0 w-full h-full object-cover"
-        autoplay
-        muted
-        loop
-        playsinline
-      >
-        <source src="/background8.mp4" type="video/mp4" />
-      </video>
+  <section class="relative w-full min-h-screen pb-10 md:pb-6">
+    <div class="absolute inset-0 w-full min-h-screen h-auto">
+      <div
+        class="absolute inset-0 w-full h-full bg-no-repeat bg-top bg-cover"
+        style="background-image: url('/fondo1.png')"
+      ></div>
     </div>
 
     <!-- Contenido -->
@@ -39,10 +34,23 @@ onMounted(fetchPostsByCategory);
         Posts in Category "{{ categorySlug }}"
       </h1>
 
+      <!-- Lista de posts -->
       <div v-if="posts.length" class="grid gap-6">
         <PostCard v-for="post in posts" :key="post.id" :post="post" />
       </div>
-      <p v-else class="text-white/70 text-center mt-4">No Post Available.</p>
+
+      <!-- Mensaje si no hay posts, sin borde ni fondo extra -->
+      <div v-else class="text-white text-center mt-10 space-y-4">
+        <p class="text-lg">No posts found in this category.</p>
+        <p class="text-lg">Be the first to publish something awesome!</p>
+
+        <router-link
+          to="/create-post"
+          class="inline-block mt-4 px-5 py-2 border border-white text-white text-lg rounded-lg hover:bg-white hover:text-black transition"
+        >
+          ✍️ Write Post
+        </router-link>
+      </div>
     </div>
   </section>
 </template>

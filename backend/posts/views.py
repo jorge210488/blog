@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from rest_framework import viewsets, filters, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
@@ -17,9 +17,9 @@ from django.shortcuts import get_object_or_404
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.annotate(post_count=Count("posts")).prefetch_related(
-        "posts"
-    )  # 🔥 Agrega `post_count`
+    queryset = Category.objects.annotate(
+        post_count=Count("posts", filter=Q(posts__status="published"))
+    ).prefetch_related("posts")
     serializer_class = CategorySerializer
     permission_classes = [AllowAny]
     lookup_field = "id"

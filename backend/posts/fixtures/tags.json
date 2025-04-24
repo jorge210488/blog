@@ -1650,5 +1650,173 @@
       "name": "Post-Quantum Cryptography",
       "slug": "post-quantum-cryptography"
     }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Voice Assistants",
+      "slug": "voice-assistants"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Speech Recognition",
+      "slug": "speech-recognition"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Text-to-Speech",
+      "slug": "text-to-speech"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Video Processing",
+      "slug": "video-processing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Video Conferencing",
+      "slug": "video-conferencing"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "SEO",
+      "slug": "seo"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Search Engine Optimization",
+      "slug": "search-engine-optimization"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Marketing Automation",
+      "slug": "marketing-automation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Task Management",
+      "slug": "task-management"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "To-Do Apps",
+      "slug": "to-do-apps"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Invoice Generation",
+      "slug": "invoice-generation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Billing Systems",
+      "slug": "billing-systems"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "RPA",
+      "slug": "rpa"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Business Automation",
+      "slug": "business-automation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Workflow Automation",
+      "slug": "workflow-automation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Video Analysis",
+      "slug": "video-analysis"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Audio Analysis",
+      "slug": "audio-analysis"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Screen Recording",
+      "slug": "screen-recording"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Transcription",
+      "slug": "transcription"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Meeting Notes",
+      "slug": "meeting-notes"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Smart Scheduling",
+      "slug": "smart-scheduling"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Document Automation",
+      "slug": "document-automation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "CRM Automation",
+      "slug": "crm-automation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Email Automation",
+      "slug": "email-automation"
+    }
   }
 ]

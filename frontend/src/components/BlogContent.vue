@@ -1,7 +1,7 @@
 <template>
   <section
     class="py-12 px-6 w-full bg-gradient-to-b from-transparent to-[#0b1622] bg-cover bg-center"
-    style="background-image: url('/fondo5.jpg')"
+    style="background-image: url('/fondo1.png')"
   >
     <div
       class="max-w-6xl mx-auto bg-black bg-opacity-60 shadow-lg rounded-lg p-8"

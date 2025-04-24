@@ -235,7 +235,7 @@ const handleShare = async () => {
             <div class="text-sm text-white/70 flex flex-wrap gap-3">
               <span>👤 {{ post.author }}</span>
               <span v-if="post.category">🏷️ {{ post.category.name }}</span>
-              <span>👁️ {{ post.views }} vistas</span>
+              <span>👁️ {{ post.views }} views</span>
             </div>
 
             <!-- Fila 2: contenido -->
@@ -373,6 +373,12 @@ const handleShare = async () => {
         <!-- Right-side (author only) -->
         <template v-if="isAuthor">
           <div class="ml-auto flex gap-2">
+            <span
+              v-if="post.status === 'draft'"
+              class="text-sm italic bg-pink-300 px-4 py-2 rounded-lg"
+            >
+              Draft
+            </span>
             <button
               @click="openEditModal"
               class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition text-sm"
