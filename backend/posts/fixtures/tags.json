@@ -1818,5 +1818,12 @@
       "name": "Email Automation",
       "slug": "email-automation"
     }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Other",
+      "slug": "other"
+    }
   }
 ]

@@ -222,5 +222,13 @@
       "slug": "llm-providers",
       "description": "OpenAI, Claude, Mistral, Gemini, Together AI, Hugging Face, and more."
     }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Other",
+      "slug": "other",
+      "description": "Anything else that comes to mind!"
+    }
   }
 ]

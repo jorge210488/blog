@@ -185,8 +185,15 @@ onMounted(async () => {
 watch(() => props.post, initForm);
 
 const fetchData = async () => {
-  categories.value = await getCategories();
-  tags.value = await getTags();
+  const fetchedCategories = await getCategories();
+  const fetchedTags = await getTags();
+
+  categories.value = fetchedCategories.sort((a: Category, b: Category) =>
+    a.name.localeCompare(b.name)
+  );
+  tags.value = fetchedTags.sort((a: Tag, b: Tag) =>
+    a.name.localeCompare(b.name)
+  );
 };
 </script>
 
