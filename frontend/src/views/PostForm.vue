@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, computed } from "vue";
 // import { useUserStore } from "../store/userStore";
 import { createPost } from "../services/postService.ts";
 import { getTags } from "../services/taskService.ts";
@@ -132,7 +132,23 @@ const fetchData = async () => {
   );
 };
 
+const isYouTubeUrl = (url: string): boolean => {
+  const pattern =
+    /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}/;
+  return pattern.test(url.trim());
+};
+
+const isVideoUrlInvalid = computed(() => {
+  const url = postForm.value.video_url?.trim();
+  return url && !isYouTubeUrl(url);
+});
+
 const submitPost = async () => {
+  if (postForm.value.video_url && !isYouTubeUrl(postForm.value.video_url)) {
+    toast.error("❌ Only valid YouTube URLs are allowed.");
+    return;
+  }
+
   try {
     const formData = new FormData();
     formData.append("title", postForm.value.title);
@@ -197,11 +213,23 @@ const handleImageUpload = (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
   if (files) {
     for (const file of files) {
-      postForm.value.images?.push(file);
+      // ✅ Verifica el tipo MIME
+      if (!file.type.startsWith("image/")) {
+        toast.error(`❌ The file "${file.name}" is not a valid image.`);
+        continue;
+      }
+
+      const correctedFile = new File([file], file.name, {
+        type: file.type || "image/jpeg",
+      });
+
+      postForm.value.images?.push(correctedFile);
+
       const reader = new FileReader();
       reader.onload = (e) => {
-        if (e.target?.result)
+        if (e.target?.result) {
           imagePreviews.value.push(e.target.result as string);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -294,13 +322,13 @@ onMounted(fetchData);
             <label class="text-white">Content</label>
             <textarea
               v-model="postForm.content"
-              maxlength="800"
+              maxlength="1000"
               @focus="openEmojiPicker('content', $event)"
               class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
               rows="5"
             ></textarea>
             <p class="text-sm text-white text-right">
-              {{ postForm.content.length }}/800 characters
+              {{ postForm.content.length }}/1000 characters
             </p>
           </div>
 
@@ -323,11 +351,14 @@ onMounted(fetchData);
           <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
             <!-- Video URL -->
             <div class="md:col-span-4">
-              <label class="text-white">Video URL</label>
+              <label class="text-white">Video URL (Only Youtube)</label>
               <input
                 type="text"
                 v-model="postForm.video_url"
-                class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
+                :class="[
+                  'w-full p-2 rounded bg-gray-800 text-white border',
+                  isVideoUrlInvalid ? 'border-red-700 ' : 'border-gray-600',
+                ]"
               />
             </div>
 
@@ -353,14 +384,19 @@ onMounted(fetchData);
             </div>
 
             <!-- Add Images ocupa md:col-span-2 -->
-            <div class="md:col-span-4 flex items-end">
+            <div class="md:col-span-4 relative flex items-end">
+              <span
+                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm"
+              >
+                Images
+              </span>
               <input
                 type="file"
                 multiple
+                accept="image/*"
                 @change="handleImageUpload"
-                class="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded"
-                data-button-text="Upload Images"
-                data-placeholder="Select files"
+                class="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded pl-16"
+                id="image-upload"
               />
             </div>
           </div>

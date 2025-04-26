@@ -110,11 +110,24 @@ const updateProfilePicture = async () => {
     if (!target.files || target.files.length === 0) return;
 
     const file = target.files[0];
+
+    // ✅ Validar tamaño máximo permitido (por ejemplo 5MB)
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSizeInBytes) {
+      alert("The selected image is too large. Maximum size allowed: 5MB.");
+      return;
+    }
+
+    // ✅ Asegurar MIME type (en caso de que esté vacío en móviles)
+    const correctedFile = new File([file], file.name, {
+      type: file.type || "image/jpeg",
+    });
+
     const user = userStore.user;
     if (!user) return;
 
     try {
-      const imgUrl = await uploadUserAvatar(user.id, file);
+      const imgUrl = await uploadUserAvatar(user.id, correctedFile);
 
       // ✅ Update store with new avatar
       userStore.setUser(

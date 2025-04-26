@@ -18,19 +18,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="relative w-full min-h-screen">
+  <section class="relative w-full min-h-screen pb-16 md:pb-4">
     <!-- Fondo con video -->
     <div class="absolute inset-0 w-full min-h-screen h-auto">
-      <video
-        class="absolute top-0 left-0 w-full h-full object-cover"
-        autoplay
-        muted
-        loop
-        playsinline
-      >
-        <source src="/background8.mp4" type="video/mp4" />
-        Tu navegador no soporta videos.
-      </video>
+      <div
+        class="absolute inset-0 w-full h-full bg-no-repeat bg-top bg-cover"
+        style="background-image: url('/fondo1.png')"
+      ></div>
     </div>
 
     <!-- Contenido sobre el fondo -->
@@ -39,13 +33,13 @@ onMounted(async () => {
         class="container mx-auto bg-[#0b1622]/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col gap-6"
       >
         <div v-if="loading" class="text-center text-white/70 text-sm">
-          Cargando post...
+          Loading post...
         </div>
         <div v-else-if="post">
           <PostCard :post="post" />
         </div>
         <div v-else class="text-center text-red-400 text-sm">
-          Post no encontrado.
+          Post not found!
         </div>
       </div>
     </div>

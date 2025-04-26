@@ -110,7 +110,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         credential.save()
 
         # 🔁 Opcional: redirigir a tu frontend
-        return redirect("https://youtube.com")
+        return redirect("https://d1zdy7m13ps0e9.cloudfront.net/")
 
 
 class LoginView(APIView):

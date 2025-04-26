@@ -239,7 +239,7 @@ const handleShare = async () => {
             </div>
 
             <!-- Fila 2: contenido -->
-            <p class="text-sm md:text-base leading-relaxed whitespace-pre-line">
+            <p class="text-sm leading-relaxed whitespace-pre-line">
               {{ post.content }}
             </p>
 
@@ -357,6 +357,7 @@ const handleShare = async () => {
           {{ liked ? "❤️ Liked" : "🤍 Like" }} ({{ likeCount }})
         </button>
         <button
+          v-if="post.status !== 'draft'"
           @click="handleShare"
           class="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition"
         >
