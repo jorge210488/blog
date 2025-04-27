@@ -82,6 +82,7 @@ postcss.config.cjs
 *.rej
 *.seed
 *.old
+deploy.sh
 !.gitignore
 !.gitattributes
 

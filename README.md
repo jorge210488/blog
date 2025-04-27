@@ -1,10 +1,10 @@
 # JAM Blog
 
-![JAM Blog Home](frontend/public/homepage.png)
-![JAM Blog Post Detail](frontend/public/postdetail.png)
-![JAM Blog Post Editor](frontend/public/posteditor.png)
-![JAM Blog Comments](frontend/public/comments.png)
-![JAM Blog Analytics](frontend/public/analytics.png)
+![JAM Blog Home](frontend/public/blogHome.png)
+![JAM Blog Posts](frontend/public/blogPosts.png)
+![JAM Blog Post Create](frontend/public/blogCreate.png)
+![JAM Blog Post Resources](frontend/public/blogResources.png)
+![JAM Blog Analytics](frontend/public/blogAnalytics.png)
 
 ## Description
 
@@ -60,6 +60,8 @@ cd jam-blog
 ```bash
 cd backend
 pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
 cd ../frontend
 npm install
 ```
