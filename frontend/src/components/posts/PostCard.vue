@@ -239,7 +239,7 @@ const handleShare = async () => {
             </div>
 
             <!-- Fila 2: contenido -->
-            <p class="text-sm leading-relaxed whitespace-pre-line">
+            <p class="text-sm leading-relaxed whitespace-pre-line break-words">
               {{ post.content }}
             </p>
 
