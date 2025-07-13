@@ -1825,5 +1825,215 @@
       "name": "Other",
       "slug": "other"
     }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI Agents",
+      "slug": "ai-agents"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Autonomous Agents",
+      "slug": "autonomous-agents"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AutoGPT",
+      "slug": "autogpt"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "BabyAGI",
+      "slug": "babyagi"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "ReAct Pattern",
+      "slug": "react-pattern"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "LangChain",
+      "slug": "langchain"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "LlamaIndex",
+      "slug": "llamaindex"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "LangGraph",
+      "slug": "langgraph"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Semantic Search",
+      "slug": "semantic-search"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "RAG",
+      "slug": "rag"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Agent Orchestration",
+      "slug": "agent-orchestration"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Chained Prompts",
+      "slug": "chained-prompts"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "n8n",
+      "slug": "n8n"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Make.com",
+      "slug": "make"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Zapier",
+      "slug": "zapier"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Webhooks",
+      "slug": "webhooks"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "API Triggers",
+      "slug": "api-triggers"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Agent Memory",
+      "slug": "agent-memory"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Retell AI",
+      "slug": "retell-ai"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "ElevenLabs",
+      "slug": "elevenlabs"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Whisper",
+      "slug": "whisper"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Real-Time Voice AI",
+      "slug": "real-time-voice-ai"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Voice Bots",
+      "slug": "voice-bots"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "AI Scheduling",
+      "slug": "ai-scheduling"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Lead Scoring Automation",
+      "slug": "lead-scoring-automation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Workflow Triggers",
+      "slug": "workflow-triggers"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Form Automation",
+      "slug": "form-automation"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "CRM Sync",
+      "slug": "crm-sync"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Chatbot Agents",
+      "slug": "chatbot-agents"
+    }
+  },
+  {
+    "model": "posts.tag",
+    "fields": {
+      "name": "Data Enrichment Automation",
+      "slug": "data-enrichment"
+    }
   }
 ]

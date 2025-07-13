@@ -230,5 +230,165 @@
       "slug": "other",
       "description": "Anything else that comes to mind!"
     }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Marketing Automations",
+      "slug": "marketing-automations",
+      "description": "Email campaigns, customer journeys, CRM triggers, and lead nurturing automation."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Sales Automation",
+      "slug": "sales-automation",
+      "description": "Automating outreach, follow-ups, CRMs, pipeline management, and AI sales agents."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Customer Support Automation",
+      "slug": "support-automation",
+      "description": "Chatbots, helpdesk AI, ticket routing, and self-service workflows."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "AI Outreach Agents",
+      "slug": "ai-outreach-agents",
+      "description": "Agents for email, LinkedIn, WhatsApp, and multi-channel outreach automation."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "CRM Integrations",
+      "slug": "crm-integrations",
+      "description": "Pipedrive, HubSpot, Salesforce, and their automation with agents and workflows."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "AI Scheduling Agents",
+      "slug": "ai-scheduling-agents",
+      "description": "Calendar booking, meeting reminders, and auto-rescheduling agents."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Lead Qualification Bots",
+      "slug": "lead-qualification-bots",
+      "description": "Agents and logic to identify, score, and qualify leads automatically."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Voice Agents Automation",
+      "slug": "voice-agents-automation",
+      "description": "Outbound/inbound calling agents for sales, support, and appointment setting."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Workflow Orchestration Tools",
+      "slug": "workflow-orchestration",
+      "description": "Tools like LangGraph, n8n, Make, Zapier for building automated flows."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Human-in-the-Loop Systems",
+      "slug": "human-in-the-loop",
+      "description": "Workflows combining AI decisions with human validation for accuracy and control."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "AI Call Center Automation",
+      "slug": "ai-call-center",
+      "description": "Conversational agents, call routing, IVRs, and speech analytics."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "AutoGPT and Workflow Chains",
+      "slug": "autogpt-workflows",
+      "description": "Complex task completion using autonomous agents and chained prompts."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "RPA and Task Automation",
+      "slug": "rpa-task-automation",
+      "description": "Robotic Process Automation with tools like UiPath, Robocorp, and AI agents."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "AI in Recruitment",
+      "slug": "ai-recruitment",
+      "description": "Automated candidate sourcing, screening, and engagement using AI agents."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "AI Document Processing",
+      "slug": "ai-document-processing",
+      "description": "Extraction, summarization, and classification of documents using LLMs."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Agentic CRMs",
+      "slug": "agentic-crms",
+      "description": "CRM systems enhanced with autonomous AI agents and dynamic logic."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Conversational Funnels",
+      "slug": "conversational-funnels",
+      "description": "Lead generation funnels using chat, voice, and multimodal conversations."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Event-Driven Automations",
+      "slug": "event-driven-automations",
+      "description": "Trigger-based logic with real-time data events across tools and platforms."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Business Logic Agents",
+      "slug": "business-logic-agents",
+      "description": "Agents executing business rules, validation, routing, and conditional flows."
+    }
+  },
+  {
+    "model": "posts.category",
+    "fields": {
+      "name": "Multimodal Assistants",
+      "slug": "multimodal-assistants",
+      "description": "Assistants combining voice, image, text, and actions for enhanced interactivity."
+    }
   }
 ]

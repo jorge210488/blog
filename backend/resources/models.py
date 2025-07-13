@@ -13,19 +13,26 @@ def resource_file_path(instance, filename):
 
 class Resource(models.Model):
     TOOL_CHOICES = [
-        ("Relevance AI", "Relevance AI"),
-        ("Retell AI", "Retell AI"),
-        ("Make", "Make"),
-        ("n8n", "n8n"),
-        ("Flowise", "Flowise"),
-        ("LangChain", "LangChain"),
-        ("Voiceflow", "Voiceflow"),
-        ("Dialogflow", "Dialogflow"),
-        ("Wit.ai", "Wit.ai"),
+        ("AgentHub", "AgentHub"),
         ("AgentOps", "AgentOps"),
         ("AutoGPT", "AutoGPT"),
         ("Custom", "Custom"),
+        ("Dialogflow", "Dialogflow"),
+        ("Flowise", "Flowise"),
+        ("Go High Level", "Go High Level"),
+        ("LangChain", "LangChain"),
+        ("Make", "Make"),
         ("Other", "Other"),
+        ("Pipedream", "Pipedream"),
+        ("Relevance AI", "Relevance AI"),
+        ("Retell AI", "Retell AI"),
+        ("Stack AI", "Stack AI"),
+        ("TaskMagic", "TaskMagic"),
+        ("Tiledesk", "Tiledesk"),
+        ("Voiceflow", "Voiceflow"),
+        ("Wit.ai", "Wit.ai"),
+        ("Zapier", "Zapier"),
+        ("n8n", "n8n"),
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
