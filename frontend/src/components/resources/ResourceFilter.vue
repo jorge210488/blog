@@ -54,19 +54,26 @@ watch(showUploadModal, (value) => {
         class="custom-select w-full sm:w-auto"
       >
         <option value="">All Tools</option>
-        <option value="Relevance AI">Relevance AI</option>
-        <option value="Retell AI">Retell AI</option>
-        <option value="Make">Make</option>
-        <option value="n8n">n8n</option>
-        <option value="Flowise">Flowise</option>
-        <option value="LangChain">LangChain</option>
-        <option value="Voiceflow">Voiceflow</option>
-        <option value="Dialogflow">Dialogflow</option>
-        <option value="Wit.ai">Wit.ai</option>
+        <option value="AgentHub">AgentHub</option>
         <option value="AgentOps">AgentOps</option>
         <option value="AutoGPT">AutoGPT</option>
         <option value="Custom">Custom</option>
+        <option value="Dialogflow">Dialogflow</option>
+        <option value="Flowise">Flowise</option>
+        <option value="Go High Level">Go High Level</option>
+        <option value="LangChain">LangChain</option>
+        <option value="Make">Make</option>
+        <option value="n8n">n8n</option>
         <option value="Other">Other</option>
+        <option value="Pipedream">Pipedream</option>
+        <option value="Relevance AI">Relevance AI</option>
+        <option value="Retell AI">Retell AI</option>
+        <option value="Stack AI">Stack AI</option>
+        <option value="TaskMagic">TaskMagic</option>
+        <option value="Tiledesk">Tiledesk</option>
+        <option value="Voiceflow">Voiceflow</option>
+        <option value="Wit.ai">Wit.ai</option>
+        <option value="Zapier">Zapier</option>
       </select>
 
       <select

@@ -236,6 +236,28 @@ const handleImageUpload = (event: Event) => {
   }
 };
 
+const contentLineCount = ref(1);
+
+const handleContentInput = (event: Event) => {
+  const textarea = event.target as HTMLTextAreaElement;
+  const value = textarea.value;
+
+  // ✅ contar saltos de línea
+  const lines = value.split(/\r\n|\r|\n/);
+  const lineCount = lines.length;
+
+  // ✅ si pasa de 25 líneas, no permitir más
+  if (lineCount > 25) {
+    const trimmed = lines.slice(0, 25).join("\n");
+    postForm.value.content = trimmed;
+    contentLineCount.value = 25;
+    return;
+  }
+
+  postForm.value.content = value;
+  contentLineCount.value = lineCount;
+};
+
 onMounted(fetchData);
 </script>
 
@@ -321,14 +343,16 @@ onMounted(fetchData);
           <div>
             <label class="text-white">Content</label>
             <textarea
-              v-model="postForm.content"
-              maxlength="1000"
+              :value="postForm.content"
+              @input="handleContentInput"
+              maxlength="1500"
               @focus="openEmojiPicker('content', $event)"
-              class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
+              class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 leading-[1.5rem] max-h-[37.5rem] overflow-y-auto resize-y"
               rows="5"
-            ></textarea>
+            />
             <p class="text-sm text-white text-right">
-              {{ postForm.content.length }}/1000 characters
+              {{ postForm.content.length }}/1500 characters ·
+              {{ contentLineCount }}/25 lines
             </p>
           </div>
 
