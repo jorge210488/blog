@@ -5,7 +5,7 @@
   >
     Blog by Jorge Martínez —
     <a
-      href="https://jorgem-portfolio.vercel.app/"
+      href="https://jorgemartinezjam.dev/"
       target="_blank"
       rel="noopener noreferrer"
       class="underline hover:text-blue-400"

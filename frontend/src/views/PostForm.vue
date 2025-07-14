@@ -345,13 +345,13 @@ onMounted(fetchData);
             <textarea
               :value="postForm.content"
               @input="handleContentInput"
-              maxlength="1500"
+              maxlength="2000"
               @focus="openEmojiPicker('content', $event)"
               class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 leading-[1.5rem] max-h-[37.5rem] overflow-y-auto resize-y"
               rows="5"
             />
             <p class="text-sm text-white text-right">
-              {{ postForm.content.length }}/1500 characters ·
+              {{ postForm.content.length }}/2000 characters ·
               {{ contentLineCount }}/25 lines
             </p>
           </div>
