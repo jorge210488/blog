@@ -171,7 +171,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://jam-blog-vue.s3-website-us-east-1.amazonaws.com",
     "https://ddez45awmlwcc.cloudfront.net",
     "http://localhost:5173",
-    "https://tu-dominio.com",
+    "https://blog.jorgemartinezjam.dev",
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
