@@ -66,7 +66,7 @@ class PostViewSet(viewsets.ModelViewSet):
     ordering = ["-created_at"]
 
     def get_permissions(self):
-        if self.action in ["list", "retrieve"]:
+        if self.action in ["list", "retrieve", "get_by_slug"]:
             return [AllowAny()]
         return [IsAuthenticated()]
 

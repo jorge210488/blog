@@ -21,13 +21,17 @@ const likeCount = computed(() => likes.value.length);
 const showCommentsModal = ref(false);
 
 const fetchLikes = async () => {
-  const result = await getLikesByPost(props.post.id);
-  likes.value = result;
+  try {
+    const result = await getLikesByPost(props.post.id);
+    likes.value = result;
 
-  const match = result.find((like) => like.user === userStore.user?.id);
-  if (match) {
-    liked.value = true;
-    likeId.value = match.id;
+    const match = result.find((like) => like.user === userStore.user?.id);
+    if (match) {
+      liked.value = true;
+      likeId.value = match.id;
+    }
+  } catch (error) {
+    console.warn("⚠️ No se pudieron obtener los likes:", error);
   }
 };
 
@@ -135,20 +139,22 @@ const postElement = ref<HTMLElement | null>(null);
 const hasCountedView = ref(false);
 
 onMounted(() => {
-  fetchLikes();
+  if (userStore.user) {
+    fetchLikes();
+  }
 
   const observer = new IntersectionObserver(
     async ([entry]) => {
       if (entry.isIntersecting && !hasCountedView.value) {
-        hasCountedView.value = true; // solo una vez
+        hasCountedView.value = true;
         const newViewCount = await countPostView(props.post.id);
         if (newViewCount !== null) {
           props.post.views = newViewCount;
         }
-        observer.disconnect(); // deja de observar
+        observer.disconnect();
       }
     },
-    { threshold: 0.5 } // 50% visible
+    { threshold: 0.5 }
   );
 
   if (postElement.value) {
@@ -198,7 +204,7 @@ const handleClickComments = () => {
 };
 
 const handleShare = async () => {
-  const baseUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
+  const baseUrl = "https://blog.jorgemartinezjam.dev";
   const fullUrl = `${baseUrl.replace(/\/$/, "")}/posts/${props.post.slug}`;
 
   try {
