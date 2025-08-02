@@ -68,9 +68,9 @@ class PostSerializer(serializers.ModelSerializer):
             )
 
         for image in images_data:
-            if image.size > 1024 * 1024:
+            if image.size > 3 * 1024 * 1024:
                 raise serializers.ValidationError(
-                    {"images": "Cada imagen debe pesar menos de 1MB."}
+                    {"images": "Cada imagen debe pesar menos de 3MB."}
                 )
             PostImage.objects.create(post=post, image=image)
 
@@ -96,7 +96,7 @@ class PostSerializer(serializers.ModelSerializer):
                 )
 
             for image in images_data:
-                if image.size > 1024 * 1024:
+                if image.size > 3 * 1024 * 1024:
                     raise serializers.ValidationError(
                         {"images": "Cada imagen debe pesar menos de 1MB."}
                     )
