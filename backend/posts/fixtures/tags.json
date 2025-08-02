@@ -2,174 +2,6 @@
   {
     "model": "posts.tag",
     "fields": {
-      "name": "Python",
-      "slug": "python"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Django",
-      "slug": "django"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Flask",
-      "slug": "flask"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "FastAPI",
-      "slug": "fastapi"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "JavaScript",
-      "slug": "javascript"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "TypeScript",
-      "slug": "typescript"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "React",
-      "slug": "react"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Vue.js",
-      "slug": "vue.js"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Angular",
-      "slug": "angular"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Next.js",
-      "slug": "next.js"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Node.js",
-      "slug": "node.js"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Express.js",
-      "slug": "express.js"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "NestJS",
-      "slug": "nestjs"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "GraphQL",
-      "slug": "graphql"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "REST API",
-      "slug": "rest-api"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "SOAP",
-      "slug": "soap"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "PostgreSQL",
-      "slug": "postgresql"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "MySQL",
-      "slug": "mysql"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "MongoDB",
-      "slug": "mongodb"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "SQLite",
-      "slug": "sqlite"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Redis",
-      "slug": "redis"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Docker",
-      "slug": "docker"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Kubernetes",
-      "slug": "kubernetes"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "CI/CD",
-      "slug": "ci/cd"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
       "name": "GitHub Actions",
       "slug": "github-actions"
     }
@@ -314,20 +146,7 @@
       "slug": "webrtc"
     }
   },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "OAuth",
-      "slug": "oauth"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "JWT",
-      "slug": "jwt"
-    }
-  },
+
   {
     "model": "posts.tag",
     "fields": {
@@ -340,13 +159,6 @@
     "fields": {
       "name": "SAML",
       "slug": "saml"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "OAuth2",
-      "slug": "oauth2"
     }
   },
   {
@@ -368,41 +180,6 @@
     "fields": {
       "name": "Cybersecurity",
       "slug": "cybersecurity"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Penetration Testing",
-      "slug": "penetration-testing"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Ethical Hacking",
-      "slug": "ethical-hacking"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Hashing",
-      "slug": "hashing"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "Encryption",
-      "slug": "encryption"
-    }
-  },
-  {
-    "model": "posts.tag",
-    "fields": {
-      "name": "SSL/TLS",
-      "slug": "ssl/tls"
     }
   },
   {
